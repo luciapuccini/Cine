@@ -1,26 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Button } from 'semantic-ui-react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import SeatPiker from './components/SeatPicker';
+import PublicRoutes from './routes/Router';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+const DashApp = () => <PublicRoutes />;
+export default DashApp;
