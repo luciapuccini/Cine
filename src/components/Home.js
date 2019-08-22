@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { Header, Button } from 'semantic-ui-react';
 
 export default class Home extends Component {
-        // onClick() {}
+  // onClick() {}
 
-        render() {
-                return (
-                        <div>
-                                <Header>HOME PAGE</Header>
-                                <Link to="/seats">pick a seat</Link>
-                        </div>
-                );
-        }
+  render() {
+    return (
+      <div>
+        <Header>HOME PAGE</Header>
+        <Link to="/seats">pick a seat</Link>
+      </div>
+    );
+  }
 }
