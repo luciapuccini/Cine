@@ -4,13 +4,22 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 
 const CustomCarousel = () => {
   const handleOnDragStart = (e) => e.preventDefault();
-  const photo = require('../assets/img.jpeg');
+  const aladin = require('../assets/aladin.jpeg');
+  const charlie = require('../assets/charlies-angels.jpeg');
+  const showman = require('../assets/showman.jpeg');
+  const spiderman = require('../assets/spiderman.jpeg');
+
   return (
-    <AliceCarousel mouseDragEnabled buttonsDisabled>
-      <img src={photo} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
-      <img src={photo} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
-      <img src={photo} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
-      <img src={photo} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
+    <AliceCarousel
+      autoPlayInterval={2000}
+      autoPlay
+      buttonsDisabled
+
+    >
+      <img src={aladin} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
+      <img src={charlie} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
+      <img src={showman} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
+      <img src={spiderman} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
     </AliceCarousel>
   );
 };
