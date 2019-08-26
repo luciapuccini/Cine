@@ -14,13 +14,12 @@ const CustomCarousel = () => {
       autoPlayInterval={2000}
       autoPlay
       buttonsDisabled
-
     >
-      <img src={aladin} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
       <img src={charlie} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
       <img src={showman} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
       <img src={spiderman} alt="vacio" onDragStart={handleOnDragStart} className="yours-custom-class" />
     </AliceCarousel>
+
   );
 };
 
