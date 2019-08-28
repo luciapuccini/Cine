@@ -9,7 +9,7 @@ import {
   Segment,
   Visibility,
 } from 'semantic-ui-react';
-
+import {Link } from 'react-router-dom'
 import  CustomCarousel  from "../CustomCarousel";
 import {getWidth} from '../../helpers/dimensions'
 
@@ -22,9 +22,11 @@ class DesktopContainer extends Component {
   render() {
     const { children } = this.props
     const { fixed } = this.state
+    const {user} =this.props
 
     return (
-      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+      // FIXME: getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}
+      <Responsive >
         <Visibility
           once={false}
           onBottomPassed={this.showFixedMenu}
@@ -44,24 +46,32 @@ class DesktopContainer extends Component {
               size='large'
             >
               <Container>
-                <Menu.Item as='a' active>
-                  Home
+                <Menu.Item >
+                <Link to='/home'>Home</Link>
                 </Menu.Item>
-                <Menu.Item as='a'>Work</Menu.Item>
-                <Menu.Item as='a'>Company</Menu.Item>
-                <Menu.Item as='a'>Careers</Menu.Item>
-                <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
-                    Log in
+          
+               <Menu.Item >
+                <Link to='/seats'>Booking</Link>
+                   </Menu.Item>
+                 <Menu.Item >
+
+                <Link to='/user'>Profile</Link>
+                  </Menu.Item>
+               
+                <Menu.Item position='right'> 
+                  <Button inverted={!fixed}>
+                    <Link to='/login'>Log in</Link>
                   </Button>
-                  <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                    Sign Up
+
+                  <Button inverted={!fixed} style={{ marginLeft: '0.5em' }}>
+                    <Link to='/signUp'>Sing Up</Link>
                   </Button>
                 </Menu.Item>
+
               </Container>
+              
             </Menu>
             <CustomCarousel />
-
 
           </Segment>
         </Visibility>
