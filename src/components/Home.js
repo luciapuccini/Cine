@@ -3,18 +3,30 @@ import { Link } from 'react-router-dom';
 import { Header, Button, Container } from 'semantic-ui-react';
 
 export default class Home extends Component {
-state = {
-  // user : this.props.location.state.user || ''
-}
-componentDidMount(){
-  //TODO: fetch info for that user and set state
-}
+  state = {
+   users : []
+  }
+
+  componentDidMount() {
+     fetch('http://localhost:8080/user/all')
+      .then(response => response.json() )
+      .then(users => this.setState({users}, ()=> console.log('set state user',this.state)))
+  }
+
   render() {
-    const { location: { state } } = this.props;
+    const users = this.state.users
+    console.log(this.state.users);
+  
     return (
       <Container>
         <Header>Welcome</Header>
-        {state.user.email}
+        <div style={{margin:'10px'}}>
+        { users.length !== 0 ?
+          users[0].email
+          : ' '
+         }
+        </div>
+  
         <Link to="/seats">pick a seat</Link>
       </Container>
     );
