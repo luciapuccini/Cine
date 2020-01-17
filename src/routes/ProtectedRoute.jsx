@@ -4,7 +4,7 @@ import AuthHelper from '../helpers/authHelper';
 
 const ProtectedRoute = ({ component: Component, isWeb, ...rest }) => {
   let renderRoute;
-
+// this will check if you are trying to get into the web (users) or the admin, and for each if you are logged
   if (isWeb) {
     renderRoute = props =>
       AuthHelper.isLoggedInWeb() ? (

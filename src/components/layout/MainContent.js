@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function MainContent() {
+function MainContent(props) {
   const classes = useStyles();
 
   return (
@@ -27,6 +27,7 @@ function MainContent() {
       <div className={classes.title}>
         <Typography variant="h6">Title</Typography>
       </div>
+      {props.children}
       <div className={classes.content}>
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus,
