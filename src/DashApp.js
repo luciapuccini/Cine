@@ -1,5 +1,8 @@
 import React from 'react';
-import PublicRoutes from './routes/Router';
+import Routes from './routes/Routes';
+import Layout from './components/layout/Layout';
 
-const DashApp = () => <PublicRoutes />;
+const DashApp = () => (
+    <Routes />
+);
 export default DashApp;
