@@ -1,13 +1,15 @@
 import React from 'react';
+import NavBar from '../components/layout/NavBar';
+import TopMenu from '../components/layout/TopMenu';
+import { Container } from '@material-ui/core';
 
-const Landing = () => {
-  // needs a login that sets the localstorage
-  console.log('dale puto')
+//TODO: home for users --> movies list
 
-  return(
-    <div>
-      this is LANDING
-    </div>
-  )
-};
+const Landing =()=>
+(
+<div>
+  landing
+</div>
+  ) 
 export default Landing;
+

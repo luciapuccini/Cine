@@ -5,14 +5,14 @@ import { Route, Switch, Redirect, RouteProps } from 'react-router-dom';
 import Navbar from '../../components/layout/NavBar';
 import ProtectedRoute from '../../routes/ProtectedRoute';
 
-import Auth from '../web/auth';
+import LoginForm from '../../containers/forms/LoginForm'
 import Landing from '../../containers/Landing';
 import Profile from '../../containers/Profile';
 
 const ViewWeb = ({ match }) => {
-  const renderLanding  = (props) => <Landing {...props} />;
+  const renderLanding  = (props) => <Landing {...props} />; // home movies TODO:
   const renderProfile  = (props) => <Profile {...props} />;
-  const renderAuth  = (props) => <Auth {...props} />;
+  const renderAuth  = (props) =>  <LoginForm {...props} />;
 console.log('WEB', match.url)
   return (
     

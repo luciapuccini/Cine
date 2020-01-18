@@ -10,15 +10,15 @@ import {
 import ProtectedRoute from './ProtectedRoute';
 import ViewWeb from '../views/web'; //home for users
 import ViewAdmin from '../views/admin'; //home for Admins
-
+import NavBar from '../components/layout/NavBar'
 import Movies from '../containers/Movies';
-
 import Main from '../views';
 import Error from '../views/app/error';
 import App from '../views/app';
 //TODO: DEFINIR CUAL ES APP Y CUAL WEB PARA LOGEADO Y PASAR FLAG A PR
 const Routes = () => (
   <Router>
+    <NavBar />
     <Switch>
       <ProtectedRoute path="/app" component={App} isWeb/>
       <Route path="/web" render={routeProps => <ViewWeb {...routeProps} />} />
