@@ -15,15 +15,11 @@ import Movies from '../containers/Movies';
 import Main from '../views';
 import Error from '../views/app/error';
 import App from '../views/app';
-//TODO: DEFINIR CUAL ES APP Y CUAL WEB PARA LOGEADO Y PASAR FLAG A PR
 const Routes = () => (
   <Router>
-    <NavBar />
     <Switch>
-      <ProtectedRoute path="/app" component={App} isWeb/>
-      <Route path="/web" render={routeProps => <ViewWeb {...routeProps} />} />
-      <Route path="/admin" render={routeProps => <ViewAdmin {...routeProps} />} /> {/*/ admin login*/}
-      <Route path="/movies" render={routeProps => <Movies {...routeProps} />} />
+      <ProtectedRoute path="/app" component={App} />
+      <Route path="/web" render={routeProps => <ViewWeb {...routeProps} />} /> {/*HOME*/}
       <Route
         path="/error"
         exact
@@ -33,7 +29,7 @@ const Routes = () => (
         path="/error-admin"
         render={routeProps => <Error {...routeProps} />}
       />
-      <Route path="/" exact render={routeProps => <Main {...routeProps} />} /> {/*/web*/}
+      <Route path="/" exact render={routeProps => <Main {...routeProps} />} /> 
       <Redirect to="/error" />
     </Switch>
   </Router>

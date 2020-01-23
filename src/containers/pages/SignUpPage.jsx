@@ -6,11 +6,9 @@ import NavBar from '../../components/layout/NavBar';
 export default class SignUpPage extends Component {
   render() {
     return (
-      <NavBar>
         <Container textAlign="center">
           <UserForm />
         </Container>
-      </NavBar>
     );
   }
 }

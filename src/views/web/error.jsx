@@ -13,7 +13,6 @@ const Web = ({ match }) => {
 
   return (
     <>
-      <Navbar />
         <Switch>
           <Route
             path={`${match.url}/`}

@@ -6,11 +6,7 @@ import Layout from '../../components/layout/Layout';
 
 const ViewAdmin = ({ match }) => {
   const renderLogin=(props) => <LoginForm {...props} />;
-console.log('aca',match.url)
-  // const renderForgot = (props) => <ForgotPassword {...props} />;
-//FIXME:
   return (
-    // <Layout>
         <Switch>
           <Redirect exact={true} from={`${match.url}/`} to={`${match.url}/auth`} />
           <Route
@@ -19,7 +15,6 @@ console.log('aca',match.url)
           />
           <Redirect to="/error-admin" />
         </Switch>
-    // </Layout>
   );
 };
 

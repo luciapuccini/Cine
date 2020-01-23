@@ -13,10 +13,10 @@ const ViewWeb = ({ match }) => {
   const renderLanding  = (props) => <Landing {...props} />; // home movies TODO:
   const renderProfile  = (props) => <Profile {...props} />;
   const renderAuth  = (props) =>  <LoginForm {...props} />;
-console.log('WEB', match.url)
   return (
-    
-        <Switch>
+    <>
+    <Navbar/>
+    <Switch>
           <Route
             path={`${match.url}/`}
             exact={true}
@@ -33,6 +33,8 @@ console.log('WEB', match.url)
           />
           <Redirect to="/error" />
         </Switch>
+    </>
+       
     
   );
 };

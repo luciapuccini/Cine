@@ -10,7 +10,6 @@ import { Link} from 'react-router-dom'
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    marginBottom:'10px'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -31,10 +30,17 @@ const NavBar =()=> {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppBar position="fixed">
+      <AppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
+          <Link 
+            className={classes.buttonLink}
+            to={{
+              pathname: "/web",
+            }} >
             Cinema
+
+            </Link>
           </Typography>
           <Button  >
             <Link 
