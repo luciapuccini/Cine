@@ -1,4 +1,3 @@
-// tslint:disable: no-any
 import React from 'react';
 import { Route, Switch, Redirect, RouteProps } from 'react-router-dom';
 
