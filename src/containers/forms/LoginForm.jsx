@@ -1,40 +1,25 @@
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 
-  
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+const handleSubmit = (email, password) => {
+  console.log("submitted", email, password);
+};
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
- const LoginForm=()=> {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs" style={{marginTop:'20px'}}>
+    <Container component="main" maxWidth="xs" style={{ marginTop: "20px" }}>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -42,11 +27,8 @@ const useStyles = makeStyles(theme => ({
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-            
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -56,6 +38,7 @@ const useStyles = makeStyles(theme => ({
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={() => setEmail(email)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -68,9 +51,9 @@ const useStyles = makeStyles(theme => ({
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={() => setPassword(password)}
               />
             </Grid>
-           
           </Grid>
           <Button
             type="submit"
@@ -78,15 +61,34 @@ const useStyles = makeStyles(theme => ({
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => handleSubmit(email, password)}
           >
             Sign Up
           </Button>
-        
         </form>
       </div>
-      
     </Container>
   );
-}
+};
 
-export default LoginForm
+const useStyles = makeStyles(theme => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
+}));
+
+export default LoginForm;
