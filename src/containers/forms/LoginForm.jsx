@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Formik, ErrorMessage, Form } from "formik";
+import * as Yup from "yup";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -8,64 +11,109 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-const handleSubmit = (email, password) => {
-  console.log("submitted", email, password);
+import { useHistory } from "react-router-dom";
+import { login } from "../../api/fetchData";
+
+const handleSubmit = (values, history) => {
+  login(values.email, values.password, history);
 };
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const history = useHistory();
   const classes = useStyles();
-
+  const SignupSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Required"),
+    password: Yup.string()
+      .min(5)
+      .required("Required")
+  });
   return (
     <Container component="main" maxWidth="xs" style={{ marginTop: "20px" }}>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography
+          component="h1"
+          variant="h5"
+          style={{ marginBottom: "20px" }}
+        >
           Sign up
         </Typography>
-        <form className={classes.form}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
+
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={SignupSchema}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              handleSubmit(values, history);
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange
+
+            /* and other goodies */
+          }) => (
+            <Form>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    value={values.email}
+                    error={errors.email && touched.email}
+                    onChange={handleChange}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    render={msg => <Typography>{msg}</Typography>}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={values.password}
+                    error={errors.password && touched.password}
+                    onChange={handleChange}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    render={msg => <Typography>{msg}</Typography>}
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={() => setEmail(email)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={() => setPassword(password)}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={() => handleSubmit(email, password)}
-          >
-            Sign Up
-          </Button>
-        </form>
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign Up
+                </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </Container>
   );
@@ -88,6 +136,12 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  errorMessageStyle: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
   }
 }));
 
