@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { Component } from "react";
 
-const Bookings = () => <div>Bookings</div>;
-export default Bookings;
+export default class Bookings extends Component {
+  render() {
+    return <>asdasdasd</>;
+  }
+}

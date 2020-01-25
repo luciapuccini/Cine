@@ -6,17 +6,16 @@ import Layout from "../../components/layout/Layout";
 
 const App = props => {
   const { match } = props;
+  const renderBookings = routeProps => <Bookings {...routeProps} />;
+  const renderHome = routeProps => <Home {...routeProps} />;
+
   console.log(match.url);
   return (
     <Layout>
       <Switch>
-        <Redirect
-          exact={true}
-          from={`${match.url}/`}
-          to={`${match.url}/home`}
-        />
-        <Route path={`${match.url}/home`} render={Home} />
-        <Route path={`${match.url}/bookings`} render={Bookings} />
+        <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
+        <Route path={`${match.url}/home`} render={renderHome} />
+        <Route path={`${match.url}/bookings`} render={renderBookings} />
         <Redirect to="/app/error-admin" />
       </Switch>
     </Layout>
