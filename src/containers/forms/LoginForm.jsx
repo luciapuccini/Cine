@@ -77,7 +77,7 @@ const LoginForm = () => {
                     onChange={handleChange}
                   />
                   <ErrorMessage
-                    name="password"
+                    name="email"
                     render={msg => <Typography>{msg}</Typography>}
                   />
                 </Grid>
@@ -110,7 +110,7 @@ const LoginForm = () => {
                 className={classes.submit}
               >
                 Sign Up
-                </Button>
+              </Button>
             </Form>
           )}
         </Formik>
