@@ -21,6 +21,7 @@ module.exports = {
   },
   plugins: ["react", "prettier"],
   rules: {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "react/prefer-stateless-function": "off"
   }
 };
