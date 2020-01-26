@@ -13,7 +13,7 @@ const AdminActions = [
 
 export const enabledActions = () => {
   let UserActions = ["Book a Movie"];
-  if (isLoggedInAdmin()) {
+  if (isLoggedInAdmin()||true) {
     UserActions = _.concat(UserActions, AdminActions);
   }
   return UserActions;
