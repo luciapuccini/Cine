@@ -16,4 +16,16 @@ const getAdminHeaders = () => {
   return { Authorization: `Bearer ${token}` };
 };
 
-export { isLoggedInAdmin, isLoggedInWeb, getAdminHeaders, getWebHeaders };
+const logout = () => {
+  localStorage.clear();
+  // eslint-disable-next-line no-restricted-globals
+  location.reload();
+};
+
+export {
+  isLoggedInAdmin,
+  isLoggedInWeb,
+  getAdminHeaders,
+  getWebHeaders,
+  logout
+};

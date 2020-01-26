@@ -7,7 +7,6 @@ export const login = (email, password, history) => {
   // set localstorage with the retrived user/token
   // localStorage.setItem("cinema_adm_key", value);
   localStorage.setItem("cinema_user_key", true);
-  console.log("fd", history);
   // redirect
   try {
     if (isLoggedInWeb()) {

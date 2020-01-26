@@ -4,9 +4,11 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Face";
-import { MenuItem } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/LocalMovies";
+import { MenuItem, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
+
+import { logout } from "../../helpers/authHelper";
 
 const drawerWidth = 240;
 
@@ -32,7 +34,7 @@ const TopMenu = props => {
   const isAdmin = localStorage.getItem("cinema_adm_key"); //FIXME: set a flg
   const isLogged = localStorage.getItem("cinema_user_key");
   return (
-    <AppBar position="fixed">
+    <AppBar position="sticky">
       <Toolbar style={{ justifyContent: "space-between" }}>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <IconButton
@@ -41,32 +43,45 @@ const TopMenu = props => {
             color="inherit"
             aria-label="menu"
           >
-            <MenuIcon />
+            <Link
+              className={classes.buttonLink}
+              to={{
+                pathname: "/web"
+              }}
+            >
+              <MenuIcon />
+            </Link>
           </IconButton>
-          <MenuItem>
-            <Typography variant="h6" className={classes.title}>
-              <Link
-                className={classes.buttonLink}
-                to={{
-                  pathname: "/app"
-                }}
-              >
-                Home
-              </Link>
-            </Typography>
-          </MenuItem>
-          <MenuItem>
-            <Typography variant="h6" className={classes.title}>
-              <Link
-                className={classes.buttonLink}
-                to={{
-                  pathname: "/app/bookings"
-                }}
-              >
-                Bookings
-              </Link>
-            </Typography>
-          </MenuItem>
+
+          {isLogged ? (
+            <>
+              <MenuItem>
+                <Typography variant="h6" className={classes.title}>
+                  <Link
+                    className={classes.buttonLink}
+                    to={{
+                      pathname: "/app"
+                    }}
+                  >
+                    Home
+                  </Link>
+                </Typography>
+              </MenuItem>
+              <MenuItem>
+                <Typography variant="h6" className={classes.title}>
+                  <Link
+                    className={classes.buttonLink}
+                    to={{
+                      pathname: "/app/bookings"
+                    }}
+                  >
+                    Bookings
+                  </Link>
+                </Typography>
+              </MenuItem>
+            </>
+          ) : null}
+
           {isAdmin ? (
             <MenuItem>
               <Typography variant="h6" className={classes.title}>
@@ -85,18 +100,26 @@ const TopMenu = props => {
         <div>
           {isLogged ? (
             <MenuItem>
-              <Typography variant="h6" className={classes.title}>
-                <Link
-                  className={classes.buttonLink}
-                  to={{
-                    pathname: "/app/logout"
-                  }}
-                >
-                  Log Out
-                </Link>
-              </Typography>
+              <Button
+                variant="outlined"
+                style={{ color: "#fff", borderColor: "#fff" }}
+                onClick={logout}
+              >
+                Log Out
+              </Button>
             </MenuItem>
-          ) : null}
+          ) : (
+            <MenuItem>
+              <Link
+                className={classes.buttonLink}
+                to={{
+                  pathname: "/app/login"
+                }}
+              >
+                Log In
+              </Link>
+            </MenuItem>
+          )}
         </div>
       </Toolbar>
     </AppBar>

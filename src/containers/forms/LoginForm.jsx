@@ -49,7 +49,6 @@ const LoginForm = () => {
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               handleSubmit(values, history);
-              setSubmitting(false);
             }, 400);
           }}
         >

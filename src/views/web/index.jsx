@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import Navbar from "../../components/layout/NavBar";
 import ProtectedRoute from "../../routes/ProtectedRoute";
 
 import LoginForm from "../../containers/forms/LoginForm";
 import Landing from "../../containers/Landing";
 import Profile from "../../containers/Profile";
+import TopMenu from "../../components/layout/TopMenu";
 
 const ViewWeb = ({ match }) => {
   const renderLanding = props => <Landing {...props} />; // home movies TODO:
@@ -14,7 +14,7 @@ const ViewWeb = ({ match }) => {
   const renderAuth = props => <LoginForm {...props} />;
   return (
     <>
-      <Navbar />
+      <TopMenu />
       <Switch>
         <Route path={`${match.url}/`} exact={true} render={renderLanding} />
         <Route path={`${match.url}/auth`} render={renderAuth} />
