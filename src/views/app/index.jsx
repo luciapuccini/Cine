@@ -9,7 +9,6 @@ const App = props => {
   const renderBookings = routeProps => <Bookings {...routeProps} />;
   const renderHome = routeProps => <Home {...routeProps} />;
 
-  console.log(match.url);
   return (
     <Layout>
       <Switch>

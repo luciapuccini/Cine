@@ -1,12 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   title: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: "#78909c",
     padding: theme.spacing(3)
   },
   content: {
@@ -20,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 
 const MainContent = ({ children }) => {
   const classes = useStyles();
-
   return <div className={classes.content}>{children}</div>;
 };
 

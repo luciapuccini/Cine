@@ -1,4 +1,4 @@
-import AuthHelper from "../helpers/authHelper";
+import { isLoggedInWeb } from "../helpers/authHelper";
 /* eslint-disable import/prefer-default-export */
 
 export const login = (email, password, history) => {
@@ -10,7 +10,7 @@ export const login = (email, password, history) => {
   console.log("fd", history);
   // redirect
   try {
-    if (AuthHelper.isLoggedInWeb) {
+    if (isLoggedInWeb()) {
       history.push("/app");
     }
   } catch (error) {
