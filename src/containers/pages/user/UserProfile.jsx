@@ -9,6 +9,8 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import { Create } from "@material-ui/icons";
 import EditUserDialog from "./EditUserDialog";
+import { userInfo } from "os";
+import { CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -19,39 +21,67 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UserProfile = () => {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      loading: false,
+      user: {}
+    };
+  }
 
-  const handleOpen = () => {
-    setOpen(true);
+  componentDidMount() {
+    this.setState({ loading: true });
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then(users => {
+        console.log(users[0]);
+        this.setState({ user: users[0], loading: false });
+      });
+  }
+
+  handleOpen = () => {
+    this.setState({ open: true });
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
-  return (
-    <div>
-      <Card className={classes.card}>
-        <CardHeader
-          avatar={<Avatar className={classes.avatar}>R</Avatar>}
-          action={
-            <IconButton aria-label="settings" onClick={handleOpen}>
-              <Create />
-            </IconButton>
-          }
-          title="USER NAME"
-          subheader="September 14, 2016"
-        />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            User info
-          </Typography>
-        </CardContent>
-      </Card>
-      <EditUserDialog open={open} handleClose={handleClose} />
-    </div>
-  );
-};
+  render() {
+    // const classes = useStyles();
+    return (
+      <div>
+        {this.state.loading ? (
+          <CircularProgress style={{ display: "flex" }} />
+        ) : (
+          <>
+            <Card>
+              <CardHeader
+                avatar={<Avatar>R</Avatar>}
+                action={
+                  <IconButton aria-label="settings" onClick={this.handleOpen}>
+                    <Create />
+                  </IconButton>
+                }
+                title={this.state.user.name}
+                subheader={this.state.user.email}
+              />
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  User Data
+                </Typography>
+              </CardContent>
+            </Card>
+            <EditUserDialog
+              open={this.state.open}
+              handleClose={this.handleClose}
+            />
+          </>
+        )}
+      </div>
+    );
+  }
+}
 export default UserProfile;

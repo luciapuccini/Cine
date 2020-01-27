@@ -21,3 +21,16 @@ export const login = (email, password, history) => {
     console.log(error);
   }
 };
+
+export const fetchUser = () => {
+  let user;
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then(response => response.json())
+    .then(users => {
+      console.log(users[0]);
+      user = users[0];
+    });
+  return user;
+};
+export const fetchMovies = () => {};
+export const fetchBookings = () => {};
