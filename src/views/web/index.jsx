@@ -4,19 +4,19 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import ProtectedRoute from "../../routes/ProtectedRoute";
 
 import LoginForm from "../../containers/forms/LoginForm";
-import Landing from "../../containers/Landing";
+import MovieList from "../../containers/MovieList";
 import Profile from "../../containers/Profile";
 import TopMenu from "../../components/layout/TopMenu";
 
 const ViewWeb = ({ match }) => {
-  const renderLanding = props => <Landing {...props} />; // home movies TODO:
+  const renderMovies = props => <MovieList {...props} />;
   const renderProfile = props => <Profile {...props} />;
   const renderAuth = props => <LoginForm {...props} />;
   return (
     <>
       <TopMenu />
       <Switch>
-        <Route path={`${match.url}/`} exact={true} render={renderLanding} />
+        <Route path={`${match.url}/`} exact={true} render={renderMovies} />
         <Route path={`${match.url}/auth`} render={renderAuth} />
         <ProtectedRoute
           isWeb

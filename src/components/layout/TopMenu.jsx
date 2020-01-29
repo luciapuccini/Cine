@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
 
 const TopMenu = props => {
   const classes = useStyles();
-  const isAdmin = localStorage.getItem("cinema_adm_key"); //FIXME: set a flg
   const isLogged = localStorage.getItem("cinema_user_key");
   return (
     <AppBar position="sticky">
@@ -67,34 +66,7 @@ const TopMenu = props => {
                   </Link>
                 </Typography>
               </MenuItem>
-              <MenuItem>
-                <Typography variant="h6" className={classes.title}>
-                  <Link
-                    className={classes.buttonLink}
-                    to={{
-                      pathname: "/app/bookings"
-                    }}
-                  >
-                    Bookings
-                  </Link>
-                </Typography>
-              </MenuItem>
             </>
-          ) : null}
-
-          {isAdmin ? (
-            <MenuItem>
-              <Typography variant="h6" className={classes.title}>
-                <Link
-                  className={classes.buttonLink}
-                  to={{
-                    pathname: "/app/admin"
-                  }}
-                >
-                  Admin
-                </Link>
-              </Typography>
-            </MenuItem>
           ) : null}
         </div>
         <div>

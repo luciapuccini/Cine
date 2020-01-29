@@ -14,7 +14,7 @@ const App = props => {
       <Switch>
         <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
         <Route path={`${match.url}/home`} render={renderHome} />
-        <Route path={`${match.url}/bookings`} render={renderBookings} />
+        <Route path={`${match.url}/bookings/:id`} render={renderBookings} />
         <Redirect to="/app/error-admin" />
       </Switch>
     </Layout>

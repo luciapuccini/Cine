@@ -4,8 +4,9 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
+import BookMark from "@material-ui/icons/Bookmark";
 import movieData from "../helpers/movieData";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Landing = () => {
+const MovieList = () => {
   const classes = useStyles();
   //FIXME: missing real data
   const image = require("../assets/rick.png");
@@ -43,12 +44,19 @@ const Landing = () => {
               className={classes.gridListTile}
               title={movie.title}
               actionIcon={
-                <IconButton
-                  aria-label={`info about ${movie.title}`}
-                  className={classes.icon}
+                <Link
+                  className={classes.buttonLink}
+                  to={{
+                    pathname: `/app/bookings/${movie.id}`
+                  }}
                 >
-                  <InfoIcon />
-                </IconButton>
+                  <IconButton
+                    aria-label={`info about ${movie.title}`}
+                    className={classes.icon}
+                  >
+                    <BookMark />
+                  </IconButton>
+                </Link>
               }
             />
           </GridListTile>
@@ -58,4 +66,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default MovieList;

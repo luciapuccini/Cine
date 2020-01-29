@@ -1,93 +1,87 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import Typography from "@material-ui/core/Typography";
+import SeatPicker from "react-seat-picker";
 
-import SeatPicker from 'react-seat-picker';
+//60 max
+const takenSeats = [
+  { id: 1, salaId: 1 },
+  { id: 3, salaId: 1 },
+  { id: 7, salaId: 1 },
+  { id: 8, salaId: 1 },
+  { id: 9, salaId: 1 }
+];
+// [
+//  filas A [
+//    {id:id, isReserved: true}
+//  ],
+//  fila B []
+// ]
 
-export default class SeatPiker extends Component {
-        state = {
-                loading: false,
-        };
+const buildRows = takenSeats => {
+  let rows = [];
+  let ids = takenSeats.map(seat => seat.id);
+  let otro = 1;
+  for (let seat = 0; seat < 6; seat++) {
+    let column = [];
+    for (let i = 1; i < 13; i++) {
+      if (i === 4 || i === 9) {
+        column.push(null);
+      } else {
+        column.push({ id: otro, number: otro, isReserved: ids.includes(otro) });
+        ++otro;
+      }
+    }
+    rows.push(column);
+  }
+  return rows;
+};
 
-        addSeatCallback = (row, number, id, cb) => {
-                this.setState(
-                        {
-                                loading: true,
-                        },
-                        async () => {
-                                await new Promise(resolve => setTimeout(resolve, 100));
-                                console.log(`Added seat ${number}, row ${row}, id ${id}`);
-                                cb(row, number);
-                                this.setState({ loading: false });
-                        }
-                );
-        };
+class CustomSeatPicker extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      selectedSeats: [],
+      rows: buildRows(takenSeats)
+    };
+  }
 
-        render() {
-                const rows = [
-                        [
-                                { id: 1, number: 1, isSelected: true },
-                                { id: 2, number: 2 },
-                                null,
-                                { id: 3, number: '3', isReserved: true, orientation: 'east' },
-                                { id: 4, number: '4', orientation: 'west' },
-                                null,
-                                { id: 5, number: 5 },
-                                { id: 6, number: 6 },
-                        ],
-                        [
-                                { id: 7, number: 1, isReserved: true },
-                                { id: 8, number: 2, isReserved: true },
-                                null,
-                                { id: 9, number: '3', isReserved: true, orientation: 'east' },
-                                { id: 10, number: '4', orientation: 'west' },
-                                null,
-                                { id: 11, number: 5 },
-                                { id: 12, number: 6 },
-                        ],
-                        [
-                                { id: 13, number: 1 },
-                                { id: 14, number: 2 },
-                                null,
-                                { id: 15, number: 3, isReserved: true, orientation: 'east' },
-                                { id: 16, number: '4', orientation: 'west' },
-                                null,
-                                { id: 17, number: 5 },
-                                { id: 18, number: 6 },
-                        ],
-                        [
-                                { id: 19, number: 1 },
-                                { id: 20, number: 2 },
-                                null,
-                                { id: 21, number: 3, orientation: 'east' },
-                                { id: 22, number: '4', orientation: 'west' },
-                                null,
-                                { id: 23, number: 5 },
-                                { id: 24, number: 6 },
-                        ],
-                        [
-                                { id: 25, number: 1, isReserved: true },
-                                { id: 26, number: 2, orientation: 'east' },
-                                null,
-                                { id: 27, number: '3', isReserved: true },
-                                { id: 28, number: '4', orientation: 'west' },
-                                null,
-                                { id: 29, number: 5 },
-                                { id: 30, number: 6, isReserved: true },
-                        ],
-                ];
-                const { loading } = this.state;
-                return (
-                        <div>
-                                <h1>Seat Picker</h1>
-                                <SeatPicker
-                                        addSeatCallback={this.addSeatCallback}
-                                        rows={rows}
-                                        maxReservableSeats={3}
-                                        alpha
-                                        visible
-                                        selectedByDefault
-                                        loading={loading}
-                                />
-                        </div>
-                );
-        }
+  addSeatCallback = (row, number, id, cb) => {
+    this.setState(
+      {
+        loading: true
+      },
+      async () => {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        console.log(`Added seat ${number} id ${id}`);
+        cb(row, number);
+        this.setState(prevState => ({
+          loading: false,
+          selectedSeats: [...prevState.selectedSeats, id]
+        }));
+        //fetch
+      }
+    );
+  };
+
+  render() {
+    const { loading, rows } = this.state;
+    return (
+      <div>
+        <Typography gutterBottom variant="h5">
+          Seat Picker: {this.state.selectedSeats}
+        </Typography>
+        <SeatPicker
+          addSeatCallback={this.addSeatCallback}
+          rows={rows}
+          maxReservableSeats={60}
+          alpha
+          visible
+          selectedByDefault
+          loading={loading}
+        />
+      </div>
+    );
+  }
 }
+export default CustomSeatPicker;
