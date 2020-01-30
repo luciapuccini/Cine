@@ -144,4 +144,4 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default LoginForm;
+export { LoginForm };

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
 
 import BookingSummary from "../containers/pages/booking/BookingSummary";
-import BookingProgress from "../containers/pages/booking/BookingProgress";
 import PlayList from "../containers/pages/play/PlayList";
 
 export default class Bookings extends Component {
@@ -31,7 +30,7 @@ export default class Bookings extends Component {
   }
 
   componentDidMount() {
-    const { id } = this.props.match.params;
+    // const { id } = this.props.match.params;
     // llego con el id de la peli, fetch data de esa plays con em movie id /plays
     fetch(`http://www.mocky.io/v2/5e30fe37320000790088822b`)
       .then(response => response.json())
