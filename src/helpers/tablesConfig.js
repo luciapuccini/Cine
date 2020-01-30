@@ -1,5 +1,9 @@
 /* eslint-disable import/prefer-default-export */
-export const tableConfig = type => {
+import _ from "lodash";
+
+export const tableConfig = (type, data) => {
+  const lookupMovies = mapSelectable(["Star Wars", "Harry Potter"]);
+  console.log(lookupMovies);
   switch (type) {
     case "booking":
       return {
@@ -50,7 +54,7 @@ export const tableConfig = type => {
           {
             title: "Movie Title",
             field: "movieTitle",
-            lookup: { 1: "Star Wars 1", 2: "Star Wars 2" }
+            lookup: lookupMovies
           },
           { title: "Duration", field: "duration" },
           { title: "Movie Start Time", field: "movieStartTime" },
@@ -58,13 +62,13 @@ export const tableConfig = type => {
         ],
         data: [
           {
-            movieTitle: 1,
+            movieTitle: 0,
             movieStartTime: "10-10-2020 10:30",
             duration: "200",
             room: 3
           },
           {
-            movieTitle: 2,
+            movieTitle: 1,
             movieStartTime: "10-10-2020 10:30",
             duration: "200",
             room: 2
@@ -74,4 +78,13 @@ export const tableConfig = type => {
     default:
       return {};
   }
+};
+
+const mapSelectable = titles => {
+  let lookup = {};
+  titles.forEach((movie, index) => {
+    lookup[index] = movie;
+  });
+
+  return lookup;
 };

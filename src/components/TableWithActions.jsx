@@ -43,8 +43,8 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const TableWithActions = ({ type }) => {
-  const [state, setState] = React.useState(tableConfig(type));
+const TableWithActions = ({ type, data, onlyRequest, selectPlay }) => {
+  const [state, setState] = React.useState(tableConfig(type, data));
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -53,37 +53,52 @@ const TableWithActions = ({ type }) => {
         columns={state.columns}
         data={state.data}
         title={state.title}
-        editable={{
-          onRowAdd: newData =>
-            new Promise(resolve => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise(resolve => {
-              resolve();
-              if (oldData) {
-                setState(prevState => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
+        actions={
+          onlyRequest
+            ? [
+                {
+                  icon: () => <Check />,
+                  tooltip: "Select",
+                  onClick: (event, rowData) => selectPlay(rowData)
+                }
+              ]
+            : null
+        }
+        editable={
+          onlyRequest
+            ? null
+            : {
+                onRowAdd: newData =>
+                  new Promise(resolve => {
+                    resolve();
+                    setState(prevState => {
+                      const data = [...prevState.data];
+                      data.push(newData);
+                      return { ...prevState, data };
+                    });
+                  }),
+                onRowUpdate: (newData, oldData) =>
+                  new Promise(resolve => {
+                    resolve();
+                    if (oldData) {
+                      setState(prevState => {
+                        const data = [...prevState.data];
+                        data[data.indexOf(oldData)] = newData;
+                        return { ...prevState, data };
+                      });
+                    }
+                  }),
+                onRowDelete: oldData =>
+                  new Promise(resolve => {
+                    resolve();
+                    setState(prevState => {
+                      const data = [...prevState.data];
+                      data.splice(data.indexOf(oldData), 1);
+                      return { ...prevState, data };
+                    });
+                  })
               }
-            }),
-          onRowDelete: oldData =>
-            new Promise(resolve => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            })
-        }}
+        }
         options={{ search: false, paging: false }}
       />
     </div>

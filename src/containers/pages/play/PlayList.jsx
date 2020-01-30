@@ -1,36 +1,40 @@
 import React, { Component } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   Typography
 } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import _ from "lodash";
+import TableWithActions from "../../../components/TableWithActions";
 
 class PlayList extends Component {
   render() {
-    console.log(this.props);
+    const { moviePlays, selectPlay } = this.props;
 
     return (
       <div>
-        <ExpansionPanel>
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>
-              Plays for movie: {this.props.moviePlays.movie.title}
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+        {!_.isEmpty(moviePlays) ? (
+          <ExpansionPanel key="play">
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>{moviePlays[0].movie.title}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <TableWithActions
+                data={moviePlays}
+                type="play"
+                onlyRequest
+                selectPlay={selectPlay}
+              />
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        ) : null}
       </div>
     );
   }

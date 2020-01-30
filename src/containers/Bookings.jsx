@@ -18,7 +18,8 @@ export default class Bookings extends Component {
   //     title: "falopa",
   //     duracion:200,
   //     path:'fafa.com'
-  //   }
+  //   },
+
   // }]
 
   constructor(props) {
@@ -31,7 +32,7 @@ export default class Bookings extends Component {
 
   componentDidMount() {
     const { id } = this.props.match.params;
-    // llego con el id de la peli, fetch data de esa plays con em movie id
+    // llego con el id de la peli, fetch data de esa plays con em movie id /plays
     fetch(`http://www.mocky.io/v2/5e30fe37320000790088822b`)
       .then(response => response.json())
       .then(jsonArray => {
@@ -49,21 +50,22 @@ export default class Bookings extends Component {
   render() {
     // mostrar: horarios play de esa movie, seats disponibles, resumen costos
     const { moviePlays, selectedMovie } = this.state;
-    console.log(this.state.selectedMovie, "eiste");
     return (
       <>
         <Grid container justify="space-around" spacing={2}>
           <Grid item xs={4}>
             {selectedMovie ? (
               <BookingSummary selectedMovie={selectedMovie} />
-            ) : null}
-          </Grid>
-          <Grid item xs={8}>
-            {/* {moviePlays ? (
-               <PlayList moviePlays={moviePlays} selectPlay={this.selectPlay} />
             ) : (
               <CircularProgress />
-            )} */}
+            )}
+          </Grid>
+          <Grid item xs={8}>
+            {moviePlays ? (
+              <PlayList moviePlays={moviePlays} selectPlay={this.selectPlay} />
+            ) : (
+              <CircularProgress />
+            )}
             {/* <BookingProgress /> */}
           </Grid>
         </Grid>
