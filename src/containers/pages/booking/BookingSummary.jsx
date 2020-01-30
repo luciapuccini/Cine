@@ -18,44 +18,59 @@ const useStyles = makeStyles({
   }
 });
 
-const BookingSummary = ({ selectedMovie }) => {
-  const classes = useStyles();
+// movie
+// {
+//   nombre,
+//   path,
+//   sinopsis,
+//   duracion,
+// }
 
-  return (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {selectedMovie.url ? (
-            <CardMedia
-              component="img"
-              alt="Contemplative Reptile"
-              image={selectedMovie.url}
-              title="Selected Movie"
-              className={classes.media}
-            />
-          ) : (
-            <CircularProgress />
-          )}
-        </div>
+class BookingSummary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-        <CardContent>
-          <Typography gutterBottom variant="h5" color="primary">
-            Movie Summary
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            MOVIE: {selectedMovie.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            PLAY TIME: 10/10/2020 20:30
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Confirm
-        </Button>
-      </CardActions>
-    </Card>
-  );
-};
+  render() {
+    const { selectedMovie } = this.props;
+    return (
+      <Card>
+        <CardActionArea>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {selectedMovie.url ? (
+              <CardMedia
+                component="img"
+                alt="Contemplative Reptile"
+                image={selectedMovie.url}
+                title="Selected Movie"
+                className=""
+              />
+            ) : (
+              <CircularProgress />
+            )}
+          </div>
+
+          <CardContent>
+            <Typography gutterBottom variant="h5" color="primary">
+              Movie Summary
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {selectedMovie ? `MOVIE: ${selectedMovie.title}` : null}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              PLAY TIME: 10/10/2020 20:30
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="small" color="primary">
+            Confirm
+          </Button>
+        </CardActions>
+      </Card>
+    );
+  }
+}
+
 export default BookingSummary;
