@@ -10,7 +10,7 @@ const AdminActions = [
 
 export const enabledActions = () => {
   let UserActions = [{ title: "Manage Bookings", type: "booking" }];
-  if (isLoggedInAdmin() || true) {
+  if (isLoggedInAdmin()) {
     UserActions = _.concat(UserActions, AdminActions);
   }
   return UserActions;

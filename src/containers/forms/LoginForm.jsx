@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { login } from "../../api/fetchData";
 
 const handleSubmit = (values, history) => {
@@ -40,7 +40,17 @@ const LoginForm = () => {
           variant="h5"
           style={{ marginBottom: "20px" }}
         >
-          Sign up
+          Log in
+        </Typography>
+        <Typography component="span" style={{ marginBottom: "10px" }}>
+          <Link
+            style={{ textDecoration: "none" }}
+            to={{
+              pathname: "/web/register"
+            }}
+          >
+            I don't have an account!
+          </Link>
         </Typography>
 
         <Formik
@@ -108,7 +118,7 @@ const LoginForm = () => {
                 color="primary"
                 className={classes.submit}
               >
-                Sign Up
+                Log In
               </Button>
             </Form>
           )}

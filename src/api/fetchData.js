@@ -10,13 +10,17 @@ export const login = (email, password, history) => {
     headers: headers
   })
     .then(response => response.json())
-    .then(data => console.log(data));
-  // fetch user
-  // check user / admin flag
-  // set localstorage with the retrived user/token
-  // localStorage.setItem("cinema_adm_key", value);
-  localStorage.setItem("cinema_user_key", true);
-  // redirect
+    .then(data => {
+      //WIP: check
+      if (data.isAdmin) {
+        localStorage.setItem("cinema_adm_key", true);
+      } else {
+        localStorage.setItem("cinema_user_key", true);
+      }
+
+      return data;
+    });
+
   try {
     if (isLoggedInWeb()) {
       history.push("/app");
