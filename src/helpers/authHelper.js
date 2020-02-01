@@ -1,11 +1,12 @@
+
+
+const isLoggedIn = () => {
+  return !!localStorage.getItem("login_token");
+};
+
 const isLoggedInAdmin = () => {
-  return !!localStorage.getItem("cinema_adm_key");
+  return JSON.parse(localStorage.getItem("user")).isAdmin;
 };
-
-const isLoggedInWeb = () => {
-  return !!localStorage.getItem("cinema_user_key");
-};
-
 const getWebHeaders = () => {
   const token = localStorage.getItem("cinema_user_key");
   return { Authorization: `Bearer ${token}` };
@@ -24,7 +25,7 @@ const logout = () => {
 //TODO: save id
 export {
   isLoggedInAdmin,
-  isLoggedInWeb,
+  isLoggedIn,
   getAdminHeaders,
   getWebHeaders,
   logout

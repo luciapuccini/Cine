@@ -43,8 +43,8 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const TableWithActions = ({ type, data, onlyRequest, selectPlay }) => {
-  const [state, setState] = React.useState(tableConfig(type, data));
+const TableWithActions = ({ type, movieData,bookingsData, onlyRequest, selectPlay }) => {
+  const [state, setState] = React.useState(tableConfig(type, bookingsData,movieData ));
 
   return (
     <div style={{ maxWidth: "100%" }}>

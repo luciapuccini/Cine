@@ -1,9 +1,29 @@
 /* eslint-disable import/prefer-default-export */
 import _ from "lodash";
 
-export const tableConfig = (type, data) => {
+const buildBookingsData = (data) => {
+  console.log("entre");
+  console.log(data);
+  let data2 = [];
+  data.forEach(book => {
+   let {play} = book
+    data2.push({movieTitle: play.movie.name, 
+            movieStartTime: play.playPK.startTime,
+            room: play.room.id})
+  })
+  return data2;
+} 
+
+const buildMoviesData =  () => {
+ return[]
+      
+}
+
+export const tableConfig = (type, bookingsData, movieData) => {
+  
   const lookupMovies = mapSelectable(["Star Wars", "Harry Potter"]);
-  console.log(lookupMovies);
+console.log('siiii', movieData )
+
   switch (type) {
     case "booking":
       return {
@@ -13,18 +33,7 @@ export const tableConfig = (type, data) => {
           { title: "Movie Start Time", field: "movieStartTime" },
           { title: "Room", field: "room" }
         ],
-        data: [
-          {
-            movieTitle: "Start Wars",
-            movieStartTime: "10-10-2020 18:30",
-            room: 3
-          },
-          {
-            movieTitle: "Start Wars",
-            movieStartTime: "10-10-2020 18:30",
-            room: 2
-          }
-        ]
+        data: buildBookingsData(bookingsData)
       };
     case "movie":
       return {
@@ -32,20 +41,9 @@ export const tableConfig = (type, data) => {
         columns: [
           { title: "Movie Title", field: "movieTitle" },
           { title: "Duration", field: "duration" },
-          { title: "Room", field: "room" }
+          { title: "Synopsis", field: "synopsis" }
         ],
-        data: [
-          {
-            movieTitle: "Start Wars",
-            duration: "200",
-            room: 3
-          },
-          {
-            movieTitle: "Start Wars",
-            duration: "200",
-            room: 2
-          }
-        ]
+        data: [movieData]
       };
     case "play":
       return {

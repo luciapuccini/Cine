@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isLoggedInWeb } from "../helpers/authHelper";
+import { isLoggedIn } from "../helpers/authHelper";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const renderRoute = props =>
-    isLoggedInWeb() ? (
+    isLoggedIn() ? (
       <Component {...props} />
     ) : (
       <Redirect

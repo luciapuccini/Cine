@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -21,8 +21,43 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
+const getmovieData = async(movieData,setMovieData) => {
+  var data = [];
+  const response = await fetch("http://localhost:8080/movies/all")
+  const json = await response.json();
+  
+          json.forEach(entry =>
+            {
+
+              setMovieData((oldData) => [...oldData, {
+                movieTitle: entry.name, 
+               duration: entry.duration,
+               synopsis: entry.synopsis
+              }]
+                
+              )
+            })
+};
+
+
+/*
+              data.push(
+              {
+                movieTitle: entry.name, 
+               duration: entry.duration,
+               synopsis: entry.synopsis
+              })
+            })
+*/
+
+
 const UserPanel = () => {
   const classes = useStyles();
+  const [movieData, setMovieData]= useState([])
+  getmovieData(movieData,setMovieData)
+
   return (
     <div className={classes.root}>
       {_.map(enabledActions(), action => {
@@ -38,7 +73,7 @@ const UserPanel = () => {
               </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <TableWithActions type={action.type} />
+              <TableWithActions type={action.type} bookingsData = {JSON.parse(localStorage.getItem("user")).books} movieData = {movieData} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
         );

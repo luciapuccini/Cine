@@ -1,5 +1,6 @@
-import { isLoggedInWeb } from "../helpers/authHelper";
-import { RepeatOneSharp } from "@material-ui/icons";
+import { isLoggedInAdmin } from "../helpers/authHelper";
+
+
 /* eslint-disable import/prefer-default-export */
 
 export const login = (email, password, history) => {
@@ -20,11 +21,10 @@ export const login = (email, password, history) => {
     })
     .then(data => {
       localStorage.setItem("user", JSON.stringify(data));
-      if (data.isAdmin) {
-            localStorage.setItem("cinema_adm_key", true);
-      } else {
-        localStorage.setItem("cinema_user_key", true);
-      }
+      localStorage.setItem("login_token", true);
+      
+      localStorage.setItem("cinema_adm_key", data.isAdmin);
+      console.log("adm",isLoggedInAdmin());
       history.push("/app");
     }
   ).catch(error => {console.log(error); return error});
