@@ -28,7 +28,7 @@ const EditSchema = Yup.object().shape({
     .required("Required")
 });
 
-const EditUserDialog = ({ open, handleClose }) => {
+const EditUserDialog = ({ open, handleClose, user }) => {
   return (
     <div>
       <Dialog
@@ -52,9 +52,9 @@ const EditUserDialog = ({ open, handleClose }) => {
         <DialogContent>
           <Formik
             initialValues={{
-              name: fakedata.name,
-              email: fakedata.email,
-              password: fakedata.password
+              name: user.name,
+              email: user.email,
+              password: user.password
             }}
             validationSchema={EditSchema}
             onSubmit={values => {

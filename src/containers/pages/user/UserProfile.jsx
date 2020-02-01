@@ -22,12 +22,9 @@ class UserProfile extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then(response => response.json())
-      .then(users => {
-        console.log(users[0]);
-        this.setState({ user: users[0], loading: false });
-      });
+    let user = JSON.parse(localStorage.getItem("user"))
+    this.setState({ user, loading: false });
+     
   }
 
   handleOpen = () => {
@@ -66,6 +63,7 @@ class UserProfile extends React.Component {
             <EditUserDialog
               open={this.state.open}
               handleClose={this.handleClose}
+              user={this.state.user}
             />
           </>
         )}

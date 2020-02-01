@@ -1,33 +1,36 @@
 import { isLoggedInWeb } from "../helpers/authHelper";
+import { RepeatOneSharp } from "@material-ui/icons";
 /* eslint-disable import/prefer-default-export */
 
-export const login = (email, password, history) => {
+export const login = async (email, password, history) => {
   let user = { email, password };
   let headers = new Headers({ "Content-Type": "application/json" });
-  fetch("http://localhost:8080/user/login", {
+
+    
+   fetch("http://localhost:8080/user/login", {
     method: "POST",
     body: JSON.stringify(user),
     headers: headers
   })
-    .then(response => response.json())
+    .then(response => {
+      if(response.ok) {
+        return response.json();
+      }
+      throw Error("cualquiera");
+    })
     .then(data => {
-      //WIP: check
+      localStorage.setItem("user", JSON.stringify(data));
       if (data.isAdmin) {
-        localStorage.setItem("cinema_adm_key", true);
+            localStorage.setItem("cinema_adm_key", true);
       } else {
         localStorage.setItem("cinema_user_key", true);
       }
 
-      return data;
-    });
-
-  try {
-    if (isLoggedInWeb()) {
-      history.push("/app");
+    return data
     }
-  } catch (error) {
-    console.log(error);
-  }
+  ).catch(error => {console.log(error); return error});
+
+  
 };
 
 export const fetchUser = () => {
