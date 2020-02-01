@@ -2,7 +2,7 @@ import { isLoggedInWeb } from "../helpers/authHelper";
 import { RepeatOneSharp } from "@material-ui/icons";
 /* eslint-disable import/prefer-default-export */
 
-export const login = async (email, password, history) => {
+export const login = (email, password, history) => {
   let user = { email, password };
   let headers = new Headers({ "Content-Type": "application/json" });
 
@@ -25,8 +25,7 @@ export const login = async (email, password, history) => {
       } else {
         localStorage.setItem("cinema_user_key", true);
       }
-
-    return data
+      history.push("/app");
     }
   ).catch(error => {console.log(error); return error});
 

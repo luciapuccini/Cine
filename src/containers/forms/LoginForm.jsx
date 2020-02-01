@@ -15,6 +15,7 @@ import { useHistory, Link } from "react-router-dom";
 import { login } from "../../api/fetchData";
 
 const handleSubmit = (values, history) => {
+  console.log("asdasd");
   login(values.email, values.password, history);
 };
 
@@ -57,9 +58,7 @@ const LoginForm = () => {
           initialValues={{ email: "", password: "" }}
           validationSchema={SignupSchema}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              handleSubmit(values, history);
-            }, 400);
+          handleSubmit(values, history);
           }}
         >
           {({
