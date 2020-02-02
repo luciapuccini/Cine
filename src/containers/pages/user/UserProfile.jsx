@@ -22,9 +22,8 @@ class UserProfile extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    let user = JSON.parse(localStorage.getItem("user"))
+    let user = JSON.parse(localStorage.getItem("user"));
     this.setState({ user, loading: false });
-     
   }
 
   handleOpen = () => {
@@ -36,7 +35,6 @@ class UserProfile extends React.Component {
   };
 
   render() {
-    // const classes = useStyles();
     return (
       <div>
         {this.state.loading ? (

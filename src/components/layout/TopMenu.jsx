@@ -8,7 +8,7 @@ import MenuIcon from "@material-ui/icons/LocalMovies";
 import { MenuItem, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-import { logout } from "../../helpers/authHelper";
+import { logout, isLoggedIn } from "../../helpers/authHelper";
 
 const drawerWidth = 240;
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 const TopMenu = props => {
   const classes = useStyles();
-  const isLogged = localStorage.getItem("cinema_user_key");
+  const isLogged = isLoggedIn();
   return (
     <AppBar position="sticky">
       <Toolbar style={{ justifyContent: "space-between" }}>

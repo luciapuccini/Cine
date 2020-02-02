@@ -41,7 +41,6 @@ const buildPlaysData = data => {
       room: play.sala.id
     });
   });
-  console.log("fomated", formated);
   return formated;
 };
 
