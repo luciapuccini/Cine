@@ -1,5 +1,3 @@
-
-
 const isLoggedIn = () => {
   return !!localStorage.getItem("login_token");
 };
@@ -23,10 +21,4 @@ const logout = () => {
   location.reload();
 };
 //TODO: save id
-export {
-  isLoggedInAdmin,
-  isLoggedIn,
-  getAdminHeaders,
-  getWebHeaders,
-  logout
-};
+export { isLoggedInAdmin, isLoggedIn, getAdminHeaders, getWebHeaders, logout };

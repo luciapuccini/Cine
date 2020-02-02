@@ -1,20 +1,17 @@
 import { isLoggedInAdmin } from "../helpers/authHelper";
 
-
 /* eslint-disable import/prefer-default-export */
 
 export const login = (email, password, history) => {
   let user = { email, password };
   let headers = new Headers({ "Content-Type": "application/json" });
-
-    
-   fetch("http://localhost:8080/user/login", {
+  fetch("http://localhost:8080/user/login", {
     method: "POST",
     body: JSON.stringify(user),
     headers: headers
   })
     .then(response => {
-      if(response.ok) {
+      if (response.ok) {
         return response.json();
       }
       throw Error("cualquiera");
@@ -22,25 +19,55 @@ export const login = (email, password, history) => {
     .then(data => {
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("login_token", true);
-      
-      localStorage.setItem("cinema_adm_key", data.isAdmin);
-      console.log("adm",isLoggedInAdmin());
-      history.push("/app");
-    }
-  ).catch(error => {console.log(error); return error});
 
-  
+      localStorage.setItem("cinema_adm_key", data.isAdmin);
+      console.log("adm", isLoggedInAdmin());
+      history.push("/app");
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
 };
 
+// export const fetchUser = () => {
+//   let user;
+//   fetch("https://jsonplaceholder.typicode.com/users")
+//     .then(response => response.json())
+//     .then(users => {
+//       console.log(users[0]);
+//       user = users[0];
+//     });
+//   return user;
+// };
+
+///mock data http://localhost:8080/user/all
+//http://www.mocky.io/v2/5e36264a3200005e00ae3c2b
 export const fetchUser = () => {
   let user;
-  fetch("https://jsonplaceholder.typicode.com/users")
+  fetch("http://www.mocky.io/v2/5e36264a3200005e00ae3c2b")
     .then(response => response.json())
     .then(users => {
-      console.log(users[0]);
+      console.log("[FETCH USERS]", users);
       user = users[0];
     });
   return user;
 };
-export const fetchMovies = () => {};
-export const fetchBookings = () => {};
+
+// mock plays all
+//http://www.mocky.io/v2/5e3626cf3200006400ae3c2c
+
+export const fetchPlays = () => {
+  return fetch("http://www.mocky.io/v2/5e3626cf3200006400ae3c2c")
+    .then(response => response.json())
+    .then(plays => {
+      return plays;
+    });
+};
+
+export const getMovies = () => {
+  const movieData = fetch("http://www.mocky.io/v2/5e362a913200005e00ae3c2e")
+    .then(response => response.json())
+    .then(movies => movies);
+  return movieData;
+};

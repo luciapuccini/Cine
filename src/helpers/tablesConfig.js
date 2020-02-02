@@ -1,28 +1,52 @@
 /* eslint-disable import/prefer-default-export */
 import _ from "lodash";
 
-const buildBookingsData = (data) => {
-  console.log("entre");
-  console.log(data);
+const buildBookingsData = data => {
   let data2 = [];
   data.forEach(book => {
-   let {play} = book
-    data2.push({movieTitle: play.movie.name, 
-            movieStartTime: play.playPK.startTime,
-            room: play.room.id})
-  })
+    let { play } = book;
+    if (play) {
+      data2.push({
+        movieTitle: play.movie.name,
+        movieStartTime: play.playPK.startTime,
+        room: play.room.id
+      });
+    } else {
+      return [];
+    }
+  });
   return data2;
-} 
+};
 
-const buildMoviesData =  () => {
- return[]
-      
-}
+const buildMoviesData = data => {
+  const formated = [];
+  data.forEach(movie => {
+    formated.push({
+      movieTitle: movie.name,
+      duration: movie.duration,
+      synopsis: movie.synopsis
+    });
+  });
+  return formated;
+};
 
-export const tableConfig = (type, bookingsData, movieData) => {
-  
+const buildPlaysData = data => {
+  const formated = [];
+
+  data.forEach((play, index) => {
+    formated.push({
+      movieTitle: index,
+      duration: play.movie.duration,
+      movieStartTime: play.playPK.startTime,
+      room: play.sala.id
+    });
+  });
+  console.log("fomated", formated);
+  return formated;
+};
+
+export const tableConfig = (type, bookingsData, movieData, playData) => {
   const lookupMovies = mapSelectable(["Star Wars", "Harry Potter"]);
-console.log('siiii', movieData )
 
   switch (type) {
     case "booking":
@@ -33,7 +57,7 @@ console.log('siiii', movieData )
           { title: "Movie Start Time", field: "movieStartTime" },
           { title: "Room", field: "room" }
         ],
-        data: buildBookingsData(bookingsData)
+        data: buildBookingsData(JSON.parse(localStorage.getItem("user")).books)
       };
     case "movie":
       return {
@@ -43,7 +67,7 @@ console.log('siiii', movieData )
           { title: "Duration", field: "duration" },
           { title: "Synopsis", field: "synopsis" }
         ],
-        data: [movieData]
+        data: buildMoviesData(movieData)
       };
     case "play":
       return {
@@ -58,20 +82,7 @@ console.log('siiii', movieData )
           { title: "Movie Start Time", field: "movieStartTime" },
           { title: "Room", field: "room" }
         ],
-        data: [
-          {
-            movieTitle: 0,
-            movieStartTime: "10-10-2020 10:30",
-            duration: "200",
-            room: 3
-          },
-          {
-            movieTitle: 1,
-            movieStartTime: "10-10-2020 10:30",
-            duration: "200",
-            room: 2
-          }
-        ]
+        data: buildPlaysData(playData)
       };
     default:
       return {};

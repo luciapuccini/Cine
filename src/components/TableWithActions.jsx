@@ -43,66 +43,86 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const TableWithActions = ({ type, movieData,bookingsData, onlyRequest, selectPlay }) => {
-  const [state, setState] = React.useState(tableConfig(type, bookingsData,movieData ));
+class TableWithActions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      columns: [],
+      data: [],
+      title: ""
+    };
+  }
 
-  return (
-    <div style={{ maxWidth: "100%" }}>
-      <MaterialTable
-        icons={tableIcons}
-        columns={state.columns}
-        data={state.data}
-        title={state.title}
-        actions={
-          onlyRequest
-            ? [
-                {
-                  icon: () => <Check />,
-                  tooltip: "Select",
-                  onClick: (event, rowData) => selectPlay(rowData)
-                }
-              ]
-            : null
-        }
-        editable={
-          onlyRequest
-            ? null
-            : {
-                onRowAdd: newData =>
-                  new Promise(resolve => {
-                    resolve();
-                    setState(prevState => {
-                      const data = [...prevState.data];
-                      data.push(newData);
-                      return { ...prevState, data };
-                    });
-                  }),
-                onRowUpdate: (newData, oldData) =>
-                  new Promise(resolve => {
-                    resolve();
-                    if (oldData) {
-                      setState(prevState => {
+  componentWillReceiveProps({ type, bookingsData, movieData, playData }) {
+    const table = tableConfig(type, bookingsData, movieData, playData);
+    this.setState({
+      title: table.title,
+      columns: table.columns,
+      data: table.data
+    });
+  }
+
+  render() {
+    const { columns, data, title } = this.state;
+    const { selectPlay, onlyRequest } = this.props;
+    return (
+      <div style={{ maxWidth: "100%" }}>
+        <MaterialTable
+          icons={tableIcons}
+          columns={columns}
+          data={data}
+          title={title}
+          actions={
+            onlyRequest
+              ? [
+                  {
+                    icon: () => <Check />,
+                    tooltip: "Select",
+                    onClick: (event, rowData) => selectPlay(rowData)
+                  }
+                ]
+              : null
+          }
+          editable={
+            onlyRequest
+              ? null
+              : {
+                  onRowAdd: newData =>
+                    new Promise(resolve => {
+                      resolve();
+                      this.setState(prevState => {
                         const data = [...prevState.data];
-                        data[data.indexOf(oldData)] = newData;
+                        data.push(newData);
                         return { ...prevState, data };
                       });
-                    }
-                  }),
-                onRowDelete: oldData =>
-                  new Promise(resolve => {
-                    resolve();
-                    setState(prevState => {
-                      const data = [...prevState.data];
-                      data.splice(data.indexOf(oldData), 1);
-                      return { ...prevState, data };
-                    });
-                  })
-              }
-        }
-        options={{ search: false, paging: false }}
-      />
-    </div>
-  );
-};
+                    }),
+                  onRowUpdate: (newData, oldData) =>
+                    new Promise(resolve => {
+                      resolve();
+                      if (oldData) {
+                        this.setState(prevState => {
+                          const data = [...prevState.data];
+                          data[data.indexOf(oldData)] = newData;
+                          return { ...prevState, data };
+                        });
+                      }
+                    }),
+                  onRowDelete: oldData =>
+                    new Promise(resolve => {
+                      resolve();
+                      this.setState(prevState => {
+                        const data = [...prevState.data];
+                        data.splice(data.indexOf(oldData), 1);
+                        return { ...prevState, data };
+                      });
+                    })
+                }
+          }
+          options={{ search: false, paging: false }}
+        />
+      </div>
+    );
+  }
+}
 
 export default TableWithActions;

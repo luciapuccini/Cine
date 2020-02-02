@@ -10,6 +10,7 @@ import TableWithActions from "../../../components/TableWithActions";
 import _ from "lodash";
 
 import { enabledActions } from "./userData";
+import { getMovies, fetchPlays } from "../../../api/fetchData";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,64 +22,58 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+class UserPanel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      // bookingsData: JSON.parse(localStorage.getItem("user")).books, //TODO: mocky
+      bookingsData: [],
+      movieData: [],
+      playData: []
+    };
+  }
 
+  componentDidMount() {
+    getMovies().then(data => {
+      this.setState({ movieData: data });
+    });
+    fetchPlays().then(data => {
+      this.setState({ playData: data });
+    });
+  }
 
-const getmovieData = async(movieData,setMovieData) => {
-  var data = [];
-  const response = await fetch("http://localhost:8080/movies/all")
-  const json = await response.json();
-  
-          json.forEach(entry =>
-            {
+  render() {
+    // const classes = useStyles();
+    const { movieData, bookingsData, playData } = this.state;
 
-              setMovieData((oldData) => [...oldData, {
-                movieTitle: entry.name, 
-               duration: entry.duration,
-               synopsis: entry.synopsis
-              }]
-                
-              )
-            })
-};
+    // console.log("[Movie IN USER PANEL]", movieData); //parent state changes! -> rerender
+    // console.log("[PLAY IN USER PANEL]", playData);
 
-
-/*
-              data.push(
-              {
-                movieTitle: entry.name, 
-               duration: entry.duration,
-               synopsis: entry.synopsis
-              })
-            })
-*/
-
-
-const UserPanel = () => {
-  const classes = useStyles();
-  const [movieData, setMovieData]= useState([])
-  getmovieData(movieData,setMovieData)
-
-  return (
-    <div className={classes.root}>
-      {_.map(enabledActions(), action => {
-        return (
-          <ExpansionPanel key={action.type}>
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2a-content"
-              id="panel2a-header"
-            >
-              <Typography className={classes.heading}>
-                {action.title}
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <TableWithActions type={action.type} bookingsData = {JSON.parse(localStorage.getItem("user")).books} movieData = {movieData} />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        );
-      })}
-    </div>
-  );
-};
+    return (
+      <div>
+        {_.map(enabledActions(), action => {
+          return (
+            <ExpansionPanel key={action.type}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography>{action.title}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <TableWithActions
+                  type={action.type}
+                  bookingsData={bookingsData}
+                  movieData={movieData}
+                  playData={playData}
+                />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          );
+        })}
+      </div>
+    );
+  }
+}
 export default UserPanel;
