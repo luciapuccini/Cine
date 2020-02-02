@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 
+import Alert from "@material-ui/lab/Alert";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -14,12 +15,14 @@ import Container from "@material-ui/core/Container";
 import { useHistory, Link } from "react-router-dom";
 import { login } from "../../api/fetchData";
 
-const handleSubmit = (values, history) => {
+const handleSubmit = (values, history, setUser) => {
   const user = login(values.email, values.password, history);
-  console.log("LOGIN:", user);
+  user.then(u => setUser(u));
 };
 
 const LoginForm = () => {
+  const [user, setUser] = useState({});
+  console.log(user.message);
   const history = useHistory();
   const classes = useStyles();
   const SignupSchema = Yup.object().shape({
@@ -58,7 +61,7 @@ const LoginForm = () => {
           initialValues={{ email: "", password: "" }}
           validationSchema={SignupSchema}
           onSubmit={(values, { setSubmitting }) => {
-            handleSubmit(values, history);
+            handleSubmit(values, history, setUser);
           }}
         >
           {({
@@ -110,6 +113,11 @@ const LoginForm = () => {
                   />
                 </Grid>
               </Grid>
+              {user.message ? (
+                <Alert severity="error" style={{ marginTop: "15px" }}>
+                  {user.message}
+                </Alert>
+              ) : null}
               <Button
                 type="submit"
                 fullWidth

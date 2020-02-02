@@ -7,7 +7,9 @@ export const login = (email, password, history) => {
   let headers = new Headers({ "Content-Type": "application/json" });
 
   //http://localhost:8080/user/login
-  return fetch("http://www.mocky.io/v2/5e3668403200007a00ae3c5e", {
+  // ADMIN : http://www.mocky.io/v2/5e371a5a3200007a00ae3d6c
+  // NO ADMIN http://www.mocky.io/v2/5e3668403200007a00ae3c5e
+  return fetch("http://www.mocky.io/v2/5e371a5a3200007a00ae3d6c", {
     method: "POST",
     body: JSON.stringify(user),
     headers: headers
@@ -16,14 +18,13 @@ export const login = (email, password, history) => {
       if (response.ok) {
         return response.json();
       }
-      throw Error("cualquiera");
+      throw Error("BAD REQUEST");
     })
     .then(data => {
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("login_token", true);
       localStorage.setItem("cinema_adm_key", data.isAdmin);
       history.push("/app");
-      return data;
     })
     .catch(error => {
       console.log(error);
