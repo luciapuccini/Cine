@@ -22,7 +22,6 @@ const handleSubmit = (values, history, setUser) => {
 
 const LoginForm = () => {
   const [user, setUser] = useState({});
-  console.log(user.message);
   const history = useHistory();
   const classes = useStyles();
   const SignupSchema = Yup.object().shape({

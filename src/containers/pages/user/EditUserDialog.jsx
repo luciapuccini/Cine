@@ -4,18 +4,15 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Formik, Form } from "formik";
+import Typography from "@material-ui/core/Typography";
+
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Container } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 
-const handleSubmit = () => {
-  console.log("save");
-};
-
-const fakedata = {
-  name: "Lucia",
-  email: "lucia@gmailc.om",
-  password: "asdasd"
+const handleSubmit = data => {
+  console.log("save", data);
+  return false;
 };
 
 const EditSchema = Yup.object().shape({
@@ -23,9 +20,7 @@ const EditSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
     .required("Required"),
-  password: Yup.string()
-    .min(5)
-    .required("Required")
+  password: Yup.string().required("Need password to confirm")
 });
 
 const EditUserDialog = ({ open, handleClose, user }) => {
@@ -54,49 +49,71 @@ const EditUserDialog = ({ open, handleClose, user }) => {
             initialValues={{
               name: user.name,
               email: user.email,
-              password: user.password
+              password: ""
             }}
             validationSchema={EditSchema}
             onSubmit={values => {
               handleSubmit(values);
             }}
           >
-            {({ values, handleChange }) => (
-              <Form>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="User Name"
-                  type="text"
-                  fullWidth
-                  value={values.name}
-                  onChange={handleChange}
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="email"
-                  label="Email Address"
-                  type="email"
-                  fullWidth
-                  value={values.email}
-                  onChange={handleChange}
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="password"
-                  label="Password"
-                  type="password"
-                  fullWidth
-                  value={values.password}
-                  onChange={handleChange}
-                />
-                <Button type="submit" color="primary">
-                  Accept
-                </Button>
-              </Form>
+            {({ values, handleChange, errors, touched }) => (
+              <Grid container spacing={2}>
+                <Form>
+                  <Grid item xl={12}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="User Name"
+                      type="text"
+                      fullWidth
+                      value={values.name}
+                      onChange={handleChange}
+                    />
+                    <ErrorMessage
+                      name="name"
+                      render={msg => <Typography>{msg}</Typography>}
+                    />
+                  </Grid>
+                  <Grid item xl={12}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="email"
+                      label="Email Address"
+                      type="email"
+                      fullWidth
+                      value={values.email}
+                      onChange={handleChange}
+                    />
+                    <ErrorMessage
+                      name="email"
+                      render={msg => <Typography>{msg}</Typography>}
+                    />
+                  </Grid>
+                  <Grid item xl={12}>
+                    <TextField
+                      margin="dense"
+                      required
+                      autoFocus
+                      id="password"
+                      label="Password"
+                      type="password"
+                      fullWidth
+                      value={values.password}
+                      onChange={handleChange}
+                      error={errors.password && touched.password}
+                    />
+                    <ErrorMessage
+                      name="password"
+                      render={msg => <Typography>{msg}</Typography>}
+                    />
+                  </Grid>
+                  <Button type="submit" color="primary">
+                    Accept
+                  </Button>
+                </Form>
+              </Grid>
             )}
           </Formik>
         </DialogContent>
