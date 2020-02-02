@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import _ from "lodash";
 
-const buildBookingsData = data => {
+const buildBookingsData = () => {
+  const data = JSON.parse(localStorage.getItem("user")).books;
   let data2 = [];
   data.forEach(book => {
     let { play } = book;
@@ -30,22 +31,25 @@ const buildMoviesData = data => {
   return formated;
 };
 
-const buildPlaysData = data => {
+const buildPlaysData = (data, lookup) => {
+  console.log(data, "plays");
   const formated = [];
 
   data.forEach((play, index) => {
+    let movieId = play.movie.name === lookup[index] ? index : null;
     formated.push({
-      movieTitle: index,
+      movieTitle: movieId,
       duration: play.movie.duration,
       movieStartTime: play.playPK.startTime,
       room: play.sala.id
     });
   });
+  console.log(formated, "asdas");
   return formated;
 };
 
 export const tableConfig = (type, bookingsData, movieData, playData) => {
-  const lookupMovies = mapSelectable(["Star Wars", "Harry Potter"]);
+  const lookupMovies = mapSelectableMovies(movieData);
 
   switch (type) {
     case "booking":
@@ -56,7 +60,7 @@ export const tableConfig = (type, bookingsData, movieData, playData) => {
           { title: "Movie Start Time", field: "movieStartTime" },
           { title: "Room", field: "room" }
         ],
-        data: buildBookingsData(JSON.parse(localStorage.getItem("user")).books)
+        data: buildBookingsData()
       };
     case "movie":
       return {
@@ -81,18 +85,18 @@ export const tableConfig = (type, bookingsData, movieData, playData) => {
           { title: "Movie Start Time", field: "movieStartTime" },
           { title: "Room", field: "room" }
         ],
-        data: buildPlaysData(playData)
+        data: buildPlaysData(playData, lookupMovies)
       };
     default:
       return {};
   }
 };
 
-const mapSelectable = titles => {
+const mapSelectableMovies = movies => {
   let lookup = {};
-  titles.forEach((movie, index) => {
-    lookup[index] = movie;
+  movies.forEach((movie, index) => {
+    lookup[index] = movie.name;
   });
-
+  console.log("arma", lookup);
   return lookup;
 };

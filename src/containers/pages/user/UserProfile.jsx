@@ -35,6 +35,7 @@ class UserProfile extends React.Component {
   };
 
   render() {
+    const { user } = this.state;
     return (
       <div>
         {this.state.loading ? (
@@ -43,7 +44,7 @@ class UserProfile extends React.Component {
           <>
             <Card>
               <CardHeader
-                avatar={<Avatar>R</Avatar>}
+                avatar={<Avatar>{user.isAdmin ? "A" : "U"}</Avatar>}
                 action={
                   <IconButton aria-label="settings" onClick={this.handleOpen}>
                     <Create />
