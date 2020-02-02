@@ -15,40 +15,8 @@ import { useHistory, Link } from "react-router-dom";
 import { login } from "../../api/fetchData";
 
 const handleSubmit = (values, history) => {
-  // login(values.email, values.password, history);
-  localStorage.setItem("login_token", true);
-  localStorage.setItem("cinema_adm_key", true);
-  localStorage.setItem(
-    "user",
-    `{
-    "email": "augusto@gmail.com",
-    "name": "Augusto",
-    "isAdmin": true,
-    "books": [
-      {
-        "bookId": 8,
-        "bookDate": "2020-01-12T20:36:33",
-        "seats": [
-          {
-            "seatPk": {
-              "salaId": 1,
-              "seatId": 1
-            }
-          },
-          {
-            "seatPk": {
-              "salaId": 1,
-              "seatId": 2
-            }
-          }
-        ]
-      }
-    ],
-    "id": "5b274852-1902-47b5-949e-7019ff2d5ee6"
-  }`
-  );
-
-  history.push("/app");
+  const user = login(values.email, values.password, history);
+  console.log("LOGIN:", user);
 };
 
 const LoginForm = () => {

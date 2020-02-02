@@ -5,7 +5,9 @@ import { isLoggedInAdmin } from "../helpers/authHelper";
 export const login = (email, password, history) => {
   let user = { email, password };
   let headers = new Headers({ "Content-Type": "application/json" });
-  fetch("http://localhost:8080/user/login", {
+
+  //http://localhost:8080/user/login
+  return fetch("http://www.mocky.io/v2/5e3668403200007a00ae3c5e", {
     method: "POST",
     body: JSON.stringify(user),
     headers: headers
@@ -19,10 +21,9 @@ export const login = (email, password, history) => {
     .then(data => {
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("login_token", true);
-
       localStorage.setItem("cinema_adm_key", data.isAdmin);
-      console.log("adm", isLoggedInAdmin());
       history.push("/app");
+      return data;
     })
     .catch(error => {
       console.log(error);
