@@ -31,7 +31,7 @@ const buildMoviesData = data => {
   return formated;
 };
 
-const buildPlaysData = (data, lookup) => {
+export const buildPlaysData = (data, lookup) => {
   console.log(data, "plays");
   const formated = [];
 
@@ -48,7 +48,7 @@ const buildPlaysData = (data, lookup) => {
   return formated;
 };
 
-export const tableConfig = (type, bookingsData, movieData, playData) => {
+export const tableConfig = (type, movieData, playData) => {
   const lookupMovies = mapSelectableMovies(movieData);
 
   switch (type) {

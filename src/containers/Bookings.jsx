@@ -3,6 +3,7 @@ import { Grid, CircularProgress } from "@material-ui/core";
 
 import BookingSummary from "../containers/pages/booking/BookingSummary";
 import PlayList from "../containers/pages/play/PlayList";
+import StepperProgress from "../components/StepperProgress";
 
 export default class Bookings extends Component {
   // [{
@@ -44,6 +45,7 @@ export default class Bookings extends Component {
 
   selectPlay = play => {
     console.log("selecionaste play:", play);
+    //TODO: FETCH
   };
 
   render() {
@@ -60,12 +62,10 @@ export default class Bookings extends Component {
             )}
           </Grid>
           <Grid item xs={8}>
-            {moviePlays ? (
-              <PlayList moviePlays={moviePlays} selectPlay={this.selectPlay} />
-            ) : (
-              <CircularProgress />
-            )}
-            {/* <BookingProgress /> */}
+            <StepperProgress
+              playData={moviePlays}
+              selectPlay={this.selectPlay}
+            />
           </Grid>
         </Grid>
       </>

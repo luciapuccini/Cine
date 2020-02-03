@@ -53,13 +53,19 @@ class TableWithActions extends React.Component {
     };
   }
 
-  componentWillReceiveProps({ type, bookingsData, movieData, playData }) {
-    const table = tableConfig(type, bookingsData, movieData, playData);
+  componentWillReceiveProps({ type, movieData, playData }) {
+    const table = tableConfig(type, movieData, playData);
     this.setState({
       title: table.title,
       columns: table.columns,
       data: table.data
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.playData !== prevProps.playData) {
+      console.log(this.props.playData);
+    }
   }
 
   render() {

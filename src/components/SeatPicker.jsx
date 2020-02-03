@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import SeatPicker from "react-seat-picker";
 
-//60 max
 const takenSeats = [
   { id: 1, salaId: 1 },
   { id: 3, salaId: 1 },
@@ -10,12 +9,6 @@ const takenSeats = [
   { id: 8, salaId: 1 },
   { id: 9, salaId: 1 }
 ];
-// [
-//  filas A [
-//    {id:id, isReserved: true}
-//  ],
-//  fila B []
-// ]
 
 const buildRows = takenSeats => {
   let rows = [];
@@ -67,10 +60,7 @@ class CustomSeatPicker extends Component {
   render() {
     const { loading, rows } = this.state;
     return (
-      <div>
-        <Typography gutterBottom variant="h5">
-          Seat Picker: {this.state.selectedSeats}
-        </Typography>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <SeatPicker
           addSeatCallback={this.addSeatCallback}
           rows={rows}

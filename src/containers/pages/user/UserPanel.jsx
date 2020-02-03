@@ -64,7 +64,6 @@ class UserPanel extends React.Component {
               <ExpansionPanelDetails>
                 <TableWithActions
                   type={action.type}
-                  bookingsData={bookingsData}
                   movieData={movieData}
                   playData={playData}
                 />
