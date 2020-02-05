@@ -11,10 +11,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { Link, useHistory } from "react-router-dom";
-import { login } from "../../api/fetchData";
+import { createUser } from "../../api/fetchData";
 
-const handleSubmit = (values, history) => {
-  login(values.email, values.password, history);
+const handleSubmit = values => {
+  createUser(values.email, values.name, values.password);
 };
 
 const SignUpForm = () => {

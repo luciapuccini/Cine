@@ -1,10 +1,10 @@
 import { isLoggedInAdmin } from "../helpers/authHelper";
 
 /* eslint-disable import/prefer-default-export */
+const headers = new Headers({ "Content-Type": "application/json" });
 
 export const login = (email, password, history) => {
   let user = { email, password };
-  let headers = new Headers({ "Content-Type": "application/json" });
 
   //http://localhost:8080/user/login
   // ADMIN : http://www.mocky.io/v2/5e371a5a3200007a00ae3d6c
@@ -31,6 +31,19 @@ export const login = (email, password, history) => {
       return error;
     });
 };
+//FIXME: check response
+export const createUser = (email, name, password) => {
+  const user = { email, name, password };
+  return fetch("localhost:8080/user/add", {
+    method: "POST",
+    body: JSON.stringify(user),
+    headers: headers
+  })
+    .then(response => response.json())
+    .then(user => {
+      return user;
+    });
+};
 
 // export const fetchUser = () => {
 //   let user;
@@ -50,7 +63,6 @@ export const fetchUser = () => {
   fetch("http://www.mocky.io/v2/5e36264a3200005e00ae3c2b")
     .then(response => response.json())
     .then(users => {
-      console.log("[FETCH USERS]", users);
       user = users[0];
     });
   return user;
@@ -72,4 +84,19 @@ export const getMovies = () => {
     .then(response => response.json())
     .then(movies => movies);
   return movieData;
+};
+
+//SAVE ACTIONS
+
+export const editUser = (email, name, password) => {
+  const user = { email, name, password };
+  return fetch("localhost:8080/user/edit", {
+    method: "POST",
+    body: JSON.stringify(user),
+    headers: headers
+  })
+    .then(response => response.json())
+    .then(user => {
+      return user;
+    });
 };
