@@ -5,9 +5,8 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import TableWithActions from "../../../components/TableWithActions";
-
 import _ from "lodash";
+import TableWithActions from "../../../components/TableWithActions";
 
 import { enabledActions } from "./userData";
 import { getMovies, fetchPlays } from "../../../api/fetchData";
@@ -45,9 +44,6 @@ class UserPanel extends React.Component {
   render() {
     // const classes = useStyles();
     const { movieData, bookingsData, playData } = this.state;
-
-    // console.log("[Movie IN USER PANEL]", movieData); //parent state changes! -> rerender
-    // console.log("[PLAY IN USER PANEL]", playData);
 
     return (
       <div>

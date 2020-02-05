@@ -12,9 +12,25 @@ import _ from "lodash";
 import TableWithActions from "../../../components/TableWithActions";
 
 class PlayList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      playData: {}
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("updates");
+    if (prevProps.playData !== this.props.playData) {
+      console.log("upd prop", this.props.playData);
+      this.setState({ playData: this.props.playData });
+    }
+    return null;
+  }
+
   render() {
     const { playData, selectPlay } = this.props;
-    console.log("STEPER", playData);
+    console.log("play list", playData);
 
     return (
       <Grid container spacing={1}>
@@ -31,6 +47,7 @@ class PlayList extends Component {
               <ExpansionPanelDetails>
                 <TableWithActions
                   playData={playData}
+                  movieData={[]}
                   type="play"
                   onlyRequest
                   selectPlay={selectPlay}

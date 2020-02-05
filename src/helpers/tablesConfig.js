@@ -3,9 +3,9 @@ import _ from "lodash";
 
 const buildBookingsData = () => {
   const data = JSON.parse(localStorage.getItem("user")).books;
-  let data2 = [];
+  const data2 = [];
   data.forEach(book => {
-    let { play } = book;
+    const { play } = book;
     if (play) {
       data2.push({
         movieTitle: play.movie.name,
@@ -32,19 +32,21 @@ const buildMoviesData = data => {
 };
 
 export const buildPlaysData = (data, lookup) => {
-  console.log(data, "plays");
   const formated = [];
-
-  data.forEach((play, index) => {
-    let movieId = play.movie.name === lookup[index] ? index : null;
-    formated.push({
-      movieTitle: movieId,
-      duration: play.movie.duration,
-      movieStartTime: play.playPK.startTime,
-      room: play.sala.id
+  if (!_.isEmpty(data)) {
+    console.log(data, "data");
+    data.forEach((play, index) => {
+      console.log(play);
+      const movieId = play.movie.name === lookup[index] ? index : null;
+      formated.push({
+        movieTitle: movieId,
+        duration: play.movie.duration,
+        movieStartTime: play.playPk.startTime, // WARNING: CHECK PK vs Pk
+        room: play.sala.id
+      });
     });
-  });
-  console.log(formated, "asdas");
+  }
+
   return formated;
 };
 
@@ -93,10 +95,9 @@ export const tableConfig = (type, movieData, playData) => {
 };
 
 const mapSelectableMovies = movies => {
-  let lookup = {};
+  const lookup = {};
   movies.forEach((movie, index) => {
     lookup[index] = movie.name;
   });
-  console.log("arma", lookup);
   return lookup;
 };

@@ -9,17 +9,17 @@ import Fab from "@material-ui/core/Fab";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 
 import PlayList from "../containers/pages/play/PlayList";
-import CustomSeatPicker from "../components/SeatPicker";
+import CustomSeatPicker from "./SeatPicker";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = {
   root: {
     width: "100%"
   },
   instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
+    marginTop: "10px",
+    marginBottom: "10px"
   }
-}));
+};
 
 const getSteps = () => {
   return ["Select Play for the movie", "Choose your seats", "Checkout!"];
@@ -51,83 +51,100 @@ const getStepContent = (step, playData, selectPlay) => {
   }
 };
 
-const StepperProgress = ({ playData, selectPlay }) => {
-  const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+class StepperProgress extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeStep: 0
+    };
+  }
 
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
+  render() {
+    const steps = getSteps();
 
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
+    const handleNext = () => {
+      this.setState(prevState => ({
+        activeStep: prevState.activeStep + 1
+      }));
+    };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-  console.log("STEPER", playData);
+    const handleBack = () => {
+      this.setState(prevState => ({
+        activeStep: prevState.activeStep - 1
+      }));
+    };
 
-  return (
-    <div className={classes.root}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
+    const handleReset = () => {
+      this.setState({
+        activeStep: 0
+      });
+    };
 
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px"
-        }}
-      >
-        <Fab
-          size="small"
-          color="primary"
-          aria-label="add"
-          disabled={activeStep === 0}
-          onClick={handleBack}
+    console.log("STEPER", this.props.playData);
+    const { root, instructions, button } = useStyles;
+    const { activeStep } = this.state;
+    const { playData, selectPlay } = this.props;
+    return (
+      <div className={root}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "20px",
+            marginBottom: "20px"
+          }}
         >
-          <ChevronLeft />
-        </Fab>
-        <Typography gutterBottom variant="h5" color="primary">
-          {getTitle(activeStep)}
-        </Typography>
-        <Fab
-          size="small"
-          color="primary"
-          aria-label="add"
-          disabled={activeStep === 2}
-          onClick={handleNext}
-        >
-          <ChevronRight />
-        </Fab>
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="add"
+            disabled={activeStep === 0}
+            onClick={handleBack}
+          >
+            <ChevronLeft />
+          </Fab>
+          <Typography gutterBottom variant="h5" color="primary">
+            {getTitle(activeStep)}
+          </Typography>
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="add"
+            disabled={activeStep === 2}
+            onClick={handleNext}
+          >
+            <ChevronRight />
+          </Fab>
+        </div>
+        <div>
+          {activeStep === steps.length ? (
+            <div>
+              <Typography className={instructions}>
+                All steps completed - you&apos;re finished
+              </Typography>
+              <Button onClick={handleReset} className={button}>
+                Reset
+              </Button>
+            </div>
+          ) : (
+            <div>{getStepContent(activeStep, playData, selectPlay)}</div>
+          )}
+        </div>
       </div>
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>{getStepContent(activeStep, playData, selectPlay)}</div>
-        )}
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default StepperProgress;
