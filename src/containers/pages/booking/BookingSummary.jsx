@@ -7,7 +7,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { CircularProgress } from "@material-ui/core";
-
+import _ from "lodash";
 // movie
 // {
 //   nombre,
@@ -23,7 +23,13 @@ class BookingSummary extends React.Component {
   }
 
   render() {
-    const { selectedMovie } = this.props;
+    const {
+      selectedMovie,
+      selectedPlay,
+      selectedSeats,
+      onConfirm
+    } = this.props;
+    console.log("COMPLETANDO EL SUMMARY", selectedMovie, selectedPlay);
     return (
       <Card>
         <CardActionArea>
@@ -46,15 +52,27 @@ class BookingSummary extends React.Component {
               Movie Summary
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {selectedMovie ? `MOVIE: ${selectedMovie.title}` : null}
+              {selectedMovie ? `MOVIE: ${selectedMovie.name}` : null}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              PLAY TIME: 10/10/2020 20:30
+              {!_.isEmpty(selectedPlay)
+                ? `PLAY: ${selectedPlay.movieStartTime} `
+                : null}
             </Typography>
+            {!_.isEmpty(selectedSeats) ? (
+              <>
+                <Typography variant="body2" color="textSecondary">
+                  SEATS:
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {selectedSeats.map(seat => `${seat},  `)}
+                </Typography>
+              </>
+            ) : null}
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={() => onConfirm()}>
             Confirm
           </Button>
         </CardActions>

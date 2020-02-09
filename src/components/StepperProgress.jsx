@@ -10,6 +10,7 @@ import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 
 import PlayList from "../containers/pages/play/PlayList";
 import CustomSeatPicker from "./SeatPicker";
+import Checkout from "./Checkout";
 
 const useStyles = {
   root: {
@@ -38,19 +39,6 @@ const getTitle = step => {
   }
 };
 
-const getStepContent = (step, playData, selectPlay) => {
-  switch (step) {
-    case 0:
-      return <PlayList playData={playData} selectPlay={selectPlay} />;
-    case 1:
-      return <CustomSeatPicker />;
-    case 2:
-      return <div>Comp 3</div>;
-    default:
-      return "Unknown step";
-  }
-};
-
 class StepperProgress extends React.Component {
   constructor(props) {
     super(props);
@@ -59,31 +47,65 @@ class StepperProgress extends React.Component {
     };
   }
 
+  getStepContent = (step, playData, selectPlay, selectSeats, takenSeats) => {
+    switch (step) {
+      case 0:
+        return (
+          <PlayList
+            playData={playData}
+            selectPlay={play => this.handleSelectionPlay(selectPlay, play)}
+          />
+        );
+      case 1:
+        return (
+          <CustomSeatPicker
+            takenSeats={takenSeats}
+            selectSeats={seats => this.handleSelectionSeat(selectSeats, seats)}
+          />
+        );
+      case 2:
+        return <Checkout />;
+      default:
+        return "Unknown step";
+    }
+  };
+
+  handleSelectionPlay = (selectAction, play) => {
+    console.log("handle selection");
+    selectAction(play);
+    this.handleNext();
+  };
+
+  handleSelectionSeat = (selectAction, seats) => {
+    console.log("handle selection");
+    selectAction(seats);
+    this.handleNext();
+  };
+
+  handleNext = () => {
+    this.setState(prevState => ({
+      activeStep: prevState.activeStep + 1
+    }));
+  };
+
+  handleBack = () => {
+    this.setState(prevState => ({
+      activeStep: prevState.activeStep - 1
+    }));
+  };
+
+  handleReset = () => {
+    this.setState({
+      activeStep: 0
+    });
+  };
+
   render() {
     const steps = getSteps();
-
-    const handleNext = () => {
-      this.setState(prevState => ({
-        activeStep: prevState.activeStep + 1
-      }));
-    };
-
-    const handleBack = () => {
-      this.setState(prevState => ({
-        activeStep: prevState.activeStep - 1
-      }));
-    };
-
-    const handleReset = () => {
-      this.setState({
-        activeStep: 0
-      });
-    };
-
-    console.log("STEPER", this.props.playData);
     const { root, instructions, button } = useStyles;
     const { activeStep } = this.state;
-    const { playData, selectPlay } = this.props;
+    const { playData, selectPlay, selectSeats, takenSeats } = this.props;
+
     return (
       <div className={root}>
         <Stepper activeStep={activeStep}>
@@ -111,7 +133,7 @@ class StepperProgress extends React.Component {
             color="primary"
             aria-label="add"
             disabled={activeStep === 0}
-            onClick={handleBack}
+            onClick={this.handleBack}
           >
             <ChevronLeft />
           </Fab>
@@ -123,7 +145,7 @@ class StepperProgress extends React.Component {
             color="primary"
             aria-label="add"
             disabled={activeStep === 2}
-            onClick={handleNext}
+            onClick={this.handleNext}
           >
             <ChevronRight />
           </Fab>
@@ -134,12 +156,20 @@ class StepperProgress extends React.Component {
               <Typography className={instructions}>
                 All steps completed - you&apos;re finished
               </Typography>
-              <Button onClick={handleReset} className={button}>
+              <Button onClick={this.handleReset} className={button}>
                 Reset
               </Button>
             </div>
           ) : (
-            <div>{getStepContent(activeStep, playData, selectPlay)}</div>
+            <div>
+              {this.getStepContent(
+                activeStep,
+                playData,
+                selectPlay,
+                selectSeats,
+                takenSeats
+              )}
+            </div>
           )}
         </div>
       </div>

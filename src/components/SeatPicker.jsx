@@ -1,14 +1,6 @@
 import React, { Component } from "react";
-import Typography from "@material-ui/core/Typography";
 import SeatPicker from "react-seat-picker";
-
-const takenSeats = [
-  { id: 1, salaId: 1 },
-  { id: 3, salaId: 1 },
-  { id: 7, salaId: 1 },
-  { id: 8, salaId: 1 },
-  { id: 9, salaId: 1 }
-];
+import { Button } from "@material-ui/core";
 
 const buildRows = takenSeats => {
   let rows = [];
@@ -35,7 +27,7 @@ class CustomSeatPicker extends Component {
     this.state = {
       loading: false,
       selectedSeats: [],
-      rows: buildRows(takenSeats)
+      rows: []
     };
   }
 
@@ -52,15 +44,21 @@ class CustomSeatPicker extends Component {
           loading: false,
           selectedSeats: [...prevState.selectedSeats, id]
         }));
-        //fetch
       }
     );
   };
 
   render() {
     const { loading, rows } = this.state;
+    const { selectSeats } = this.props;
     return (
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column"
+        }}
+      >
         <SeatPicker
           addSeatCallback={this.addSeatCallback}
           rows={rows}
@@ -70,6 +68,13 @@ class CustomSeatPicker extends Component {
           selectedByDefault
           loading={loading}
         />
+        <Button
+          variant="outlined"
+          style={{ color: "#fff", borderColor: "#fff" }}
+          onClick={() => selectSeats(this.state.selectedSeats)}
+        >
+          Accept
+        </Button>
       </div>
     );
   }

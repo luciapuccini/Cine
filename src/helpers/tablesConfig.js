@@ -34,24 +34,23 @@ const buildMoviesData = data => {
 export const buildPlaysData = (data, lookup) => {
   const formated = [];
   if (!_.isEmpty(data)) {
-    console.log(data, "data");
     data.forEach((play, index) => {
-      console.log(play);
-      const movieId = play.movie.name === lookup[index] ? index : null;
+      // const movieId = play.movie.name === lookup[index] ? index : null;
       formated.push({
-        movieTitle: movieId,
+        movieTitle: play.movie.name,
         duration: play.movie.duration,
-        movieStartTime: play.playPk.startTime, // WARNING: CHECK PK vs Pk
+        movieStartTime: play.playPK.startTime,
         room: play.sala.id
       });
     });
   }
-
   return formated;
 };
 
 export const tableConfig = (type, movieData, playData) => {
-  const lookupMovies = mapSelectableMovies(movieData);
+  console.log("tables config]", type, movieData, playData);
+  //FIXME: the plays need a movie titles array for the lookups
+  // const lookupMovies = mapSelectableMovies(movieData);
 
   switch (type) {
     case "booking":
@@ -80,14 +79,14 @@ export const tableConfig = (type, movieData, playData) => {
         columns: [
           {
             title: "Movie Title",
-            field: "movieTitle",
-            lookup: lookupMovies
+            field: "movieTitle"
+            // lookup: lookupMovies
           },
           { title: "Duration", field: "duration" },
           { title: "Movie Start Time", field: "movieStartTime" },
           { title: "Room", field: "room" }
         ],
-        data: buildPlaysData(playData, lookupMovies)
+        data: buildPlaysData(playData)
       };
     default:
       return {};
