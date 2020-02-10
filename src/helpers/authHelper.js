@@ -15,10 +15,4 @@ const getAdminHeaders = () => {
   return { Authorization: `Bearer ${token}` };
 };
 
-const logout = () => {
-  localStorage.clear();
-  // eslint-disable-next-line no-restricted-globals
-  location.reload();
-};
-//TODO: save id
-export { isLoggedInAdmin, isLoggedIn, getAdminHeaders, getWebHeaders, logout };
+export { isLoggedInAdmin, isLoggedIn, getAdminHeaders, getWebHeaders };

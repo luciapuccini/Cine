@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
+
+import Alert from "@material-ui/lab/Alert";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -13,11 +15,17 @@ import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
 import { createUser } from "../../api/fetchData";
 
-const handleSubmit = values => {
-  createUser(values.email, values.name, values.password);
+const handleSubmit = (values, history, setError) => {
+  const resp = createUser(values.email, values.name, values.password);
+  resp.then(e => {
+    console.log(resp.id);
+    setError(e);
+  });
 };
 
 const SignUpForm = () => {
+  const [error, setError] = useState("");
+
   const history = useHistory();
   const classes = useStyles();
   const SignupSchema = Yup.object().shape({
@@ -59,10 +67,8 @@ const SignUpForm = () => {
         <Formik
           initialValues={{ name: "", email: "", password: "", confirm: "" }}
           validationSchema={SignupSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              handleSubmit(values, history);
-            }, 400);
+          onSubmit={values => {
+            handleSubmit(values, history, setError);
           }}
         >
           {({
@@ -151,6 +157,16 @@ const SignUpForm = () => {
                   />
                 </Grid>
               </Grid>
+              {error.message ? (
+                <Alert severity="error" style={{ marginTop: "15px" }}>
+                  {error.message}
+                </Alert>
+              ) : null}
+              {error.id ? (
+                <Alert severity="success" style={{ marginTop: "15px" }}>
+                  Succesfuly createrd User, Please login
+                </Alert>
+              ) : null}
               <Button
                 type="submit"
                 fullWidth

@@ -8,7 +8,8 @@ import MenuIcon from "@material-ui/icons/LocalMovies";
 import { MenuItem, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-import { logout, isLoggedIn } from "../../helpers/authHelper";
+import { isLoggedIn } from "../../helpers/authHelper";
+import { logout } from "../../api/fetchData";
 
 const drawerWidth = 240;
 
