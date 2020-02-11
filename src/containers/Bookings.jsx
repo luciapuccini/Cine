@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
 
-import BookingSummary from "../containers/pages/booking/BookingSummary";
-import PlayList from "../containers/pages/play/PlayList";
+import BookingSummary from "./pages/booking/BookingSummary";
+import PlayList from "./pages/play/PlayList";
 import StepperProgress from "../components/StepperProgress";
 
 export default class Bookings extends Component {
@@ -17,9 +17,9 @@ export default class Bookings extends Component {
   }
 
   componentDidMount() {
-    // const { id } = this.props.match.params;
+    const { id } = this.props.match.params;
     // llego con el id de la peli, fetch data de esa plays con em movie id /plays
-    fetch(`http://www.mocky.io/v2/5e3b7069300000620021456f`)
+    fetch(`http://localhost:8080/movies/${id}`)
       .then(response => response.json())
       .then(jsonArray => {
         this.setState({
@@ -30,12 +30,10 @@ export default class Bookings extends Component {
   }
 
   selectPlay = play => {
-    console.log("selecionaste play:", play);
     this.setState({ selectedPlay: play });
   };
 
   selectSeats = seats => {
-    console.log("selecionaste seats:", seats);
     this.setState({ selectedSeats: seats });
   };
 
@@ -50,7 +48,7 @@ export default class Bookings extends Component {
       bookDate: new Date(),
       seats
       // playPK
-      //id user
+      // id user
     };
   };
 
@@ -81,7 +79,7 @@ export default class Bookings extends Component {
             <StepperProgress
               playData={moviePlays}
               selectPlay={this.selectPlay}
-              takenSeats={selectedPlay.takenSeats}
+              selectedPlay={selectedPlay}
               selectSeats={this.selectSeats}
             />
           </Grid>

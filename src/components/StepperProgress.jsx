@@ -47,7 +47,7 @@ class StepperProgress extends React.Component {
     };
   }
 
-  getStepContent = (step, playData, selectPlay, selectSeats, takenSeats) => {
+  getStepContent = (step, playData, selectPlay, selectSeats, selectedPlay) => {
     switch (step) {
       case 0:
         return (
@@ -59,7 +59,7 @@ class StepperProgress extends React.Component {
       case 1:
         return (
           <CustomSeatPicker
-            takenSeats={takenSeats}
+            selectedPlay={selectedPlay}
             selectSeats={seats => this.handleSelectionSeat(selectSeats, seats)}
           />
         );
@@ -71,13 +71,11 @@ class StepperProgress extends React.Component {
   };
 
   handleSelectionPlay = (selectAction, play) => {
-    console.log("handle selection");
     selectAction(play);
     this.handleNext();
   };
 
   handleSelectionSeat = (selectAction, seats) => {
-    console.log("handle selection");
     selectAction(seats);
     this.handleNext();
   };
@@ -104,7 +102,7 @@ class StepperProgress extends React.Component {
     const steps = getSteps();
     const { root, instructions, button } = useStyles;
     const { activeStep } = this.state;
-    const { playData, selectPlay, selectSeats, takenSeats } = this.props;
+    const { playData, selectPlay, selectSeats, selectedPlay } = this.props;
 
     return (
       <div className={root}>
@@ -167,7 +165,7 @@ class StepperProgress extends React.Component {
                 playData,
                 selectPlay,
                 selectSeats,
-                takenSeats
+                selectedPlay
               )}
             </div>
           )}

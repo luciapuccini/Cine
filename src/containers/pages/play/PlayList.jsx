@@ -29,7 +29,6 @@ class PlayList extends Component {
 
   render() {
     const { playData, selectPlay } = this.props;
-
     return (
       <Grid container spacing={1}>
         <Grid item xs={12}>

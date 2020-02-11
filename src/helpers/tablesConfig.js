@@ -40,7 +40,8 @@ export const buildPlaysData = (data, lookup) => {
         movieTitle: play.movie.name,
         duration: play.movie.duration,
         movieStartTime: play.playPK.startTime,
-        room: play.sala.id
+        room: play.room.id,
+        playPK: play.playPK
       });
     });
   }
@@ -48,8 +49,7 @@ export const buildPlaysData = (data, lookup) => {
 };
 
 export const tableConfig = (type, movieData, playData) => {
-  console.log("tables config]", type, movieData, playData);
-  //FIXME: the plays need a movie titles array for the lookups
+  // FIXME: the plays need a movie titles array for the lookups
   // const lookupMovies = mapSelectableMovies(movieData);
 
   switch (type) {

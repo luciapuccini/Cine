@@ -29,7 +29,6 @@ class BookingSummary extends React.Component {
       selectedSeats,
       onConfirm
     } = this.props;
-    console.log("COMPLETANDO EL SUMMARY", selectedMovie, selectedPlay);
     return (
       <Card>
         <CardActionArea>

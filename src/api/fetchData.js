@@ -84,6 +84,23 @@ export const fetchPlays = () => {
     });
 };
 
+export const fetchPlay = playPk => {
+  return fetch("http://localhost:8080/plays/getPlay", {
+    method: "POST",
+    body: JSON.stringify(playPk),
+    headers
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(play => {
+      if (play.code) {
+        throw Error(play.message);
+      }
+      return play;
+    })
+    .catch(error => error);
+};
 // ----------------------------- AUTH -------------------------------
 export const login = (email, password, history) => {
   const user = { email, password };

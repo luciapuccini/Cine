@@ -1,6 +1,5 @@
 import React, { forwardRef } from "react";
 import MaterialTable from "material-table";
-import { tableConfig } from "../helpers/tablesConfig";
 import {
   AddBox,
   ArrowDownward,
@@ -18,6 +17,7 @@ import {
   Search,
   ViewColumn
 } from "@material-ui/icons";
+import { tableConfig } from "../helpers/tablesConfig";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -64,7 +64,6 @@ class TableWithActions extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.playData !== prevProps.playData) {
-      console.log(this.props.playData);
     }
   }
 
