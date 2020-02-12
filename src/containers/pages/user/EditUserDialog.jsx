@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -10,11 +10,6 @@ import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Container, Grid } from "@material-ui/core";
 
-const handleSubmit = data => {
-  console.log("save", data);
-  return false;
-};
-
 const EditSchema = Yup.object().shape({
   name: Yup.string(),
   email: Yup.string()
@@ -23,7 +18,7 @@ const EditSchema = Yup.object().shape({
   password: Yup.string().required("Need password to confirm")
 });
 
-const EditUserDialog = ({ open, handleClose, user }) => {
+const EditUserDialog = ({ open, handleClose, handleSubmit, user }) => {
   return (
     <div>
       <Dialog

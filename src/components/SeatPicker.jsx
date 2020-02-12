@@ -28,6 +28,7 @@ const buildRows = takenSeats => {
 };
 
 const getTakenSeats = books => {
+  console.log("/////////////////", books);
   const taken = [];
   if (!_.isEmpty(books)) {
     books.forEach(book => {

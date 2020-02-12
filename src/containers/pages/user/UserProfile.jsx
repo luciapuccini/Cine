@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import { Create } from "@material-ui/icons";
 import { CircularProgress } from "@material-ui/core";
 
+import { editUser } from "../../../api/fetchData";
+
 import EditUserDialog from "./EditUserDialog";
 
 class UserProfile extends React.Component {
@@ -22,7 +24,7 @@ class UserProfile extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    let user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ user, loading: false });
   }
 
@@ -32,6 +34,20 @@ class UserProfile extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  handleSubmit = editedData => {
+    const user = {
+      // FIXME:  userId? + localsotage update
+      userId: JSON.parse(localStorage.getItem("user")).id,
+      name: editedData.name,
+      email: editedData.email,
+      password: editedData.password
+    };
+    const newUser = editUser(user);
+    newUser.then(usu => {
+      this.setState({ user: usu }, () => this.handleClose());
+    });
   };
 
   render() {
@@ -63,6 +79,7 @@ class UserProfile extends React.Component {
               open={this.state.open}
               handleClose={this.handleClose}
               user={this.state.user}
+              handleSubmit={this.handleSubmit}
             />
           </>
         )}

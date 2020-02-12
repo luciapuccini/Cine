@@ -2,20 +2,19 @@
 const headers = new Headers({ "Content-Type": "application/json" });
 
 // -------------------------- USER ---------------------------
-export const editUser = (email, name, password) => {
-  const user = { email, name, password };
-  return fetch("localhost:8080/user/modify", {
-    method: "POST",
+export const editUser = user => {
+  return fetch("http://localhost:8080/user/modify", {
+    method: "PUT",
     body: JSON.stringify(user),
     headers
   })
     .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw Error(response);
+      return response.json();
     })
     .then(user => {
+      if (user.code) {
+        throw Error(user.message);
+      }
       return user;
     })
     .catch(error => {
@@ -52,6 +51,30 @@ export const createUser = (email, name, password) => {
       return user;
     })
     .catch(error => error);
+};
+
+// --------------------------BOOKINGS---------------------
+
+export const createBooking = booking => {
+  console.log(booking);
+  return fetch("http://localhost:8080/books/add", {
+    method: "POST",
+    body: JSON.stringify(booking),
+    headers
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(booking => {
+      if (booking.code) {
+        console.log("falla", booking);
+        throw Error(booking.message);
+      }
+      return booking;
+    })
+    .catch(error => {
+      console.log(error);
+    });
 };
 
 // -------------------------- MOVIES ----------------------------------

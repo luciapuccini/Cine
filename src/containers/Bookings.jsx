@@ -4,6 +4,7 @@ import { Grid, CircularProgress } from "@material-ui/core";
 import BookingSummary from "./pages/booking/BookingSummary";
 import PlayList from "./pages/play/PlayList";
 import StepperProgress from "../components/StepperProgress";
+import { createBooking } from "../api/fetchData";
 
 export default class Bookings extends Component {
   constructor(props) {
@@ -39,16 +40,19 @@ export default class Bookings extends Component {
 
   confirmBook = () => {
     const { selectedSeats, selectedPlay } = this.state;
-    const book = this.buildBook(selectedSeats, selectedPlay.movieStartTime);
-    console.log("BOOK:", book);
+    const book = this.buildBook(selectedSeats, selectedPlay.playPK);
+    const resp = createBooking(book);
+    resp.then(u => {
+      console.log("si???", u);
+    });
   };
 
-  buildBook = (seats, start) => {
+  buildBook = (seats, playPk) => {
     return {
-      bookDate: new Date(),
-      seats
-      // playPK
-      // id user
+      bookDate: new Date().toISOString(),
+      seats,
+      playPk,
+      userId: JSON.parse(localStorage.getItem("user")).id
     };
   };
 
