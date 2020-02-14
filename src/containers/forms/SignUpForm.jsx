@@ -18,7 +18,6 @@ import { createUser } from "../../api/fetchData";
 const handleSubmit = (values, history, setError) => {
   const resp = createUser(values.email, values.name, values.password);
   resp.then(e => {
-    console.log(resp.id);
     setError(e);
   });
 };

@@ -67,7 +67,6 @@ export const createBooking = booking => {
     })
     .then(booking => {
       if (booking.code) {
-        console.log("falla", booking);
         throw Error(booking.message);
       }
       return booking;
@@ -78,7 +77,7 @@ export const createBooking = booking => {
 };
 
 // -------------------------- MOVIES ----------------------------------
-// FIXME: doesnt exists
+
 export const getMovies = () => {
   const movieData = fetch("http://localhost:8080/movies/all")
     .then(response => response.json())

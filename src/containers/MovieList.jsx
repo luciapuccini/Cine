@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import BookMark from "@material-ui/icons/Bookmark";
-import movieData from "../helpers/movieData";
 import { Link } from "react-router-dom";
+import movieData from "../helpers/movieData";
+import { getMovies } from "../api/fetchData";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,8 +32,16 @@ const useStyles = makeStyles(theme => ({
 
 const MovieList = () => {
   const classes = useStyles();
-  //FIXME: missing real data
+  const [movieData, setMovieData] = useState([]);
+  useEffect(() => {
+    const movies = getMovies();
+    movies.then(movies => {
+      setMovieData(movies);
+    });
+  }, []);
+  // FIXME: missing real data 1!
   const image = require("../assets/rick.png");
+  console.log(movieData);
   return (
     <div className={classes.root}>
       <GridList cellHeight={400} spacing={30} className={classes.gridList}>
@@ -41,8 +50,8 @@ const MovieList = () => {
             <img src={image} alt={movie.title} />
             <GridListTileBar
               className={classes.gridListTile}
-              title={movie.title}
-              actionIcon={
+              title={movie.name}
+              actionIcon={(
                 <Link
                   className={classes.buttonLink}
                   to={{
@@ -56,7 +65,7 @@ const MovieList = () => {
                     <BookMark />
                   </IconButton>
                 </Link>
-              }
+              )}
             />
           </GridListTile>
         ))}

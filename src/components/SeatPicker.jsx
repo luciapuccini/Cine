@@ -28,7 +28,6 @@ const buildRows = takenSeats => {
 };
 
 const getTakenSeats = books => {
-  console.log("/////////////////", books);
   const taken = [];
   if (!_.isEmpty(books)) {
     books.forEach(book => {
@@ -87,7 +86,6 @@ class CustomSeatPicker extends Component {
   render() {
     const { loading, rows, play } = this.state;
     const { selectSeats } = this.props;
-    console.log("dale", rows);
     return (
       <div
         style={{

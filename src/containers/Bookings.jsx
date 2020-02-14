@@ -42,9 +42,7 @@ export default class Bookings extends Component {
     const { selectedSeats, selectedPlay } = this.state;
     const book = this.buildBook(selectedSeats, selectedPlay.playPK);
     const resp = createBooking(book);
-    resp.then(u => {
-      console.log("si???", u);
-    });
+    // resp.then();
   };
 
   buildBook = (seats, playPk) => {
