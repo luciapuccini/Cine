@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
 
 import BookingSummary from "./pages/booking/BookingSummary";
-import PlayList from "./pages/play/PlayList";
 import StepperProgress from "../components/StepperProgress";
+
+import { getUserId } from "../helpers/authHelper";
 import { createBooking } from "../api/fetchData";
 
 export default class Bookings extends Component {
@@ -50,7 +51,7 @@ export default class Bookings extends Component {
       bookDate: new Date().toISOString(),
       seats,
       playPk,
-      userId: JSON.parse(localStorage.getItem("user")).id
+      userId: getUserId()
     };
   };
 

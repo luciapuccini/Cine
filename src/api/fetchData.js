@@ -56,7 +56,6 @@ export const createUser = (email, name, password) => {
 // --------------------------BOOKINGS---------------------
 
 export const createBooking = booking => {
-  console.log(booking);
   return fetch("http://localhost:8080/books/add", {
     method: "POST",
     body: JSON.stringify(booking),
@@ -74,6 +73,13 @@ export const createBooking = booking => {
     .catch(error => {
       console.log(error);
     });
+};
+
+export const fetchBookings = userId => {
+  const bookingsData = fetch(`http://localhost:8080/books/${userId}`)
+    .then(response => response.json())
+    .then(bookings => bookings);
+  return bookingsData;
 };
 
 // -------------------------- MOVIES ----------------------------------

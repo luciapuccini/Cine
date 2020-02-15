@@ -11,6 +11,7 @@ import { CircularProgress } from "@material-ui/core";
 import { editUser } from "../../../api/fetchData";
 
 import EditUserDialog from "./EditUserDialog";
+import { getUserId } from "../../../helpers/authHelper";
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class UserProfile extends React.Component {
   handleSubmit = editedData => {
     const user = {
       // FIXME:  userId? + localsotage update
-      userId: JSON.parse(localStorage.getItem("user")).id,
+      userId: getUserId(),
       name: editedData.name,
       email: editedData.email,
       password: editedData.password
@@ -61,11 +62,11 @@ class UserProfile extends React.Component {
             <Card>
               <CardHeader
                 avatar={<Avatar>{user.isAdmin ? "A" : "U"}</Avatar>}
-                action={
+                action={(
                   <IconButton aria-label="settings" onClick={this.handleOpen}>
                     <Create />
                   </IconButton>
-                }
+                )}
                 title={this.state.user.name}
                 subheader={this.state.user.email}
               />

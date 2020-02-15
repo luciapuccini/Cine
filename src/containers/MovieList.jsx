@@ -39,9 +39,8 @@ const MovieList = () => {
       setMovieData(movies);
     });
   }, []);
-  // FIXME: missing real data 1!
+  // FIXME: hoy load images
   const image = require("../assets/rick.png");
-  console.log(movieData);
   return (
     <div className={classes.root}>
       <GridList cellHeight={400} spacing={30} className={classes.gridList}>
@@ -51,7 +50,7 @@ const MovieList = () => {
             <GridListTileBar
               className={classes.gridListTile}
               title={movie.name}
-              actionIcon={(
+              actionIcon={
                 <Link
                   className={classes.buttonLink}
                   to={{
@@ -65,7 +64,7 @@ const MovieList = () => {
                     <BookMark />
                   </IconButton>
                 </Link>
-              )}
+              }
             />
           </GridListTile>
         ))}

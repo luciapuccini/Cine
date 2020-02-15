@@ -53,18 +53,13 @@ class TableWithActions extends React.Component {
     };
   }
 
-  componentWillReceiveProps({ type, movieData, playData }) {
-    const table = tableConfig(type, movieData, playData);
+  componentWillReceiveProps({ type, movieData, playData, bookingsData }) {
+    const table = tableConfig(type, movieData, playData, bookingsData);
     this.setState({
       title: table.title,
       columns: table.columns,
       data: table.data
     });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.playData !== prevProps.playData) {
-    }
   }
 
   render() {
@@ -88,6 +83,7 @@ class TableWithActions extends React.Component {
                 ]
               : null
           }
+          // FIXME: hoy edits + deletes
           editable={
             onlyRequest
               ? null

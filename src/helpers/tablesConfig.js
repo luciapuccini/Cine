@@ -1,22 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 import _ from "lodash";
+import { fetchBookings } from "../api/fetchData";
 
-const buildBookingsData = () => {
-  const data = JSON.parse(localStorage.getItem("user")).books;
-  const data2 = [];
+const buildBookingsData = data => {
+  const formated = [];
   data.forEach(book => {
-    const { play } = book;
-    if (play) {
-      data2.push({
-        movieTitle: play.movie.name,
-        movieStartTime: play.playPK.startTime,
-        room: play.room.id
-      });
-    } else {
-      return [];
-    }
+    formated.push({
+      bookId: book.bookId,
+      bookDate: book.bookDate
+    });
   });
-  return data2;
+  return formated;
 };
 
 const buildMoviesData = data => {
@@ -48,7 +42,7 @@ export const buildPlaysData = (data, lookup) => {
   return formated;
 };
 
-export const tableConfig = (type, movieData, playData) => {
+export const tableConfig = (type, movieData, playData, bookingData) => {
   // FIXME: the plays need a movie titles array for the lookups
   // const lookupMovies = mapSelectableMovies(movieData);
 
@@ -57,11 +51,10 @@ export const tableConfig = (type, movieData, playData) => {
       return {
         title: `Table ${type}`,
         columns: [
-          { title: "Movie Title", field: "movieTitle" },
-          { title: "Movie Start Time", field: "movieStartTime" },
-          { title: "Room", field: "room" }
+          { title: "Book ID", field: "bookId" },
+          { title: "Book Date", field: "bookDate" }
         ],
-        data: buildBookingsData()
+        data: buildBookingsData(bookingData)
       };
     case "movie":
       return {

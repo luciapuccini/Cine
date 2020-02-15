@@ -1,3 +1,5 @@
+import { stringify } from "querystring";
+
 const isLoggedIn = () => {
   return !!localStorage.getItem("login_token");
 };
@@ -14,5 +16,11 @@ const getAdminHeaders = () => {
   const token = localStorage.getItem("cinema_adm_key");
   return { Authorization: `Bearer ${token}` };
 };
-
-export { isLoggedInAdmin, isLoggedIn, getAdminHeaders, getWebHeaders };
+const getUserId = () => JSON.parse(localStorage.getItem("user")).id;
+export {
+  isLoggedInAdmin,
+  isLoggedIn,
+  getAdminHeaders,
+  getWebHeaders,
+  getUserId
+};

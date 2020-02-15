@@ -9,7 +9,8 @@ import _ from "lodash";
 import TableWithActions from "../../../components/TableWithActions";
 
 import { enabledActions } from "./userData";
-import { getMovies, fetchPlays } from "../../../api/fetchData";
+import { getUserId } from "../../../helpers/authHelper";
+import { getMovies, fetchPlays, fetchBookings } from "../../../api/fetchData";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,7 +26,6 @@ class UserPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // bookingsData: JSON.parse(localStorage.getItem("user")).books, //TODO: mocky
       bookingsData: [],
       movieData: [],
       playData: []
@@ -33,11 +33,15 @@ class UserPanel extends React.Component {
   }
 
   componentDidMount() {
+    const userId = getUserId();
     getMovies().then(data => {
       this.setState({ movieData: data });
     });
     fetchPlays().then(data => {
       this.setState({ playData: data });
+    });
+    fetchBookings(userId).then(data => {
+      this.setState({ bookingsData: data });
     });
   }
 
@@ -62,6 +66,7 @@ class UserPanel extends React.Component {
                   type={action.type}
                   movieData={movieData}
                   playData={playData}
+                  bookingsData={bookingsData}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
