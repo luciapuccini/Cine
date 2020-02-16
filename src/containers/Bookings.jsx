@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
-
+import _ from "lodash";
 import BookingSummary from "./pages/booking/BookingSummary";
 import StepperProgress from "../components/StepperProgress";
 
@@ -26,7 +26,9 @@ export default class Bookings extends Component {
       .then(jsonArray => {
         this.setState({
           moviePlays: jsonArray,
-          selectedMovie: jsonArray[0].movie
+          selectedMovie: !_.isEmpty(jsonArray)
+            ? jsonArray[0].movie
+            : { name: "no plays to show" }
         });
       });
   }

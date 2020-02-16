@@ -10,7 +10,14 @@ import TableWithActions from "../../../components/TableWithActions";
 
 import { enabledActions } from "./userData";
 import { getUserId } from "../../../helpers/authHelper";
-import { getMovies, fetchPlays, fetchBookings } from "../../../api/fetchData";
+import {
+  getMovies,
+  fetchPlays,
+  fetchBookings,
+  deleteMovie,
+  deleteBooking,
+  deletePlay
+} from "../../../api/fetchData";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,11 +51,32 @@ class UserPanel extends React.Component {
       this.setState({ bookingsData: data });
     });
   }
+  // Move HERE
+  /*   deleteAction = rowData => {
+    const { type } = this.state;
+    const { bookId } = rowData;
+    const { movieId } = rowData;
+    const { playPK } = rowData;
+    switch (type) {
+      case "booking":
+        deleteBooking(bookId);
+        break;
+      case "movie":
+        deleteMovie(movieId);
+        break;
+      case "play":
+        deletePlay(playPK);
+        break;
+      default:
+        break;
+    }
+  }; */
+
+  editAction = data => {};
 
   render() {
     // const classes = useStyles();
     const { movieData, bookingsData, playData } = this.state;
-
     return (
       <div>
         {_.map(enabledActions(), action => {

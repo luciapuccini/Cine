@@ -1,52 +1,27 @@
 import React, { forwardRef } from "react";
 import MaterialTable from "material-table";
+import { Check, DeleteOutline, Edit, AddBox, Clear } from "@material-ui/icons";
+
 import {
-  AddBox,
-  ArrowDownward,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  Clear,
-  DeleteOutline,
-  Edit,
-  FilterList,
-  FirstPage,
-  LastPage,
-  Remove,
-  SaveAlt,
-  Search,
-  ViewColumn
-} from "@material-ui/icons";
+  deleteMovie,
+  deleteBooking,
+  deletePlay,
+  editMovie
+} from "../api/fetchData";
 import { tableConfig } from "../helpers/tablesConfig";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => (
-    <ChevronRight {...props} ref={ref} />
-  )),
   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => (
-    <ChevronLeft {...props} ref={ref} />
-  )),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />)
 };
 
 class TableWithActions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: "",
       columns: [],
       data: [],
       title: ""
@@ -56,15 +31,55 @@ class TableWithActions extends React.Component {
   componentWillReceiveProps({ type, movieData, playData, bookingsData }) {
     const table = tableConfig(type, movieData, playData, bookingsData);
     this.setState({
+      type,
       title: table.title,
       columns: table.columns,
       data: table.data
     });
   }
 
+  deleteAction = rowData => {
+    const { type } = this.state;
+    const { bookId } = rowData;
+    const { movieId } = rowData;
+    const { playPK } = rowData;
+    switch (type) {
+      case "booking":
+        deleteBooking(bookId);
+        break;
+      case "movie":
+        deleteMovie(movieId);
+        break;
+      case "play":
+        deletePlay(playPK);
+
+        break;
+      default:
+        break;
+    }
+  };
+
+  editAction = rowData => {
+    const { type } = this.state;
+    switch (type) {
+      case "booking":
+        //  deleteBooking(bookId);
+        break;
+      case "movie":
+        editMovie(rowData);
+        break;
+      case "play":
+        // deletePlay(playPK);
+
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
     const { columns, data, title } = this.state;
-    const { selectPlay, onlyRequest } = this.props;
+    const { selectPlay, onlyRequest, deleteAction, editAction } = this.props;
     return (
       <div style={{ maxWidth: "100%" }}>
         <MaterialTable
@@ -81,44 +96,26 @@ class TableWithActions extends React.Component {
                     onClick: (event, rowData) => selectPlay(rowData)
                   }
                 ]
-              : null
+              : [
+                  {
+                    icon: () => <DeleteOutline />,
+                    tooltip: "Delete",
+                    onClick: (event, rowData) => deleteAction(rowData)
+                  }
+                ]
           }
-          // FIXME: hoy edits + deletes
-          editable={
-            onlyRequest
-              ? null
-              : {
-                  onRowAdd: newData =>
-                    new Promise(resolve => {
-                      resolve();
-                      this.setState(prevState => {
-                        const data = [...prevState.data];
-                        data.push(newData);
-                        return { ...prevState, data };
-                      });
-                    }),
-                  onRowUpdate: (newData, oldData) =>
-                    new Promise(resolve => {
-                      resolve();
-                      if (oldData) {
-                        this.setState(prevState => {
-                          const data = [...prevState.data];
-                          data[data.indexOf(oldData)] = newData;
-                          return { ...prevState, data };
-                        });
-                      }
-                    }),
-                  onRowDelete: oldData =>
-                    new Promise(resolve => {
-                      resolve();
-                      this.setState(prevState => {
-                        const data = [...prevState.data];
-                        data.splice(data.indexOf(oldData), 1);
-                        return { ...prevState, data };
-                      });
-                    })
-                }
-          }
+          editable={{
+            onRowAdd: newData => new Promise((resolve, reject) => {}),
+
+            onRowUpdate: (newData, oldData) =>
+              new Promise((resolve, reject) => {
+                const { data } = this.state;
+                const index = data.indexOf(oldData);
+                data[index] = newData;
+                this.editAction(newData);
+                this.setState({ data }, () => resolve());
+              })
+          }}
           options={{ search: false, paging: false }}
         />
       </div>

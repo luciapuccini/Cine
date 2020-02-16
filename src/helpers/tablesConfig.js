@@ -17,6 +17,7 @@ const buildMoviesData = data => {
   const formated = [];
   data.forEach(movie => {
     formated.push({
+      movieId: movie.id, // FIXME: CHANGE TO MOVIEID
       movieTitle: movie.name,
       duration: movie.duration,
       synopsis: movie.synopsis

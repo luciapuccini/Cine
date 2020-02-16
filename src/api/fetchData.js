@@ -82,6 +82,25 @@ export const fetchBookings = userId => {
   return bookingsData;
 };
 
+export const deleteBooking = bookingId => {
+  return fetch("http://localhost:8080/books/delete", {
+    method: "POST",
+    body: JSON.stringify(bookingId),
+    headers
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(booking => {
+      if (booking.code) {
+        throw Error(booking.message);
+      }
+      return booking;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 // -------------------------- MOVIES ----------------------------------
 
 export const getMovies = () => {
@@ -91,6 +110,46 @@ export const getMovies = () => {
   return movieData;
 };
 
+export const deleteMovie = movieId => {
+  return fetch("http://localhost:8080/movies/delete", {
+    method: "POST",
+    body: JSON.stringify({ id: movieId }),
+    headers
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(movie => {
+      if (movie.code) {
+        throw Error(movie.message);
+      }
+      return movie;
+    })
+    .catch(error => {
+      console.log("[mvovies delete error]", error);
+    });
+};
+
+export const editMovie = movie => {
+  console.log("que madno", movie);
+  return fetch("http://localhost:8080/movies/modify", {
+    method: "PUT",
+    body: JSON.stringify(movie),
+    headers
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(movie => {
+      if (movie.code) {
+        throw Error(movie.message);
+      }
+      return movie;
+    })
+    .catch(error => {
+      console.log("[mvovies delete error]", error);
+    });
+};
 // ------------------------- PLAYS -----------------------------------
 
 // mock plays all
@@ -128,6 +187,26 @@ export const fetchPlay = playPk => {
       return play;
     })
     .catch(error => error);
+};
+
+export const deletePlay = playPk => {
+  return fetch("http://localhost:8080/plays/delete", {
+    method: "POST",
+    body: JSON.stringify(playPk),
+    headers
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(play => {
+      if (play.code) {
+        throw Error(play.message);
+      }
+      return play;
+    })
+    .catch(error => {
+      console.log(error);
+    });
 };
 // ----------------------------- AUTH -------------------------------
 export const login = (email, password, history) => {
