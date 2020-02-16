@@ -1,12 +1,15 @@
 import React, { forwardRef } from "react";
 import MaterialTable from "material-table";
 import { Check, DeleteOutline, Edit, AddBox, Clear } from "@material-ui/icons";
+import PlayForm from "../containers/pages/play/PlayForm";
 
 import {
   deleteMovie,
   deleteBooking,
   deletePlay,
-  editMovie
+  editMovie,
+  addMovie,
+  addPlay
 } from "../api/fetchData";
 import { tableConfig } from "../helpers/tablesConfig";
 
@@ -15,6 +18,16 @@ const tableIcons = {
   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />)
+};
+
+const buildPlayPk = data => {
+  console.log("que mierda", data);
+  const pk = {
+    movieId: data.movieId,
+    roomId: parseInt(data.room),
+    startTime: data.movieStartTime
+  };
+  return pk;
 };
 
 class TableWithActions extends React.Component {
@@ -34,7 +47,8 @@ class TableWithActions extends React.Component {
       type,
       title: table.title,
       columns: table.columns,
-      data: table.data
+      data: table.data,
+      isPlayOpen: false
     });
   }
 
@@ -63,13 +77,13 @@ class TableWithActions extends React.Component {
     const { type } = this.state;
     switch (type) {
       case "booking":
-        //  deleteBooking(bookId);
+        //  editBooking(rowData);
         break;
       case "movie":
         editMovie(rowData);
         break;
       case "play":
-        // deletePlay(playPK);
+        // editPlay(rowData);
 
         break;
       default:
@@ -77,9 +91,41 @@ class TableWithActions extends React.Component {
     }
   };
 
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  addAction = rowData => {
+    const { type } = this.state;
+    const { movieData } = this.props;
+    switch (type) {
+      case "booking":
+        //  editBooking(rowData);
+        break;
+      case "movie":
+        addMovie(rowData);
+        break;
+      case "play":
+        this.setState({ isPlayOpen: true });
+
+      default:
+        break;
+    }
+  };
+
   render() {
-    const { columns, data, title } = this.state;
-    const { selectPlay, onlyRequest, deleteAction, editAction } = this.props;
+    const { columns, data, title, isPlayOpen } = this.state;
+    const {
+      selectPlay,
+      onlyRequest,
+      deleteAction,
+      editAction,
+      movieData
+    } = this.props;
     return (
       <div style={{ maxWidth: "100%" }}>
         <MaterialTable
@@ -88,7 +134,7 @@ class TableWithActions extends React.Component {
           data={data}
           title={title}
           actions={
-            onlyRequest
+            (onlyRequest
               ? [
                   {
                     icon: () => <Check />,
@@ -102,11 +148,17 @@ class TableWithActions extends React.Component {
                     tooltip: "Delete",
                     onClick: (event, rowData) => deleteAction(rowData)
                   }
-                ]
+                ],
+            [
+              {
+                icon: () => <AddBox />,
+                tooltip: "Add new",
+                isFreeAction: true,
+                onClick: () => this.addAction()
+              }
+            ])
           }
           editable={{
-            onRowAdd: newData => new Promise((resolve, reject) => {}),
-
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
                 const { data } = this.state;
@@ -118,6 +170,13 @@ class TableWithActions extends React.Component {
           }}
           options={{ search: false, paging: false }}
         />
+        {isPlayOpen ? (
+          <PlayForm
+            open={isPlayOpen}
+            onClose={this.handleClose}
+            movieData={movieData}
+          />
+        ) : null}
       </div>
     );
   }

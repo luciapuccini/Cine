@@ -110,6 +110,27 @@ export const getMovies = () => {
   return movieData;
 };
 
+export const addMovie = movie => {
+  console.log("armar bien", movie);
+  return fetch("http://localhost:8080/movies/add", {
+    method: "POST",
+    body: JSON.stringify(movie),
+    headers
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(movie => {
+      if (movie.code) {
+        throw Error(movie.message);
+      }
+      return movie;
+    })
+    .catch(error => {
+      console.log("[movies add error]", error);
+    });
+};
+
 export const deleteMovie = movieId => {
   return fetch("http://localhost:8080/movies/delete", {
     method: "POST",
@@ -168,6 +189,26 @@ export const fetchPlays = () => {
     })
     .catch(error => {
       console.log("[BAD PLAYS REQUEST]:", error);
+    });
+};
+
+export const addPlay = play => {
+  return fetch("http://localhost:8080/plays/add", {
+    method: "POST",
+    body: JSON.stringify(play),
+    headers
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(play => {
+      if (play.code) {
+        throw Error(play.message);
+      }
+      return play;
+    })
+    .catch(error => {
+      console.log("[play add error]", error);
     });
 };
 
