@@ -1,6 +1,13 @@
 import React, { forwardRef } from "react";
 import MaterialTable from "material-table";
-import { Check, DeleteOutline, Edit, AddBox, Clear } from "@material-ui/icons";
+import {
+  Check,
+  DeleteOutline,
+  Edit,
+  AddBox,
+  Clear,
+  FilterList
+} from "@material-ui/icons";
 import PlayForm from "../containers/pages/play/PlayForm";
 
 import {
@@ -17,7 +24,8 @@ const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />)
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />)
 };
 
 const buildPlayPk = data => {
@@ -76,11 +84,14 @@ class TableWithActions extends React.Component {
   editAction = rowData => {
     const { type } = this.state;
     switch (type) {
-      case "booking":
-        //  editBooking(rowData);
-        break;
       case "movie":
-        editMovie(rowData);
+        // eslint-disable-next-line no-case-declarations
+        const movie = {
+          id: rowData.movieId,
+          duration: rowData.duration,
+          name: rowData.movieTitle
+        };
+        editMovie(movie);
         break;
       case "play":
         // editPlay(rowData);
@@ -117,15 +128,66 @@ class TableWithActions extends React.Component {
     }
   };
 
+  avaliableActions = () => {
+    const { type } = this.state;
+    const { onlyRequest, deleteAction, selectPlay } = this.props;
+    const actions = [];
+    // opctiones
+    // table pelada
+    // cons add edit y delete
+    // solo request con check
+
+    if (type !== "booking" && !onlyRequest) {
+      actions.push(
+        {
+          icon: () => <AddBox />,
+          tooltip: "Add new",
+          isFreeAction: true,
+          onClick: () => this.addAction()
+        },
+        {
+          icon: () => <DeleteOutline />,
+          tooltip: "Delete",
+          onClick: (event, rowData) => deleteAction(rowData)
+        }
+      );
+      return actions;
+    }
+    if (onlyRequest) {
+      const onlyRequestActions = [
+        {
+          icon: () => <Check />,
+          tooltip: "Select",
+          onClick: (event, rowData) => selectPlay(rowData)
+        }
+      ];
+      return onlyRequestActions;
+    }
+    return actions;
+  };
+
+  onEdit = () => {
+    const { type } = this.state;
+    const { onlyRequest } = this.props;
+    const isEditable = type !== "booking" && !onlyRequest;
+    if (isEditable) {
+      return {
+        onRowUpdate: (newData, oldData) =>
+          new Promise((resolve, reject) => {
+            const { data } = this.state;
+            const index = data.indexOf(oldData);
+            data[index] = newData;
+            this.editAction(newData);
+            this.setState({ data }, () => resolve());
+          })
+      };
+    }
+    return null;
+  };
+
   render() {
     const { columns, data, title, isPlayOpen } = this.state;
-    const {
-      selectPlay,
-      onlyRequest,
-      deleteAction,
-      editAction,
-      movieData
-    } = this.props;
+    const { movieData } = this.props;
     return (
       <div style={{ maxWidth: "100%" }}>
         <MaterialTable
@@ -133,41 +195,8 @@ class TableWithActions extends React.Component {
           columns={columns}
           data={data}
           title={title}
-          actions={
-            (onlyRequest
-              ? [
-                  {
-                    icon: () => <Check />,
-                    tooltip: "Select",
-                    onClick: (event, rowData) => selectPlay(rowData)
-                  }
-                ]
-              : [
-                  {
-                    icon: () => <DeleteOutline />,
-                    tooltip: "Delete",
-                    onClick: (event, rowData) => deleteAction(rowData)
-                  }
-                ],
-            [
-              {
-                icon: () => <AddBox />,
-                tooltip: "Add new",
-                isFreeAction: true,
-                onClick: () => this.addAction()
-              }
-            ])
-          }
-          editable={{
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve, reject) => {
-                const { data } = this.state;
-                const index = data.indexOf(oldData);
-                data[index] = newData;
-                this.editAction(newData);
-                this.setState({ data }, () => resolve());
-              })
-          }}
+          actions={this.avaliableActions()}
+          editable={this.onEdit()}
           options={{ search: false, paging: false }}
         />
         {isPlayOpen ? (

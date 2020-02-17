@@ -19,6 +19,21 @@ const EditSchema = Yup.object().shape({
   room: Yup.number(),
   startTime: Yup.string().required("Need password to confirm")
 });
+// "2022-10-10T19:00:00"
+const defaultStartTimes = [
+  "2020-10-10T10:00:00",
+  "2020-10-10T15:00:00",
+  "2020-10-10T20:00:00",
+  "2020-10-11T10:00:00",
+  "2020-10-11T15:00:00",
+  "2020-10-11T20:00:00",
+  "2020-10-13T10:00:00",
+  "2020-10-13T15:00:00",
+  "2020-10-13T20:00:00",
+  "2020-10-14T10:00:00",
+  "2020-10-14T15:00:00",
+  "2020-10-14T20:00:00"
+];
 
 class PlayForm extends React.Component {
   constructor(props) {
@@ -28,7 +43,7 @@ class PlayForm extends React.Component {
       loading: false,
       movie: {},
       room: 0,
-      startTime: "",
+      startTime: defaultStartTimes,
       movies: [],
       rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       error: false
@@ -59,17 +74,16 @@ class PlayForm extends React.Component {
     };
     const res = addPlay(playPK);
     res.then(response => {
-      // FIXME: handle error
       if (response) {
         this.handleClose();
       } else {
-        this.state({ error: true });
+        this.setState({ error: true });
       }
     });
   };
 
   render() {
-    const { movies, rooms, open, error } = this.state;
+    const { movies, rooms, open, error, startTime } = this.state;
     return (
       <div>
         <Dialog
@@ -152,6 +166,30 @@ class PlayForm extends React.Component {
                           {rooms.map(room => (
                             <MenuItem key={room} value={room}>
                               {room}
+                            </MenuItem>
+                          ))}
+                        </Field>
+
+                        <ErrorMessage
+                          name="movie"
+                          render={msg => <Typography>{msg}</Typography>}
+                        />
+                      </Grid>
+                      <Grid item xl={12} />
+                      <Grid item xs={12}>
+                        <Field
+                          autoFocus
+                          margin="dense"
+                          name="startTime"
+                          label="Date and Time"
+                          fullWidth
+                          component={Select}
+                          onChange={handleChange}
+                          value={values.startTime}
+                        >
+                          {startTime.map(time => (
+                            <MenuItem key={time} value={time}>
+                              {time}
                             </MenuItem>
                           ))}
                         </Field>

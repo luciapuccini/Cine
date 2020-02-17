@@ -39,7 +39,6 @@ const MovieList = () => {
       setMovieData(movies);
     });
   }, []);
-  // FIXME: hoy load images
   const image = require("../assets/rick.png");
   return (
     <div className={classes.root}>
@@ -50,7 +49,7 @@ const MovieList = () => {
             <GridListTileBar
               className={classes.gridListTile}
               title={movie.name}
-              actionIcon={
+              actionIcon={(
                 <Link
                   className={classes.buttonLink}
                   to={{
@@ -64,7 +63,7 @@ const MovieList = () => {
                     <BookMark />
                   </IconButton>
                 </Link>
-              }
+              )}
             />
           </GridListTile>
         ))}
