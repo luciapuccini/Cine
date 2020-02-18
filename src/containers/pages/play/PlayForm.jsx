@@ -40,8 +40,6 @@ class PlayForm extends React.Component {
     super(props);
     this.state = {
       open: false,
-      loading: false,
-      movie: {},
       room: 0,
       startTime: defaultStartTimes,
       movies: [],
@@ -114,8 +112,8 @@ class PlayForm extends React.Component {
               <Formik
                 initialValues={{
                   movie: {},
-                  room: this.state.room,
-                  startTime: this.state.startTime
+                  room: 1,
+                  startTime: defaultStartTimes[0]
                 }}
                 onSubmit={values => {
                   this.handleSubmit(values);

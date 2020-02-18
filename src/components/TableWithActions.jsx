@@ -9,6 +9,7 @@ import {
   FilterList
 } from "@material-ui/icons";
 import PlayForm from "../containers/pages/play/PlayForm";
+import MovieForm from "../containers/pages/movie/MovieForm";
 
 import {
   deleteMovie,
@@ -56,7 +57,8 @@ class TableWithActions extends React.Component {
       title: table.title,
       columns: table.columns,
       data: table.data,
-      isPlayOpen: false
+      isPlayOpen: false,
+      isMovieOpen: false
     });
   }
 
@@ -102,27 +104,29 @@ class TableWithActions extends React.Component {
     }
   };
 
+  // refator
   handleClickOpen = () => {
     this.setState({ open: true });
   };
 
+  // refator to play
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  handleMovieClose = () => {
+    this.setState({ isMovieOpen: false });
   };
 
   addAction = rowData => {
     const { type } = this.state;
     const { movieData } = this.props;
     switch (type) {
-      case "booking":
-        //  editBooking(rowData);
-        break;
       case "movie":
-        addMovie(rowData);
+        this.setState({ isMovieOpen: true });
         break;
       case "play":
         this.setState({ isPlayOpen: true });
-
       default:
         break;
     }
@@ -132,10 +136,6 @@ class TableWithActions extends React.Component {
     const { type } = this.state;
     const { onlyRequest, deleteAction, selectPlay } = this.props;
     const actions = [];
-    // opctiones
-    // table pelada
-    // cons add edit y delete
-    // solo request con check
 
     if (type !== "booking" && !onlyRequest) {
       actions.push(
@@ -186,7 +186,7 @@ class TableWithActions extends React.Component {
   };
 
   render() {
-    const { columns, data, title, isPlayOpen } = this.state;
+    const { columns, data, title, isPlayOpen, isMovieOpen } = this.state;
     const { movieData } = this.props;
     return (
       <div style={{ maxWidth: "100%" }}>
@@ -205,6 +205,9 @@ class TableWithActions extends React.Component {
             onClose={this.handleClose}
             movieData={movieData}
           />
+        ) : null}
+        {isMovieOpen ? (
+          <MovieForm open={isMovieOpen} onClose={this.handleMovieClose} />
         ) : null}
       </div>
     );
