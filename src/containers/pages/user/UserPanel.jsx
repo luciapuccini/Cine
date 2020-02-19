@@ -9,7 +9,7 @@ import _ from "lodash";
 import TableWithActions from "../../../components/TableWithActions";
 
 import { enabledActions } from "./userData";
-import { getUserId } from "../../../helpers/authHelper";
+// import { getUserId } from "../../../helpers/authHelper";
 import {
   getMovies,
   fetchPlays,
@@ -40,7 +40,7 @@ class UserPanel extends React.Component {
   }
 
   componentDidMount() {
-    const userId = getUserId();
+    const userId = ""; //TODO
     getMovies().then(data => {
       this.setState({ movieData: data });
     });

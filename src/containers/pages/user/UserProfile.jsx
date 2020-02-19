@@ -11,7 +11,7 @@ import { CircularProgress } from "@material-ui/core";
 import { editUser } from "../../../api/fetchData";
 
 import EditUserDialog from "./EditUserDialog";
-import { getUserId } from "../../../helpers/authHelper";
+// import { getUserId } from "../../../helpers/authHelper";
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class UserProfile extends React.Component {
   handleSubmit = editedData => {
     const user = {
       // FIXME:  userId? + localsotage update
-      userId: getUserId(),
+      userId: "", //TODO
       name: editedData.name,
       email: editedData.email,
       password: editedData.password

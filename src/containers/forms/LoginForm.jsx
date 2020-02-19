@@ -15,13 +15,13 @@ import Container from "@material-ui/core/Container";
 import { useHistory, Link } from "react-router-dom";
 import { login } from "../../api/fetchData";
 
-const handleSubmit = (values, history, setUser) => {
-  const user = login(values.email, values.password, history);
-  user.then(u => setUser(u));
+const handleSubmit = (values, history, setError) => {
+  const error = login(values.email, values.password, history);
+  error.then(e => setError(e));
 };
 
 const LoginForm = () => {
-  const [user, setUser] = useState({});
+  const [error, setError] = useState({});
   const history = useHistory();
   const classes = useStyles();
   const SignupSchema = Yup.object().shape({
@@ -60,7 +60,7 @@ const LoginForm = () => {
           initialValues={{ email: "", password: "" }}
           validationSchema={SignupSchema}
           onSubmit={(values, { setSubmitting }) => {
-            handleSubmit(values, history, setUser);
+            handleSubmit(values, history, setError);
           }}
         >
           {({
@@ -112,9 +112,9 @@ const LoginForm = () => {
                   />
                 </Grid>
               </Grid>
-              {user.message ? (
+              {error.message ? (
                 <Alert severity="error" style={{ marginTop: "15px" }}>
-                  {user.message}
+                  {error.message}
                 </Alert>
               ) : null}
               <Button

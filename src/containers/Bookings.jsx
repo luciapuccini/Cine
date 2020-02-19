@@ -4,7 +4,7 @@ import _ from "lodash";
 import BookingSummary from "./pages/booking/BookingSummary";
 import StepperProgress from "../components/StepperProgress";
 
-import { getUserId } from "../helpers/authHelper";
+// import { getUserId } from "../helpers/authHelper"; TODO
 import { createBooking } from "../api/fetchData";
 
 export default class Bookings extends Component {
@@ -53,7 +53,7 @@ export default class Bookings extends Component {
       bookDate: new Date().toISOString(),
       seats,
       playPk,
-      userId: getUserId()
+      // userId: getUserId()
     };
   };
 

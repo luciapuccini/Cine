@@ -250,8 +250,9 @@ export const deletePlay = playPk => {
     });
 };
 // ----------------------------- AUTH -------------------------------
-export const login = (email, password, history) => {
-  const user = { email, password };
+export const login = (username, password, history) => {
+  //NOTE: email = username
+  const user = { username, password };
 
   return fetch("http://localhost:8080/user/login", {
     method: "POST",
@@ -265,9 +266,8 @@ export const login = (email, password, history) => {
       throw Error("BAD REQUEST");
     })
     .then(data => {
-      localStorage.setItem("user", JSON.stringify(data));
-      localStorage.setItem("login_token", true);
-      localStorage.setItem("cinema_adm_key", data.isAdmin);
+      
+      localStorage.setItem("JWT", data.jwt);
       history.push("/app");
     })
     .catch(error => {
