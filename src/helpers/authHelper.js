@@ -1,32 +1,27 @@
-import { stringify } from "querystring";
-
-//check exp
 const isLoggedIn = () => {
-  return !!localStorage.getItem("JWT");
+  const token = getJWT();
+  return !!token;
 };
+
 const getJWT = () => {
   return localStorage.getItem("JWT");
 };
 
-
 const isLoggedInAdmin = () => {
- //TODO: return JSON.parse(localStorage.getItem()).isAdmin;
+  const role = localStorage.getItem("isAdmin");
+  return role;
 };
-const getWebHeaders = () => {
-  const token = localStorage.getItem("cinema_user_key");
+
+const getAuthHeaders = () => {
+  const token = getJWT();
   return { Authorization: `Bearer ${token}` };
 };
 
-const getAdminHeaders = () => {
-  const token = localStorage.getItem("cinema_adm_key");
-  return { Authorization: `Bearer ${token}` };
-};
-//TODO: const getUserId = () => JSON.parse(localStorage.getItem()).id;
+// TODO: const getUserId = () => JSON.parse(localStorage.getItem()).id;
 export {
   isLoggedInAdmin,
   isLoggedIn,
-  getAdminHeaders,
-  getWebHeaders,
+  getAuthHeaders,
   getJWT
-  //getUserId
+  // getUserId
 };

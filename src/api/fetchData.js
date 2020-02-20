@@ -1,12 +1,17 @@
 /* eslint-disable import/prefer-default-export */
-const headers = new Headers({ "Content-Type": "application/json" });
+import { getAuthHeaders } from "../helpers/authHelper";
 
+const contentHeader = new Headers({ "Content-Type": "application/json" });
+const authHeaders = new Headers(
+  { "Content-Type": "application/json" },
+  getAuthHeaders()
+);
 // -------------------------- USER ---------------------------
-export const editUser = user => {
-  return fetch("http://localhost:8080/user/modify", {
-    method: "PUT",
-    body: JSON.stringify(user),
-    headers
+
+export const fetchUser = () => {
+  return fetch("http://localhost:8080/user/getUser", {
+    method: "GET",
+    headers: getAuthHeaders()
   })
     .then(response => {
       return response.json();
@@ -15,23 +20,34 @@ export const editUser = user => {
       if (user.code) {
         throw Error(user.message);
       }
+      localStorage.setItem("isAdmin", user.role == "ROLE_ADMIN");
+      console.log(user);
       return user;
     })
     .catch(error => {
-      console.log("[EDIT USER ERROR]", error);
+      console.log("[BAD USER REQUEST]:", error);
     });
 };
 
-// /mock data http://localhost:8080/user/all
-// http://www.mocky.io/v2/5e36264a3200005e00ae3c2b
-export const fetchUser = () => {
-  let user;
-  fetch("http://localhost:8080/user/all")
-    .then(response => response.json())
-    .then(users => {
-      user = users[0];
+export const editUser = user => {
+  console.log("EDIT", Headers, user);
+  return fetch("http://localhost:8080/user/modify", {
+    method: "PUT",
+    body: JSON.stringify(user),
+    headers: authHeaders
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(u => {
+      if (u.code) {
+        throw Error(u.message);
+      }
+      return u;
+    })
+    .catch(error => {
+      console.log(error);
     });
-  return user;
 };
 
 export const createUser = (email, name, password) => {
@@ -39,18 +55,21 @@ export const createUser = (email, name, password) => {
   return fetch("http://localhost:8080/user/add", {
     method: "POST",
     body: JSON.stringify(user),
-    headers
+    headers: contentHeader
   })
     .then(response => {
       return response.json();
     })
-    .then(user => {
-      if (user.code) {
-        throw Error(user.message);
+    .then(u => {
+      if (u.code) {
+        throw Error(u.message);
       }
-      return user;
+      return u;
     })
-    .catch(error => error);
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
 };
 
 // --------------------------BOOKINGS---------------------
@@ -59,7 +78,7 @@ export const createBooking = booking => {
   return fetch("http://localhost:8080/books/add", {
     method: "POST",
     body: JSON.stringify(booking),
-    headers
+    headers: contentHeader
   })
     .then(response => {
       return response.json();
@@ -86,7 +105,7 @@ export const deleteBooking = bookingId => {
   return fetch("http://localhost:8080/books/delete", {
     method: "POST",
     body: JSON.stringify(bookingId),
-    headers
+    headers: contentHeader
   })
     .then(response => {
       return response.json();
@@ -106,7 +125,15 @@ export const deleteBooking = bookingId => {
 export const getMovies = () => {
   const movieData = fetch("http://localhost:8080/movies/all")
     .then(response => response.json())
-    .then(movies => movies);
+    .then(movies => {
+      if (movies.code) {
+        throw Error(movies.message);
+      }
+      return movies;
+    })
+    .catch(error => {
+      console.log(error);
+    });
   return movieData;
 };
 
@@ -115,19 +142,19 @@ export const addMovie = movie => {
   return fetch("http://localhost:8080/movies/add", {
     method: "POST",
     body: JSON.stringify(movie),
-    headers
+    headers: contentHeader
   })
     .then(response => {
       return response.json();
     })
-    .then(movie => {
-      if (movie.code) {
-        throw Error(movie.message);
+    .then(mov => {
+      if (mov.code) {
+        throw Error(mov.message);
       }
-      return movie;
+      return mov;
     })
     .catch(error => {
-      console.log("[movies add error]", error);
+      console.log(error);
     });
 };
 
@@ -135,7 +162,7 @@ export const deleteMovie = movieId => {
   return fetch("http://localhost:8080/movies/delete", {
     method: "POST",
     body: JSON.stringify({ id: movieId }),
-    headers
+    headers: contentHeader
   })
     .then(response => {
       return response.json();
@@ -147,7 +174,7 @@ export const deleteMovie = movieId => {
       return movie;
     })
     .catch(error => {
-      console.log("[mvovies delete error]", error);
+      console.log(error);
     });
 };
 
@@ -156,19 +183,19 @@ export const editMovie = movie => {
   return fetch("http://localhost:8080/movies/modify", {
     method: "PUT",
     body: JSON.stringify(movie),
-    headers
+    headers: contentHeader
   })
     .then(response => {
       return response.json();
     })
-    .then(movie => {
-      if (movie.code) {
-        throw Error(movie.message);
+    .then(mov => {
+      if (mov.code) {
+        throw Error(mov.message);
       }
-      return movie;
+      return mov;
     })
     .catch(error => {
-      console.log("[mvovies delete error]", error);
+      console.log(error);
     });
 };
 // ------------------------- PLAYS -----------------------------------
@@ -179,16 +206,16 @@ export const editMovie = movie => {
 export const fetchPlays = () => {
   return fetch("http://localhost:8080/plays/all")
     .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw Error(response);
+      return response.json();
     })
     .then(plays => {
+      if (plays.code) {
+        throw Error(plays.message);
+      }
       return plays;
     })
     .catch(error => {
-      console.log("[BAD PLAYS REQUEST]:", error);
+      console.log(error);
     });
 };
 
@@ -196,7 +223,27 @@ export const addPlay = play => {
   return fetch("http://localhost:8080/plays/add", {
     method: "POST",
     body: JSON.stringify(play),
-    headers
+    headers: contentHeader
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(p => {
+      if (p.code) {
+        throw Error(p.message);
+      }
+      return p;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+
+export const fetchPlay = playPk => {
+  return fetch("http://localhost:8080/plays/getPlay", {
+    method: "POST",
+    body: JSON.stringify(playPk),
+    headers: contentHeader
   })
     .then(response => {
       return response.json();
@@ -208,33 +255,16 @@ export const addPlay = play => {
       return play;
     })
     .catch(error => {
-      console.log("[play add error]", error);
+      console.log(error);
+      return error;
     });
-};
-
-export const fetchPlay = playPk => {
-  return fetch("http://localhost:8080/plays/getPlay", {
-    method: "POST",
-    body: JSON.stringify(playPk),
-    headers
-  })
-    .then(response => {
-      return response.json();
-    })
-    .then(play => {
-      if (play.code) {
-        throw Error(play.message);
-      }
-      return play;
-    })
-    .catch(error => error);
 };
 
 export const deletePlay = playPk => {
   return fetch("http://localhost:8080/plays/delete", {
     method: "POST",
     body: JSON.stringify(playPk),
-    headers
+    headers: contentHeader
   })
     .then(response => {
       return response.json();
@@ -251,24 +281,24 @@ export const deletePlay = playPk => {
 };
 // ----------------------------- AUTH -------------------------------
 export const login = (username, password, history) => {
-  //NOTE: email = username
+  // NOTE: email !!!!!
   const user = { username, password };
-
   return fetch("http://localhost:8080/user/login", {
     method: "POST",
     body: JSON.stringify(user),
-    headers
+    headers: contentHeader
   })
     .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw Error("BAD REQUEST");
+      return response.json();
     })
     .then(data => {
-      
+      if (data.code) {
+        console.log(data);
+        throw Error(data.message);
+      }
       localStorage.setItem("JWT", data.jwt);
-      history.push("/app");
+
+      return data;
     })
     .catch(error => {
       console.log(error);

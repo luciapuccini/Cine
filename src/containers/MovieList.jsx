@@ -6,10 +6,9 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import BookMark from "@material-ui/icons/Bookmark";
 import { Link } from "react-router-dom";
-import movieData from "../helpers/movieData";
 import { getMovies } from "../api/fetchData";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexWrap: "wrap",

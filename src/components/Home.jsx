@@ -1,54 +1,43 @@
 /* eslint-disable no-else-return */
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, CircularProgress } from "@material-ui/core";
+import _ from "lodash";
 import UserPanel from "../containers/pages/user/UserPanel";
 import UserProfile from "../containers/pages/user/UserProfile";
-import {getJWT} from '../helpers/authHelper'
+import { fetchUser } from "../api/fetchData";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user:{}
+      user: {}
     };
   }
-  componentDidMount(){
-    console.log('ACAAA',`Bearer ${getJWT() }`)
-    const headers = new Headers({ "Authorization": `Bearer ${getJWT() }` });
-    fetch("http://localhost:8080/user/getUser",{
-         method:"GET",
-         headers
-       })
-        .then(response => {
-          if (response.code) {
-            throw Error(response.message);
-          }
-          return response.json();
 
-        })
-        .then(user => {
-          console.log('si llega',user)
-          this.setState({user})
-        })
-        .catch(error => {
-          console.log("[BAD USER REQUEST]:", error);
-        });
-    };    
-
-
+  componentDidMount() {
+    const us = fetchUser();
+    us.then(user => {
+      console.log(user);
+      this.setState({ user });
+    });
+  }
 
   render() {
-    console.log(this.state.user)
+    const { user } = this.state;
     return (
       <>
-        <Grid container justify="space-around" spacing={2}>
-          <Grid item xs={4}>
-            <UserProfile />
+        {!_.isEmpty(user) ? (
+          <Grid container justify="space-around" spacing={2}>
+            <Grid item xs={4}>
+              <UserProfile user={user} />
+            </Grid>
+            <Grid item xs={8}>
+              <UserPanel user={user} />
+            </Grid>
           </Grid>
-          <Grid item xs={8}>
-            <UserPanel />
-          </Grid>
-        </Grid>
+        ) : (
+          <CircularProgress />
+        )}
       </>
     );
   }

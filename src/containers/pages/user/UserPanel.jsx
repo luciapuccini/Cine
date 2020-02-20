@@ -9,15 +9,8 @@ import _ from "lodash";
 import TableWithActions from "../../../components/TableWithActions";
 
 import { enabledActions } from "./userData";
-// import { getUserId } from "../../../helpers/authHelper";
-import {
-  getMovies,
-  fetchPlays,
-  fetchBookings,
-  deleteMovie,
-  deleteBooking,
-  deletePlay
-} from "../../../api/fetchData";
+
+import { getMovies, fetchPlays, fetchBookings } from "../../../api/fetchData";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +33,7 @@ class UserPanel extends React.Component {
   }
 
   componentDidMount() {
-    const userId = ""; //TODO
+    const { userId } = this.props.user;
     getMovies().then(data => {
       this.setState({ movieData: data });
     });

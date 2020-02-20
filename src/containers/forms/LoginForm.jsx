@@ -17,7 +17,13 @@ import { login } from "../../api/fetchData";
 
 const handleSubmit = (values, history, setError) => {
   const error = login(values.email, values.password, history);
-  error.then(e => setError(e));
+  error.then(e => {
+    if (e.message) {
+      setError(e);
+    } else {
+      history.push("/app");
+    }
+  });
 };
 
 const LoginForm = () => {

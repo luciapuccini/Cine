@@ -11,6 +11,7 @@ import { CircularProgress } from "@material-ui/core";
 import { editUser } from "../../../api/fetchData";
 
 import EditUserDialog from "./EditUserDialog";
+import { isLoggedInAdmin } from "../../../helpers/authHelper";
 // import { getUserId } from "../../../helpers/authHelper";
 
 class UserProfile extends React.Component {
@@ -24,8 +25,8 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
+    const { user } = this.props;
     this.setState({ loading: true });
-    const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ user, loading: false });
   }
 
@@ -39,8 +40,7 @@ class UserProfile extends React.Component {
 
   handleSubmit = editedData => {
     const user = {
-      // FIXME:  userId? + localsotage update
-      userId: "", //TODO
+      userId: this.state.user.id,
       name: editedData.name,
       email: editedData.email,
       password: editedData.password
@@ -61,14 +61,14 @@ class UserProfile extends React.Component {
           <>
             <Card>
               <CardHeader
-                avatar={<Avatar>{user.isAdmin ? "A" : "U"}</Avatar>}
+                avatar={<Avatar>{isLoggedInAdmin() ? "AD" : "US"}</Avatar>}
                 action={(
                   <IconButton aria-label="settings" onClick={this.handleOpen}>
                     <Create />
                   </IconButton>
                 )}
-                title={this.state.user.name}
-                subheader={this.state.user.email}
+                title={user.name}
+                subheader={user.email}
               />
               <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
