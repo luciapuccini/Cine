@@ -34,15 +34,18 @@ class UserPanel extends React.Component {
 
   componentDidMount() {
     const { userId } = this.props.user;
+
     getMovies().then(data => {
       this.setState({ movieData: data });
     });
     fetchPlays().then(data => {
       this.setState({ playData: data });
     });
-    fetchBookings(userId).then(data => {
-      this.setState({ bookingsData: data });
-    });
+    if (userId) {
+      fetchBookings(userId).then(data => {
+        this.setState({ bookingsData: data });
+      });
+    }
   }
   // Move HERE
   /*   deleteAction = rowData => {

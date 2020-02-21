@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
 import _ from "lodash";
+import { axios } from "axios";
 import BookingSummary from "./pages/booking/BookingSummary";
 import StepperProgress from "../components/StepperProgress";
 
 // import { getUserId } from "../helpers/authHelper"; TODO
-import { createBooking } from "../api/fetchData";
+import { createBooking, fetchMovie } from "../api/fetchData";
+import { getAuthHeaders, getJWT } from "../helpers/authHelper";
 
 export default class Bookings extends Component {
   constructor(props) {
@@ -19,18 +21,17 @@ export default class Bookings extends Component {
   }
 
   componentDidMount() {
-    const { id } = this.props.match.params;
-    // llego con el id de la peli, fetch data de esa plays con em movie id /plays
-    fetch(`http://localhost:8080/movies/${id}`)
-      .then(response => response.json())
-      .then(jsonArray => {
-        this.setState({
-          moviePlays: jsonArray,
-          selectedMovie: !_.isEmpty(jsonArray)
-            ? jsonArray[0].movie
-            : { name: "no plays to show" }
-        });
+    // const { id } = this.props.match.params;
+    const movie = fetchMovie(11);
+
+    movie.then(mov => {
+      this.setState({
+        moviePlays: mov,
+        selectedMovie: !_.isEmpty(mov)
+          ? mov[0].movie
+          : { name: "no plays to show" }
       });
+    });
   }
 
   selectPlay = play => {
@@ -52,7 +53,7 @@ export default class Bookings extends Component {
     return {
       bookDate: new Date().toISOString(),
       seats,
-      playPk,
+      playPk
       // userId: getUserId()
     };
   };
@@ -77,8 +78,8 @@ export default class Bookings extends Component {
                 onConfirm={() => this.confirmBook()}
               />
             ) : (
-              <CircularProgress />
-            )}
+                <CircularProgress />
+              )}
           </Grid>
           <Grid item xs={8}>
             <StepperProgress

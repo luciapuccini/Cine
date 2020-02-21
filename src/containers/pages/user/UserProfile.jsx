@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { Create } from "@material-ui/icons";
 import { CircularProgress } from "@material-ui/core";
 
-import { editUser } from "../../../api/fetchData";
+import { editUser, logout } from "../../../api/fetchData";
 
 import EditUserDialog from "./EditUserDialog";
 import { isLoggedInAdmin } from "../../../helpers/authHelper";
@@ -36,6 +36,7 @@ class UserProfile extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+    logout();
   };
 
   handleSubmit = editedData => {
@@ -58,32 +59,32 @@ class UserProfile extends React.Component {
         {this.state.loading ? (
           <CircularProgress style={{ display: "flex" }} />
         ) : (
-          <>
-            <Card>
-              <CardHeader
-                avatar={<Avatar>{isLoggedInAdmin() ? "AD" : "US"}</Avatar>}
-                action={(
-                  <IconButton aria-label="settings" onClick={this.handleOpen}>
-                    <Create />
-                  </IconButton>
-                )}
-                title={user.name}
-                subheader={user.email}
-              />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  User Data
+            <>
+              <Card>
+                <CardHeader
+                  avatar={<Avatar>{isLoggedInAdmin() ? "AD" : "US"}</Avatar>}
+                  action={
+                    <IconButton aria-label="settings" onClick={this.handleOpen}>
+                      <Create />
+                    </IconButton>
+                  }
+                  title={user.name}
+                  subheader={user.email}
+                />
+                <CardContent>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    User Data
                 </Typography>
-              </CardContent>
-            </Card>
-            <EditUserDialog
-              open={this.state.open}
-              handleClose={this.handleClose}
-              user={this.state.user}
-              handleSubmit={this.handleSubmit}
-            />
-          </>
-        )}
+                </CardContent>
+              </Card>
+              <EditUserDialog
+                open={this.state.open}
+                handleClose={this.handleClose}
+                user={this.state.user}
+                handleSubmit={this.handleSubmit}
+              />
+            </>
+          )}
       </div>
     );
   }

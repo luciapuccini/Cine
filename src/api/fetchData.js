@@ -1,17 +1,12 @@
-/* eslint-disable import/prefer-default-export */
-import { getAuthHeaders } from "../helpers/authHelper";
-
-const contentHeader = new Headers({ "Content-Type": "application/json" });
-const authHeaders = new Headers(
-  { "Content-Type": "application/json" },
-  getAuthHeaders()
-);
 // -------------------------- USER ---------------------------
 
 export const fetchUser = () => {
+  const token = localStorage.getItem("JWT");
   return fetch("http://localhost:8080/user/getUser", {
     method: "GET",
-    headers: getAuthHeaders()
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -30,11 +25,16 @@ export const fetchUser = () => {
 };
 
 export const editUser = user => {
+  const token = localStorage.getItem("JWT");
+
   console.log("EDIT", Headers, user);
   return fetch("http://localhost:8080/user/modify", {
     method: "PUT",
     body: JSON.stringify(user),
-    headers: authHeaders
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -51,11 +51,15 @@ export const editUser = user => {
 };
 
 export const createUser = (email, name, password) => {
+  const token = localStorage.getItem("JWT");
   const user = { email, name, password };
   return fetch("http://localhost:8080/user/add", {
     method: "POST",
     body: JSON.stringify(user),
-    headers: contentHeader
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -75,10 +79,15 @@ export const createUser = (email, name, password) => {
 // --------------------------BOOKINGS---------------------
 
 export const createBooking = booking => {
+  const token = localStorage.getItem("JWT");
+
   return fetch("http://localhost:8080/books/add", {
     method: "POST",
     body: JSON.stringify(booking),
-    headers: contentHeader
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -95,17 +104,28 @@ export const createBooking = booking => {
 };
 
 export const fetchBookings = userId => {
-  const bookingsData = fetch(`http://localhost:8080/books/${userId}`)
+  const token = localStorage.getItem("JWT");
+
+  const bookingsData = fetch(`http://localhost:8080/books/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
     .then(response => response.json())
     .then(bookings => bookings);
   return bookingsData;
 };
 
 export const deleteBooking = bookingId => {
+  const token = localStorage.getItem("JWT");
+
   return fetch("http://localhost:8080/books/delete", {
     method: "POST",
     body: JSON.stringify(bookingId),
-    headers: contentHeader
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -138,11 +158,16 @@ export const getMovies = () => {
 };
 
 export const addMovie = movie => {
+  const token = localStorage.getItem("JWT");
+
   console.log("armar bien", movie);
   return fetch("http://localhost:8080/movies/add", {
     method: "POST",
     body: JSON.stringify(movie),
-    headers: contentHeader
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -159,10 +184,15 @@ export const addMovie = movie => {
 };
 
 export const deleteMovie = movieId => {
+  const token = localStorage.getItem("JWT");
+
   return fetch("http://localhost:8080/movies/delete", {
     method: "POST",
-    body: JSON.stringify({ id: movieId }),
-    headers: contentHeader
+    body: JSON.stringify({ movieId }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -179,11 +209,16 @@ export const deleteMovie = movieId => {
 };
 
 export const editMovie = movie => {
+  const token = localStorage.getItem("JWT");
+
   console.log("que madno", movie);
   return fetch("http://localhost:8080/movies/modify", {
     method: "PUT",
     body: JSON.stringify(movie),
-    headers: contentHeader
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -198,13 +233,46 @@ export const editMovie = movie => {
       console.log(error);
     });
 };
+
+export const fetchMovie = id => {
+  const token = localStorage.getItem("JWT");
+  const movieId = { id };
+  return fetch("http://localhost:8080/movies/getMoviePlays", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(movieId)
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(movie => {
+      if (movie.code) {
+        throw Error(movie.message);
+      }
+      console.log(movie);
+      return movie;
+    })
+    .catch(error => {
+      console.log("[BAD movie REQUEST]:", error);
+    });
+};
+
 // ------------------------- PLAYS -----------------------------------
 
 // mock plays all
 // http://www.mocky.io/v2/5e3626cf3200006400ae3c2c
 
 export const fetchPlays = () => {
-  return fetch("http://localhost:8080/plays/all")
+  const token = localStorage.getItem("JWT");
+
+  return fetch("http://localhost:8080/plays/all", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
     .then(response => {
       return response.json();
     })
@@ -220,10 +288,15 @@ export const fetchPlays = () => {
 };
 
 export const addPlay = play => {
+  const token = localStorage.getItem("JWT");
+
   return fetch("http://localhost:8080/plays/add", {
     method: "POST",
     body: JSON.stringify(play),
-    headers: contentHeader
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -240,10 +313,15 @@ export const addPlay = play => {
 };
 
 export const fetchPlay = playPk => {
+  const token = localStorage.getItem("JWT");
+
   return fetch("http://localhost:8080/plays/getPlay", {
     method: "POST",
     body: JSON.stringify(playPk),
-    headers: contentHeader
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -261,10 +339,15 @@ export const fetchPlay = playPk => {
 };
 
 export const deletePlay = playPk => {
+  const token = localStorage.getItem("JWT");
+
   return fetch("http://localhost:8080/plays/delete", {
     method: "POST",
     body: JSON.stringify(playPk),
-    headers: contentHeader
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => {
       return response.json();
@@ -280,13 +363,12 @@ export const deletePlay = playPk => {
     });
 };
 // ----------------------------- AUTH -------------------------------
-export const login = (username, password, history) => {
-  // NOTE: email !!!!!
-  const user = { username, password };
+export const login = (email, password, history) => {
+  const user = { email, password };
   return fetch("http://localhost:8080/user/login", {
     method: "POST",
     body: JSON.stringify(user),
-    headers: contentHeader
+    headers: { "Content-Type": "application/json" }
   })
     .then(response => {
       return response.json();
@@ -295,7 +377,10 @@ export const login = (username, password, history) => {
       if (data.code) {
         console.log(data);
         throw Error(data.message);
+      } else if (data.jwk !== undefined) {
+        localStorage.setItem("JWT", data.jwt);
       }
+
       localStorage.setItem("JWT", data.jwt);
 
       return data;

@@ -14,6 +14,7 @@ const isLoggedInAdmin = () => {
 
 const getAuthHeaders = () => {
   const token = getJWT();
+  console.log(token);
   return { Authorization: `Bearer ${token}` };
 };
 

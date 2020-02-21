@@ -52,7 +52,7 @@ const MovieList = () => {
                 <Link
                   className={classes.buttonLink}
                   to={{
-                    pathname: `/app/bookings/${movie.id}`
+                    pathname: `/app/bookings/${movie.movieId}`
                   }}
                 >
                   <IconButton
