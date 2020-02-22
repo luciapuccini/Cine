@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -6,17 +6,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import Input from "@material-ui/core/Input";
-import IconButton from "@material-ui/core/IconButton";
-import PhotoCamera from "@material-ui/icons/PhotoCamera";
 
 import { Container, Grid } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
-import { Formik, Form, ErrorMessage, Field } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { addMovie } from "../../../api/fetchData";
-
+// TODO:
 const EditSchema = Yup.object().shape({
   room: Yup.number(),
   startTime: Yup.string().required("Need password to confirm")
@@ -60,7 +57,7 @@ class MovieForm extends React.Component {
   };
 
   render() {
-    const { open, error, movieTitle, duration, synopsis, image } = this.state;
+    const { open, error } = this.state;
     return (
       <div>
         <Dialog

@@ -15,8 +15,8 @@ export const fetchUser = () => {
       if (user.code) {
         throw Error(user.message);
       }
-      localStorage.setItem("isAdmin", user.role == "ROLE_ADMIN");
-      console.log(user);
+      localStorage.setItem("isAdmin", user.role === "ROLE_ADMIN");
+      localStorage.setItem("USER_ID", user.id);
       return user;
     })
     .catch(error => {

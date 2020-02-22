@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -47,7 +46,7 @@ class StepperProgress extends React.Component {
     };
   }
 
-  getStepContent = (step, playData, selectPlay, selectSeats, selectedPlay) => {
+  getStepContent = (step, playData, selectPlay, selectedPlay) => {
     switch (step) {
       case 0:
         return (
@@ -60,7 +59,7 @@ class StepperProgress extends React.Component {
         return (
           <CustomSeatPicker
             selectedPlay={selectedPlay}
-            selectSeats={seats => this.handleSelectionSeat(selectSeats, seats)}
+            selectSeat={seat => this.handleSelectionSeat(seat)}
           />
         );
       case 2:
@@ -75,9 +74,9 @@ class StepperProgress extends React.Component {
     this.handleNext();
   };
 
-  handleSelectionSeat = (selectAction, seats) => {
-    selectAction(seats);
-    this.handleNext();
+  handleSelectionSeat = seat => {
+    this.props.selectSeat(seat);
+    // this.handleNext(); --> when next? flecha
   };
 
   handleNext = () => {
@@ -102,7 +101,7 @@ class StepperProgress extends React.Component {
     const steps = getSteps();
     const { root, instructions, button } = useStyles;
     const { activeStep } = this.state;
-    const { playData, selectPlay, selectSeats, selectedPlay } = this.props;
+    const { playData, selectPlay, selectedPlay } = this.props;
 
     return (
       <div className={root}>
@@ -159,16 +158,15 @@ class StepperProgress extends React.Component {
               </Button>
             </div>
           ) : (
-            <div>
-              {this.getStepContent(
-                activeStep,
-                playData,
-                selectPlay,
-                selectSeats,
-                selectedPlay
-              )}
-            </div>
-          )}
+              <div>
+                {this.getStepContent(
+                  activeStep,
+                  playData,
+                  selectPlay,
+                  selectedPlay
+                )}
+              </div>
+            )}
         </div>
       </div>
     );

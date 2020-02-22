@@ -15,9 +15,7 @@ import {
   deleteMovie,
   deleteBooking,
   deletePlay,
-  editMovie,
-  addMovie,
-  addPlay
+  editMovie
 } from "../api/fetchData";
 import { tableConfig } from "../helpers/tablesConfig";
 
@@ -30,7 +28,6 @@ const tableIcons = {
 };
 
 const buildPlayPk = data => {
-  console.log("que mierda", data);
   const pk = {
     movieId: data.movieId,
     roomId: parseInt(data.room),

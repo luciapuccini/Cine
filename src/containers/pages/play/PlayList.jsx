@@ -1,23 +1,12 @@
 import React, { Component } from "react";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import {
-  Grid,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Typography,
-  Paper,
-  CircularProgress
-} from "@material-ui/core";
+import { Grid, Typography, CircularProgress } from "@material-ui/core";
 import _ from "lodash";
 import TableWithActions from "../../../components/TableWithActions";
 
 class PlayList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      playData: {}
-    };
+    this.state = {};
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,8 +33,8 @@ class PlayList extends Component {
               />
             </>
           ) : (
-            <CircularProgress />
-          )}
+              <CircularProgress />
+            )}
         </Grid>
       </Grid>
     );

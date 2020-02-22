@@ -17,7 +17,6 @@ class Home extends React.Component {
   componentDidMount() {
     const us = fetchUser();
     us.then(user => {
-      console.log(user);
       this.setState({ user });
     });
   }
@@ -36,8 +35,8 @@ class Home extends React.Component {
             </Grid>
           </Grid>
         ) : (
-          <CircularProgress />
-        )}
+            <CircularProgress />
+          )}
       </>
     );
   }

@@ -43,12 +43,12 @@ const MovieList = () => {
     <div className={classes.root}>
       <GridList cellHeight={400} spacing={30} className={classes.gridList}>
         {movieData.map(movie => (
-          <GridListTile key={movie.img}>
-            <img src={image} alt={movie.title} />
+          <GridListTile key={movie.movieId}>
+            <img src={image} alt={movie.title} key={movie.movieId} />
             <GridListTileBar
               className={classes.gridListTile}
               title={movie.name}
-              actionIcon={(
+              actionIcon={
                 <Link
                   className={classes.buttonLink}
                   to={{
@@ -62,7 +62,7 @@ const MovieList = () => {
                     <BookMark />
                   </IconButton>
                 </Link>
-              )}
+              }
             />
           </GridListTile>
         ))}

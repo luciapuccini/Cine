@@ -81,11 +81,11 @@ class CustomSeatPicker extends Component {
         }));
       }
     );
+    this.props.selectSeat(id);
   };
 
   render() {
-    const { loading, rows, play } = this.state;
-    const { selectSeats } = this.props;
+    const { rows, play } = this.state;
     return (
       <div
         style={{
@@ -104,13 +104,6 @@ class CustomSeatPicker extends Component {
               visible
               selectedByDefault
             />
-            <Button
-              variant="outlined"
-              style={{ color: "#fff", borderColor: "#fff" }}
-              onClick={() => selectSeats(this.state.selectedSeats)}
-            >
-              Accept
-            </Button>
           </>
         ) : null}
       </div>

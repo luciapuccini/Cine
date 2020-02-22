@@ -16,20 +16,20 @@ export default class Bookings extends Component {
       selectedMovie: {},
       moviePlays: [],
       selectedPlay: {},
-      selectedSeats: []
+      selectedSeat: 0
     };
   }
 
   componentDidMount() {
-    // const { id } = this.props.match.params;
-    const movie = fetchMovie(11);
+    const { id } = this.props.match.params;
+    const movie = fetchMovie(id);
 
     movie.then(mov => {
       this.setState({
         moviePlays: mov,
         selectedMovie: !_.isEmpty(mov)
           ? mov[0].movie
-          : { name: "no plays to show" }
+          : { name: "No plays to show" }
       });
     });
   }
@@ -38,14 +38,27 @@ export default class Bookings extends Component {
     this.setState({ selectedPlay: play });
   };
 
-  selectSeats = seats => {
-    this.setState({ selectedSeats: seats });
+  selectSeat = seat => {
+    console.log("[ SELECT SEAT x1 ]", seat);
+    this.setState({ selectedSeat: seat }, () => this.makeTemporalBooking());
+  };
+
+  makeTemporalBooking = () => {
+    const { room, playPK } = this.state.selectedPlay;
+    console.log(this.state.selectedPlay);
+    const temporalBooking = {
+      seatId: this.state.selectedSeat,
+      roomId: room,
+      userId: localStorage.getItem("USER_ID"),
+      playPK
+    };
+    console.log("[ temp book ]", temporalBooking);
   };
 
   confirmBook = () => {
-    const { selectedSeats, selectedPlay } = this.state;
-    const book = this.buildBook(selectedSeats, selectedPlay.playPK);
-    const resp = createBooking(book);
+    // const { selectedSeats, selectedPlay } = this.state;
+    // const book = this.buildBook(selectedSeats, selectedPlay.playPK);
+    // const resp = createBooking(book);
     // resp.then();
   };
 
@@ -59,7 +72,6 @@ export default class Bookings extends Component {
   };
 
   render() {
-    // mostrar: horarios play de esa movie, seats disponibles, resumen costos
     const {
       moviePlays,
       selectedMovie,
@@ -86,7 +98,7 @@ export default class Bookings extends Component {
               playData={moviePlays}
               selectPlay={this.selectPlay}
               selectedPlay={selectedPlay}
-              selectSeats={this.selectSeats}
+              selectSeat={this.selectSeat}
             />
           </Grid>
         </Grid>

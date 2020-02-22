@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -11,16 +11,6 @@ import TableWithActions from "../../../components/TableWithActions";
 import { enabledActions } from "./userData";
 
 import { getMovies, fetchPlays, fetchBookings } from "../../../api/fetchData";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%"
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular
-  }
-}));
 
 class UserPanel extends React.Component {
   constructor(props) {
@@ -47,31 +37,8 @@ class UserPanel extends React.Component {
       });
     }
   }
-  // Move HERE
-  /*   deleteAction = rowData => {
-    const { type } = this.state;
-    const { bookId } = rowData;
-    const { movieId } = rowData;
-    const { playPK } = rowData;
-    switch (type) {
-      case "booking":
-        deleteBooking(bookId);
-        break;
-      case "movie":
-        deleteMovie(movieId);
-        break;
-      case "play":
-        deletePlay(playPK);
-        break;
-      default:
-        break;
-    }
-  }; */
-
-  editAction = data => {};
 
   render() {
-    // const classes = useStyles();
     const { movieData, bookingsData, playData } = this.state;
     return (
       <div>

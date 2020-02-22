@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -15,7 +14,8 @@ import * as Yup from "yup";
 
 import { addPlay } from "../../../api/fetchData";
 
-const EditSchema = Yup.object().shape({
+// TODO:
+const PlaySchema = Yup.object().shape({
   room: Yup.number(),
   startTime: Yup.string().required("Need password to confirm")
 });
@@ -40,7 +40,6 @@ class PlayForm extends React.Component {
     super(props);
     this.state = {
       open: false,
-      room: 0,
       startTime: defaultStartTimes,
       movies: [],
       rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -49,7 +48,7 @@ class PlayForm extends React.Component {
   }
 
   componentDidMount() {
-    const { onClose, movieData, open } = this.props;
+    const { movieData, open } = this.props;
     console.log("movies", movieData);
     this.setState({ open, movies: movieData });
   }
@@ -139,7 +138,7 @@ class PlayForm extends React.Component {
                           value={values.movie}
                         >
                           {movies.map(movie => (
-                            <MenuItem key={movie.id} value={movie}>
+                            <MenuItem key={movie.movieId} value={movie}>
                               {movie.name}
                             </MenuItem>
                           ))}
