@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SeatPicker from "react-seat-picker";
 import { Button } from "@material-ui/core";
 import _ from "lodash";
-import { fetchPlay } from "../api/fetchData";
+import { fetchPlay, getPlayBookedSeats } from "../api/fetchData";
 
 const buildRows = takenSeats => {
   const rows = [];
@@ -27,18 +27,6 @@ const buildRows = takenSeats => {
   return rows;
 };
 
-const getTakenSeats = books => {
-  const taken = [];
-  if (!_.isEmpty(books)) {
-    books.forEach(book => {
-      book.seats.forEach(seat => {
-        taken.push(seat.seatPk.seatId);
-      });
-    });
-  }
-  return taken;
-};
-
 class CustomSeatPicker extends Component {
   constructor(props) {
     super(props);
@@ -53,16 +41,18 @@ class CustomSeatPicker extends Component {
   componentDidMount() {
     const { playPK } = this.props.selectedPlay;
     const play = fetchPlay(playPK);
+    const takenSeats = getPlayBookedSeats(playPK);
+
     play.then(play => {
       this.setState({ play });
+    });
+    takenSeats.then(taken => {
+      this.setState({ takenSeats: taken });
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.play !== this.state.play) {
-      const taken = getTakenSeats(this.state.play.books);
-      const rows = buildRows(taken);
-      this.setState({ rows });
     }
   }
 

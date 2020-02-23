@@ -6,7 +6,7 @@ import BookingSummary from "./pages/booking/BookingSummary";
 import StepperProgress from "../components/StepperProgress";
 
 // import { getUserId } from "../helpers/authHelper"; TODO
-import { createBooking, fetchMovie } from "../api/fetchData";
+import { createBooking, fetchMovie, bookTemporalSeat } from "../api/fetchData";
 import { getAuthHeaders, getJWT } from "../helpers/authHelper";
 
 export default class Bookings extends Component {
@@ -50,16 +50,26 @@ export default class Bookings extends Component {
       seatId: this.state.selectedSeat,
       roomId: room,
       userId: localStorage.getItem("USER_ID"),
-      playPK
+      playPk: playPK
     };
     console.log("[ temp book ]", temporalBooking);
+    // const res =bookTemporalSeat(temporalBooking);
+    /* res.then((e)=>{
+  if(e.code){
+    this.setState({message: e.messaage})
+    this.history.push(pathname)
+  }else {
+    this.setState(message: e.message)
+  }
+}) */
   };
 
   confirmBook = () => {
-    // const { selectedSeats, selectedPlay } = this.state;
-    // const book = this.buildBook(selectedSeats, selectedPlay.playPK);
+    // const { selectedPlay } = this.state;
+    // const userId = localStograge.getItem("USER_ID")
+    // const book = this.buildBook(userId selectedPlay.playPK);
     // const resp = createBooking(book);
-    // resp.then();
+    // resp.then((ok)=>console.log("ok"));
   };
 
   buildBook = (seats, playPk) => {

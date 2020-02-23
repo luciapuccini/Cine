@@ -140,6 +140,29 @@ export const deleteBooking = bookingId => {
       console.log(error);
     });
 };
+
+export const bookTemporalSeat = booking => {
+  const token = localStorage.getItem("JWT");
+
+  return fetch("http://localhost:8080/books/bookTemporalSeat", {
+    method: "POST",
+    body: JSON.stringify(booking),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(booking => {
+      console.log(booking, "1");
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
+};
 // -------------------------- MOVIES ----------------------------------
 
 export const getMovies = () => {
@@ -362,6 +385,32 @@ export const deletePlay = playPk => {
       console.log(error);
     });
 };
+
+export const getPlayBookedSeats = playPk => {
+  const token = localStorage.getItem("JWT");
+
+  return fetch("http://localhost:8080/plays/getPlayBookedSeats", {
+    method: "POST",
+    body: JSON.stringify(playPk),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(play => {
+      if (play.code) {
+        throw Error(play.message);
+      }
+      return play;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+
 // ----------------------------- AUTH -------------------------------
 export const login = (email, password, history) => {
   const user = { email, password };
