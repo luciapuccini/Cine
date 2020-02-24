@@ -9,7 +9,7 @@ const getJWT = () => {
 
 const isLoggedInAdmin = () => {
   const role = localStorage.getItem("isAdmin");
-  return role;
+  return role === "true";
 };
 
 const getAuthHeaders = () => {

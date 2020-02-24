@@ -8,13 +8,13 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { CircularProgress } from "@material-ui/core";
 import _ from "lodash";
-// movie
-// {
-//   nombre,
-//   path,
-//   sinopsis,
-//   duracion,
-// }
+
+const classes = {
+  cardArea: {
+    display: "flex",
+    alignItems: "flex-start"
+  }
+};
 
 class BookingSummary extends React.Component {
   constructor(props) {
@@ -29,52 +29,76 @@ class BookingSummary extends React.Component {
       selectedSeats,
       onConfirm
     } = this.props;
+    console.log(selectedMovie);
     return (
-      <Card>
-        <CardActionArea>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {selectedMovie.url ? (
+      <Card style={{ display: "flex", flexDirection: "column" }}>
+        <CardActionArea style={classes.cardArea}>
+          <div>
+            {selectedMovie.imagePath ? (
               <CardMedia
                 component="img"
                 alt="Contemplative Reptile"
-                image={selectedMovie.url}
+                image={selectedMovie.imagePath}
                 title="Selected Movie"
-                className=""
               />
             ) : (
-              <CircularProgress />
-            )}
+                <CircularProgress />
+              )}
           </div>
 
-          <CardContent>
-            <Typography gutterBottom variant="h5" color="primary">
-              Movie Summary
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {selectedMovie ? `MOVIE: ${selectedMovie.name}` : null}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {!_.isEmpty(selectedPlay)
-                ? `PLAY: ${selectedPlay.movieStartTime} `
-                : null}
-            </Typography>
-            {!_.isEmpty(selectedSeats) ? (
-              <>
-                <Typography variant="body2" color="textSecondary">
-                  SEATS:
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {selectedSeats.map(seat => `${seat},  `)}
-                </Typography>
-              </>
-            ) : null}
+          <CardContent
+            style={{
+              display: "flex",
+              flexDirection: "column"
+            }}
+          >
+            <div>
+              <Typography
+                gutterBottom
+                variant="h5"
+                color="primary"
+                style={{ margin: "5px" }}
+              >
+                Movie Summary
+              </Typography>
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                style={{ marginTop: "10px" }}
+              >
+                {selectedMovie ? `MOVIE: ${selectedMovie.name}` : null}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                style={{ marginTop: "10px" }}
+              >
+                {!_.isEmpty(selectedPlay)
+                  ? `PLAY: ${selectedPlay.movieStartTime} `
+                  : null}
+              </Typography>
+              {!_.isEmpty(selectedSeats) ? (
+                <>
+                  <Typography variant="body2" color="textSecondary">
+                    SEATS:
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {selectedSeats.map(seat => `${seat},  `)}
+                  </Typography>
+                </>
+              ) : null}
+            </div>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary" onClick={() => onConfirm()}>
-            Confirm
-          </Button>
-        </CardActions>
+
+        <Button
+          size="small"
+          variant="outlined"
+          style={{ alignSelf: "flex-end", color: "green", margin: "10px" }}
+          onClick={() => onConfirm()}
+        >
+          Confirm
+        </Button>
       </Card>
     );
   }

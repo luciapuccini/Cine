@@ -26,6 +26,10 @@ const useStyles = makeStyles(() => ({
   },
   icon: {
     color: "#fff"
+  },
+  box: {
+    maxWidth: "100%",
+    maxHeight: "100%"
   }
 }));
 
@@ -38,13 +42,22 @@ const MovieList = () => {
       setMovieData(movies);
     });
   }, []);
-  const image = require("../assets/rick.png");
   return (
     <div className={classes.root}>
-      <GridList cellHeight={400} spacing={30} className={classes.gridList}>
+      <GridList
+        cellHeight={500}
+        spacing={30}
+        cols={3}
+        className={classes.gridList}
+      >
         {movieData.map(movie => (
           <GridListTile key={movie.movieId}>
-            <img src={image} alt={movie.title} key={movie.movieId} />
+            <img
+              src={movie.imagePath}
+              className={classes.box}
+              alt={movie.title}
+              key={movie.movieId}
+            />
             <GridListTileBar
               className={classes.gridListTile}
               title={movie.name}

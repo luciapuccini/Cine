@@ -275,7 +275,6 @@ export const fetchMovie = id => {
       if (movie.code) {
         throw Error(movie.message);
       }
-      console.log(movie);
       return movie;
     })
     .catch(error => {
@@ -290,7 +289,6 @@ export const fetchMovie = id => {
 
 export const fetchPlays = () => {
   const token = localStorage.getItem("JWT");
-
   return fetch("http://localhost:8080/plays/all", {
     headers: {
       Authorization: `Bearer ${token}`

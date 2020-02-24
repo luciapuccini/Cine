@@ -12,6 +12,7 @@ import Alert from "@material-ui/lab/Alert";
 
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { addMovie } from "../../../api/fetchData";
 
 // TODO:
 const EditSchema = Yup.object().shape({
@@ -44,8 +45,14 @@ class MovieForm extends React.Component {
   handleClose = () => this.props.onClose();
 
   handleSubmit = values => {
-    console.log(values);
-    console.log(values.image);
+    const { movieTitle, duration, synopsis, image } = values;
+    const movie = {
+      name: movieTitle,
+      duration,
+      synopsis,
+      imagePath: image
+    };
+    addMovie(movie);
     /*    const res = addMovie();
     res.then(response => {
       if (response) {
@@ -90,7 +97,7 @@ class MovieForm extends React.Component {
                 movieTitle: "title",
                 duration: 200,
                 synopsis: " short",
-                image: "blala.png"
+                image: "google/image"
               }}
               onSubmit={values => {
                 this.handleSubmit(values);
@@ -156,9 +163,8 @@ class MovieForm extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <Input
-                        accept="image/png, image/jpeg"
                         id="image"
-                        type="file"
+                        type="text"
                         name="image"
                         label="image"
                         onChange={handleChange}
