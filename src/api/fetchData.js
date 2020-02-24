@@ -104,6 +104,7 @@ export const createBooking = booking => {
 };
 
 export const fetchBookings = userId => {
+  console.log("fetch booki");
   const token = localStorage.getItem("JWT");
 
   const bookingsData = fetch(`http://localhost:8080/books/${userId}`, {
@@ -157,6 +158,7 @@ export const bookTemporalSeat = booking => {
     })
     .then(booking => {
       console.log(booking, "1");
+      return booking;
     })
     .catch(error => {
       console.log(error);

@@ -5,6 +5,7 @@ import _ from "lodash";
 import { fetchPlay, getPlayBookedSeats } from "../api/fetchData";
 
 const buildRows = takenSeats => {
+  console.log(" build rows con taken", takenSeats);
   const rows = [];
   const ids = takenSeats.map(seat => seat);
   let otro = 1;
@@ -24,7 +25,18 @@ const buildRows = takenSeats => {
     }
     rows.push(column);
   }
+  console.log(rows);
   return rows;
+};
+
+const buildTaken = taken => {
+  console.log(taken);
+  const real = [];
+  taken.forEach(seat => {
+    real.push(seat.seatPk.seatId);
+  });
+  console.log(real);
+  return real;
 };
 
 class CustomSeatPicker extends Component {
@@ -34,7 +46,8 @@ class CustomSeatPicker extends Component {
       loading: false,
       play: {},
       selectedSeats: [],
-      rows: []
+      rows: [],
+      takenSeats: []
     };
   }
 
@@ -47,12 +60,22 @@ class CustomSeatPicker extends Component {
       this.setState({ play });
     });
     takenSeats.then(taken => {
-      this.setState({ takenSeats: taken });
+      console.log("tengo takens", taken);
+      const rows = buildRows(buildTaken(taken));
+      this.setState({ rows });
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { playPK } = this.props.selectedPlay;
+
     if (prevState.play !== this.state.play) {
+      const takenSeats = getPlayBookedSeats(playPK);
+      takenSeats.then(taken => {
+        console.log("tengo takens2", taken);
+        const rows = buildRows(buildTaken(taken));
+        this.setState({ rows });
+      });
     }
   }
 
@@ -63,7 +86,7 @@ class CustomSeatPicker extends Component {
       },
       async () => {
         await new Promise(resolve => setTimeout(resolve, 100));
-        console.log(`Added seat ${number} id ${id}`);
+
         cb(row, number);
         this.setState(prevState => ({
           loading: false,

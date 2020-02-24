@@ -29,7 +29,6 @@ class BookingSummary extends React.Component {
       selectedSeats,
       onConfirm
     } = this.props;
-    console.log(selectedMovie);
     return (
       <Card style={{ display: "flex", flexDirection: "column" }}>
         <CardActionArea style={classes.cardArea}>
@@ -42,8 +41,8 @@ class BookingSummary extends React.Component {
                 title="Selected Movie"
               />
             ) : (
-                <CircularProgress />
-              )}
+              <CircularProgress />
+            )}
           </div>
 
           <CardContent

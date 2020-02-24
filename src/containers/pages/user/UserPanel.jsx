@@ -38,6 +38,15 @@ class UserPanel extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.user !== this.props.user) {
+      console.log("llega user", this.props.user);
+      fetchBookings(this.props.user.userId).then(data => {
+        this.setState({ bookingsData: data });
+      });
+    }
+  }
+
   render() {
     const { movieData, bookingsData, playData } = this.state;
     return (

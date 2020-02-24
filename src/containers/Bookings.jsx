@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+
 import _ from "lodash";
 import { axios } from "axios";
 import BookingSummary from "./pages/booking/BookingSummary";
@@ -16,7 +18,8 @@ export default class Bookings extends Component {
       selectedMovie: {},
       moviePlays: [],
       selectedPlay: {},
-      selectedSeat: 0
+      selectedSeat: 0,
+      messaage: ""
     };
   }
 
@@ -39,45 +42,40 @@ export default class Bookings extends Component {
   };
 
   selectSeat = seat => {
-    console.log("[ SELECT SEAT x1 ]", seat);
     this.setState({ selectedSeat: seat }, () => this.makeTemporalBooking());
   };
 
   makeTemporalBooking = () => {
     const { room, playPK } = this.state.selectedPlay;
-    console.log(this.state.selectedPlay);
+    const { pathName } = this.props.history;
+    console.log("redirec on error", pathName);
     const temporalBooking = {
       seatId: this.state.selectedSeat,
       roomId: room,
       userId: localStorage.getItem("USER_ID"),
       playPk: playPK
     };
-    console.log("[ temp book ]", temporalBooking);
-    // const res =bookTemporalSeat(temporalBooking);
-    /* res.then((e)=>{
-  if(e.code){
-    this.setState({message: e.messaage})
-    this.history.push(pathname)
-  }else {
-    this.setState(message: e.message)
-  }
-}) */
+
+    const res = bookTemporalSeat(temporalBooking);
+    res.then(e => {
+      console.log("respon", e);
+      this.setState({ message: e.messaage });
+    });
   };
 
   confirmBook = () => {
-    // const { selectedPlay } = this.state;
-    // const userId = localStograge.getItem("USER_ID")
-    // const book = this.buildBook(userId selectedPlay.playPK);
-    // const resp = createBooking(book);
-    // resp.then((ok)=>console.log("ok"));
+    const { selectedPlay } = this.state;
+    const userId = localStorage.getItem("USER_ID");
+    const book = this.buildBook(userId, selectedPlay.playPK);
+    const resp = createBooking(book);
+    resp.then(ok => console.log("ok"));
   };
 
-  buildBook = (seats, playPk) => {
+  buildBook = (userId, playPk) => {
     return {
       bookDate: new Date().toISOString(),
-      seats,
-      playPk
-      // userId: getUserId()
+      playPk,
+      userId
     };
   };
 
@@ -110,6 +108,11 @@ export default class Bookings extends Component {
               selectedPlay={selectedPlay}
               selectSeat={this.selectSeat}
             />
+            {this.state.messaage ? (
+              <Alert severity="success" style={{ marginTop: "15px" }}>
+                {this.state.messaage}
+              </Alert>
+            ) : null}
           </Grid>
         </Grid>
       </>
