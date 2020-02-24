@@ -29,7 +29,8 @@ class MovieForm extends React.Component {
       movieTitle: "",
       duration: 0,
       synopsis: "",
-      image: ""
+      image: "",
+      message: null
     };
   }
 
@@ -52,19 +53,17 @@ class MovieForm extends React.Component {
       synopsis,
       imagePath: image
     };
-    addMovie(movie);
-    /*    const res = addMovie();
-    res.then(response => {
-      if (response) {
-        this.handleClose();
-      } else {
-        this.setState({ error: true });
+    addMovie(movie).then(res => {
+      if (res.movieId) {
+        this.setState({ message: "success" });
       }
-    }); */
+      this.setState({ message: res.message });
+    });
   };
 
   render() {
-    const { open, error } = this.state;
+    const { open, error, message } = this.state;
+    console.log("que te falta", message);
     return (
       <div>
         <Dialog
@@ -181,6 +180,7 @@ class MovieForm extends React.Component {
                 </Grid>
               )}
             </Formik>
+            {message ? <Alert severity="info">{message}</Alert> : null}
           </DialogContent>
         </Dialog>
       </div>

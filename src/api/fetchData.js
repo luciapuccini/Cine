@@ -184,8 +184,6 @@ export const getMovies = () => {
 
 export const addMovie = movie => {
   const token = localStorage.getItem("JWT");
-
-  console.log("armar bien", movie);
   return fetch("http://localhost:8080/movies/add", {
     method: "POST",
     body: JSON.stringify(movie),
@@ -204,6 +202,7 @@ export const addMovie = movie => {
       return mov;
     })
     .catch(error => {
+      return error;
       console.log(error);
     });
 };

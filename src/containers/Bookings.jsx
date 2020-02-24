@@ -58,7 +58,6 @@ export default class Bookings extends Component {
 
     const res = bookTemporalSeat(temporalBooking);
     res.then(e => {
-      console.log("respon", e);
       this.setState({ message: e.messaage });
     });
   };
