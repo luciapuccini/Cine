@@ -53,7 +53,7 @@ const MovieList = () => {
         {movieData.map(movie => (
           <GridListTile key={movie.movieId}>
             <img
-              src={movie.imagePath}
+              src="https://mauriciobenoist.com/wp-content/uploads/2020/01/placeholder.png" // http://localhost:8080/movies/image/download/${movie.movieId}
               className={classes.box}
               alt={movie.title}
               key={movie.movieId}

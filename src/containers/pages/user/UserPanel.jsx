@@ -10,7 +10,12 @@ import TableWithActions from "../../../components/TableWithActions";
 
 import { enabledActions } from "./userData";
 
-import { getMovies, fetchPlays, fetchBookings } from "../../../api/fetchData";
+import {
+  getMovies,
+  fetchPlays,
+  fetchBookings,
+  fetchPrices
+} from "../../../api/fetchData";
 
 class UserPanel extends React.Component {
   constructor(props) {
@@ -18,24 +23,29 @@ class UserPanel extends React.Component {
     this.state = {
       bookingsData: [],
       movieData: [],
-      playData: []
+      playData: [],
+      priceData: []
     };
   }
 
   componentDidMount() {
-    const { userId } = this.props.user;
-
+    // const { userId } = this.props.user;
+    const userId = localStorage.getItem("USER_ID");
     getMovies().then(data => {
       this.setState({ movieData: data });
     });
     fetchPlays().then(data => {
+      console.log("play", data);
       this.setState({ playData: data });
     });
-    if (userId) {
-      fetchBookings(userId).then(data => {
-        this.setState({ bookingsData: data });
-      });
-    }
+
+    fetchBookings(userId).then(data => {
+      this.setState({ bookingsData: data });
+    });
+
+    fetchPrices().then(data => {
+      this.setState({ priceData: data });
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {

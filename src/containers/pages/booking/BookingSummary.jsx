@@ -26,13 +26,15 @@ class BookingSummary extends React.Component {
     const {
       selectedMovie,
       selectedPlay,
-      selectedSeats,
+      selectedSeat,
+      total,
       onConfirm
     } = this.props;
+
     return (
       <Card style={{ display: "flex", flexDirection: "column" }}>
         <CardActionArea style={classes.cardArea}>
-          <div>
+          <div style={{ width: "50%" }}>
             {selectedMovie.imagePath ? (
               <CardMedia
                 component="img"
@@ -41,8 +43,8 @@ class BookingSummary extends React.Component {
                 title="Selected Movie"
               />
             ) : (
-              <CircularProgress />
-            )}
+                <CircularProgress />
+              )}
           </div>
 
           <CardContent
@@ -63,26 +65,38 @@ class BookingSummary extends React.Component {
               <Typography
                 variant="body2"
                 color="textSecondary"
-                style={{ marginTop: "10px" }}
+                style={{ marginTop: "20px" }}
               >
                 {selectedMovie ? `MOVIE: ${selectedMovie.name}` : null}
               </Typography>
               <Typography
                 variant="body2"
                 color="textSecondary"
-                style={{ marginTop: "10px" }}
+                style={{ marginTop: "20px" }}
               >
                 {!_.isEmpty(selectedPlay)
                   ? `PLAY: ${selectedPlay.movieStartTime} `
                   : null}
               </Typography>
-              {!_.isEmpty(selectedSeats) ? (
+              {selectedSeat ? (
                 <>
-                  <Typography variant="body2" color="textSecondary">
-                    SEATS:
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    style={{ marginTop: "20px" }}
+                  >
+                    SEAT:
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    {selectedSeats.map(seat => `${seat},  `)}
+                    {selectedSeat}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    style={{ marginTop: "20px" }}
+                  >
+                    Total cost: $
+{total}
                   </Typography>
                 </>
               ) : null}

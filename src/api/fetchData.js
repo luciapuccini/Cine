@@ -182,13 +182,17 @@ export const getMovies = () => {
   return movieData;
 };
 
-export const addMovie = movie => {
+export const addMovie = (movie, image) => {
   const token = localStorage.getItem("JWT");
+
+  const formData = new FormData();
+  formData.append("movie", JSON.stringify(movie));
+  formData.append("imageFile", image);
+
   return fetch("http://localhost:8080/movies/add", {
     method: "POST",
-    body: JSON.stringify(movie),
+    body: formData,
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     }
   })
@@ -284,9 +288,6 @@ export const fetchMovie = id => {
 };
 
 // ------------------------- PLAYS -----------------------------------
-
-// mock plays all
-// http://www.mocky.io/v2/5e3626cf3200006400ae3c2c
 
 export const fetchPlays = () => {
   const token = localStorage.getItem("JWT");
@@ -406,6 +407,80 @@ export const getPlayBookedSeats = playPk => {
       return play;
     })
     .catch(error => {
+      console.log(error);
+    });
+};
+// --------------------------PRICES---------------------------------
+
+export const getCurrentPrices = () => {
+  const token = localStorage.getItem("JWT");
+
+  return fetch("http://localhost:8080/price/getCurrentPrices", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(plays => {
+      if (plays.code) {
+        throw Error(plays.message);
+      }
+      return plays;
+    })
+    .catch(error => {
+      return error;
+      console.log(error);
+    });
+};
+
+export const addPrice = price => {
+  console.log(price);
+  const token = localStorage.getItem("JWT");
+
+  return fetch("http://localhost:8080/price/add", {
+    method: "POST",
+    body: JSON.stringify(price),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(price => {
+      if (!price.status) {
+        throw Error(price.message);
+      }
+      return price;
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
+};
+
+export const fetchPrices = () => {
+  const token = localStorage.getItem("JWT");
+  console.log("get prices", token);
+  return fetch("http://localhost:8080/price/getAll", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(price => {
+      if (price.code) {
+        throw Error(price.message);
+      }
+      return price;
+    })
+    .catch(error => {
+      return error;
       console.log(error);
     });
 };

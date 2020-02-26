@@ -3,13 +3,15 @@ import { Grid, CircularProgress } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
 import _ from "lodash";
-import { axios } from "axios";
 import BookingSummary from "./pages/booking/BookingSummary";
 import StepperProgress from "../components/StepperProgress";
 
-// import { getUserId } from "../helpers/authHelper"; TODO
-import { createBooking, fetchMovie, bookTemporalSeat } from "../api/fetchData";
-import { getAuthHeaders, getJWT } from "../helpers/authHelper";
+import {
+  createBooking,
+  fetchMovie,
+  bookTemporalSeat,
+  getCurrentPrices
+} from "../api/fetchData";
 
 export default class Bookings extends Component {
   constructor(props) {
@@ -19,20 +21,27 @@ export default class Bookings extends Component {
       moviePlays: [],
       selectedPlay: {},
       selectedSeat: 0,
-      messaage: ""
+      regularPrice: 0,
+      superPrice: 0,
+      total: 0
     };
   }
 
   componentDidMount() {
     const { id } = this.props.match.params;
     const movie = fetchMovie(id);
-
     movie.then(mov => {
       this.setState({
         moviePlays: mov,
         selectedMovie: !_.isEmpty(mov)
           ? mov[0].movie
           : { name: "No plays to show" }
+      });
+    });
+    getCurrentPrices().then(res => {
+      this.setState({
+        regularPrice: res.regularSeatPrice,
+        superPrice: res.superSeatprice
       });
     });
   }
@@ -46,6 +55,7 @@ export default class Bookings extends Component {
   };
 
   makeTemporalBooking = () => {
+    const { regularPrice, superPrice } = this.state;
     const { room, playPK } = this.state.selectedPlay;
     const { pathName } = this.props.history;
     console.log("redirec on error", pathName);
@@ -56,9 +66,9 @@ export default class Bookings extends Component {
       playPk: playPK
     };
 
-    const res = bookTemporalSeat(temporalBooking);
-    res.then(e => {
-      this.setState({ message: e.messaage });
+    bookTemporalSeat(temporalBooking).then(seat => {
+      const price = seat.isSuperSeat ? superPrice : regularPrice;
+      this.setState(state => ({ total: state.total + price }));
     });
   };
 
@@ -66,8 +76,7 @@ export default class Bookings extends Component {
     const { selectedPlay } = this.state;
     const userId = localStorage.getItem("USER_ID");
     const book = this.buildBook(userId, selectedPlay.playPK);
-    const resp = createBooking(book);
-    resp.then(ok => console.log("ok"));
+    createBooking(book);
   };
 
   buildBook = (userId, playPk) => {
@@ -83,7 +92,8 @@ export default class Bookings extends Component {
       moviePlays,
       selectedMovie,
       selectedPlay,
-      selectedSeats
+      selectedSeat,
+      total
     } = this.state;
     return (
       <>
@@ -93,7 +103,8 @@ export default class Bookings extends Component {
               <BookingSummary
                 selectedMovie={selectedMovie}
                 selectedPlay={selectedPlay}
-                selectedSeats={selectedSeats}
+                selectedSeat={selectedSeat}
+                total={total}
                 onConfirm={() => this.confirmBook()}
               />
             ) : (
@@ -107,11 +118,6 @@ export default class Bookings extends Component {
               selectedPlay={selectedPlay}
               selectSeat={this.selectSeat}
             />
-            {this.state.messaage ? (
-              <Alert severity="success" style={{ marginTop: "15px" }}>
-                {this.state.messaage}
-              </Alert>
-            ) : null}
           </Grid>
         </Grid>
       </>

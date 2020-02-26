@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -12,13 +13,7 @@ import Alert from "@material-ui/lab/Alert";
 
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { addMovie } from "../../../api/fetchData";
-
-// TODO:
-const EditSchema = Yup.object().shape({
-  room: Yup.number(),
-  startTime: Yup.string().required("Need password to confirm")
-});
+import { addMovie, addPrice } from "../../../api/fetchData";
 
 class MovieForm extends React.Component {
   constructor(props) {
@@ -26,11 +21,9 @@ class MovieForm extends React.Component {
     this.state = {
       open: false,
       error: false,
-      movieTitle: "",
-      duration: 0,
-      synopsis: "",
-      image: "",
-      message: null
+      regular: 0,
+      superPrice: 0,
+      activation: ""
     };
   }
 
@@ -45,20 +38,17 @@ class MovieForm extends React.Component {
 
   handleClose = () => this.props.onClose();
 
-  handleImageChage = event => {
-    this.setState({ image: event.target.files[0] });
-  };
-
   handleSubmit = values => {
-    const { image } = this.state;
-    const { movieTitle, duration, synopsis } = values;
-    const movie = {
-      name: movieTitle,
-      duration,
-      synopsis
+    console.log(values);
+    const { regular, superPrice, activation } = values;
+    const price = {
+      setDate: moment().toISOString(),
+      regularSeatPrice: regular,
+      superSeatPrice: superPrice,
+      activationDate: moment(values.activation).toISOString()
     };
-    addMovie(movie, image).then(res => {
-      if (res.movieId) {
+    addPrice(price).then(res => {
+      if (res.setDate) {
         this.setState({ message: "success" });
       }
       this.setState({ message: res.message });
@@ -66,7 +56,14 @@ class MovieForm extends React.Component {
   };
 
   render() {
-    const { open, error, message } = this.state;
+    const {
+      open,
+      error,
+      message,
+      regular,
+      superPrice,
+      activation
+    } = this.state;
     return (
       <div>
         <Dialog
@@ -96,10 +93,9 @@ class MovieForm extends React.Component {
 
             <Formik
               initialValues={{
-                movieTitle: "title",
-                duration: 200,
-                synopsis: " short",
-                image: "google/image"
+                regular,
+                superPrice,
+                activation
               }}
               onSubmit={values => {
                 this.handleSubmit(values);
@@ -118,15 +114,15 @@ class MovieForm extends React.Component {
                       <TextField
                         autoFocus
                         margin="dense"
-                        name="movieTitle"
-                        label="Title"
+                        name="regular"
+                        label="Regular Price"
                         fullWidth
                         onChange={handleChange}
-                        value={values.movieTitle}
+                        value={values.regular}
                       />
 
                       <ErrorMessage
-                        name="movieTitle"
+                        name="regular"
                         render={msg => <Typography>{msg}</Typography>}
                       />
                     </Grid>
@@ -135,15 +131,16 @@ class MovieForm extends React.Component {
                       <TextField
                         autoFocus
                         margin="dense"
-                        name="duration"
-                        label="Duration"
+                        name="superPrice"
+                        label="Super Seat Price"
+                        type="text"
                         fullWidth
                         onChange={handleChange}
-                        value={values.duration}
+                        value={values.superPrice}
                       />
 
                       <ErrorMessage
-                        name="duration"
+                        name="superPrice"
                         render={msg => <Typography>{msg}</Typography>}
                       />
                     </Grid>
@@ -151,26 +148,20 @@ class MovieForm extends React.Component {
                       <TextField
                         autoFocus
                         margin="dense"
-                        name="synopsis"
-                        label="Synopsis"
+                        name="activation"
+                        label="Activation Date"
+                        type="datetime-local"
+                        InputLabelProps={{
+                          shrink: true
+                        }}
                         fullWidth
                         onChange={handleChange}
-                        value={values.synopsis}
+                        value={values.activation}
                       />
 
                       <ErrorMessage
-                        name="synopsis"
+                        name="activation"
                         render={msg => <Typography>{msg}</Typography>}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Input
-                        id="image"
-                        type="file"
-                        name="image"
-                        label="image"
-                        onChange={this.handleImageChage}
-                        values={values.image}
                       />
                     </Grid>
 

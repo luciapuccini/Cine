@@ -10,7 +10,7 @@ import {
 } from "@material-ui/icons";
 import PlayForm from "../containers/pages/play/PlayForm";
 import MovieForm from "../containers/pages/movie/MovieForm";
-
+import PriceForm from "../containers/pages/prices/PriceForm";
 import {
   deleteMovie,
   deleteBooking,
@@ -43,7 +43,10 @@ class TableWithActions extends React.Component {
       type: "",
       columns: [],
       data: [],
-      title: ""
+      title: "",
+      isPlayOpen: false,
+      isMovieOpen: false,
+      isPriceOpen: false
     };
   }
 
@@ -53,9 +56,7 @@ class TableWithActions extends React.Component {
       type,
       title: table.title,
       columns: table.columns,
-      data: table.data,
-      isPlayOpen: false,
-      isMovieOpen: false
+      data: table.data
     });
   }
 
@@ -101,29 +102,30 @@ class TableWithActions extends React.Component {
     }
   };
 
-  // refator
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  // refator to play
-  handleClose = () => {
-    this.setState({ open: false });
+  handlePlayClose = () => {
+    this.setState({ isPlayOpen: false });
   };
 
   handleMovieClose = () => {
     this.setState({ isMovieOpen: false });
   };
 
-  addAction = rowData => {
+  handlePriceClose = () => {
+    this.setState({ isPriceOpen: false });
+  };
+
+  addAction = () => {
     const { type } = this.state;
-    const { movieData } = this.props;
     switch (type) {
       case "movie":
         this.setState({ isMovieOpen: true });
         break;
       case "play":
         this.setState({ isPlayOpen: true });
+        break;
+      case "price":
+        this.setState({ isPriceOpen: true });
+        break;
       default:
         break;
     }
@@ -183,7 +185,14 @@ class TableWithActions extends React.Component {
   };
 
   render() {
-    const { columns, data, title, isPlayOpen, isMovieOpen } = this.state;
+    const {
+      columns,
+      data,
+      title,
+      isPlayOpen,
+      isMovieOpen,
+      isPriceOpen
+    } = this.state;
     const { movieData } = this.props;
     return (
       <div style={{ maxWidth: "100%" }}>
@@ -205,6 +214,9 @@ class TableWithActions extends React.Component {
         ) : null}
         {isMovieOpen ? (
           <MovieForm open={isMovieOpen} onClose={this.handleMovieClose} />
+        ) : null}
+        {isPriceOpen ? (
+          <PriceForm open={isPriceOpen} onClose={this.handlePriceClose} />
         ) : null}
       </div>
     );
