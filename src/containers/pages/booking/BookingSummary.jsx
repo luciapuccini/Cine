@@ -1,13 +1,13 @@
+/* eslint-disable lines-between-class-members */
 import React from "react";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { CircularProgress } from "@material-ui/core";
 import _ from "lodash";
+import moment from "moment";
 
 const classes = {
   cardArea: {
@@ -22,6 +22,12 @@ class BookingSummary extends React.Component {
     this.state = {};
   }
 
+  formatPlay = play => {
+    return {
+      date: moment(play).format("dddd, MMMM Do YYYY"),
+      time: moment(play).format("h:mm a")
+    };
+  };
   render() {
     const {
       selectedMovie,
@@ -30,84 +36,77 @@ class BookingSummary extends React.Component {
       total,
       onConfirm
     } = this.props;
+
     const placeholder = require("../../../assets/placeholder.png");
+    const { date, time } = this.formatPlay(selectedPlay.movieStartTime);
+
     return (
-      <Card style={{ display: "flex", flexDirection: "column" }}>
+      <Card style={{ display: "flex", flexDirection: "row" }}>
+        <CardMedia
+          component="img"
+          alt="Selected Movie"
+          image={selectedMovie.imagePath || placeholder}
+          title="Selected Movie"
+          style={{ display: "flex", maxWidth: "180px" }}
+        />
+
         <CardActionArea style={classes.cardArea}>
-          <div style={{ width: "50%" }}>
-            <CardMedia
-              component="img"
-              alt="Selected Movie"
-              image={selectedMovie.imagePath || placeholder}
-              title="Selected Movie"
-            />
-          </div>
           <CardContent
             style={{
-              display: "flex",
-              flexDirection: "column"
+              display: "flex"
             }}
           >
             <div>
-              <Typography
-                gutterBottom
-                variant="h5"
-                color="primary"
-                style={{ margin: "5px" }}
-              >
+              <Typography gutterBottom variant="h5" color="primary">
                 Movie Summary
               </Typography>
               <Typography
-                variant="body2"
+                variant="body1"
                 color="textSecondary"
                 style={{ marginTop: "20px" }}
               >
                 {selectedMovie ? `MOVIE: ${selectedMovie.name}` : null}
               </Typography>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                style={{ marginTop: "20px" }}
-              >
-                {!_.isEmpty(selectedPlay)
-                  ? `PLAY: ${selectedPlay.movieStartTime} `
-                  : null}
-              </Typography>
+              {!_.isEmpty(selectedPlay) ? (
+                <>
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    style={{ marginTop: "20px" }}
+                  >
+                    DATE: {date}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    style={{ marginTop: "20px" }}
+                  >
+                    TIME: {time}
+                  </Typography>
+                </>
+              ) : null}
               {selectedSeat ? (
                 <>
                   <Typography
-                    variant="body2"
+                    variant="body1"
                     color="textSecondary"
                     style={{ marginTop: "20px" }}
                   >
-                    SEAT:
+                    SEAT: {selectedSeat}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {selectedSeat}
-                  </Typography>
+
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     style={{ marginTop: "20px" }}
                   >
-                    Total cost: $ 
-{' '}
-{total}
+                    Total cost: $ {total}
                   </Typography>
                 </>
               ) : null}
             </div>
           </CardContent>
         </CardActionArea>
-
-        <Button
-          size="small"
-          variant="outlined"
-          style={{ alignSelf: "flex-end", color: "green", margin: "10px" }}
-          onClick={() => onConfirm()}
-        >
-          Confirm
-        </Button>
       </Card>
     );
   }

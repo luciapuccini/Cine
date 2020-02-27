@@ -423,11 +423,12 @@ export const getCurrentPrices = () => {
     .then(response => {
       return response.json();
     })
-    .then(plays => {
-      if (plays.status) {
-        throw Error(plays.message);
+    .then(price => {
+      console.log(price);
+      if (price.status) {
+        throw Error(price.message);
       }
-      return plays;
+      return price;
     })
     .catch(error => {
       console.log(error);
@@ -474,6 +475,7 @@ export const fetchPrices = () => {
       return response.json();
     })
     .then(price => {
+      console.log(price);
       if (price.status) {
         throw Error(price.message);
       }

@@ -63,7 +63,7 @@ class StepperProgress extends React.Component {
           />
         );
       case 2:
-        return <Checkout />;
+        return <Checkout onConfirm={this.props.onConfirm} />;
       default:
         return "Unknown step";
     }
@@ -158,15 +158,15 @@ class StepperProgress extends React.Component {
               </Button>
             </div>
           ) : (
-              <div>
-                {this.getStepContent(
-                  activeStep,
-                  playData,
-                  selectPlay,
-                  selectedPlay
-                )}
-              </div>
-            )}
+            <div>
+              {this.getStepContent(
+                activeStep,
+                playData,
+                selectPlay,
+                selectedPlay
+              )}
+            </div>
+          )}
         </div>
       </div>
     );

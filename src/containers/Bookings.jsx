@@ -73,6 +73,7 @@ export default class Bookings extends Component {
   };
 
   confirmBook = () => {
+    console.log("confirm book");
     const { selectedPlay } = this.state;
     const userId = localStorage.getItem("USER_ID");
     const book = this.buildBook(userId, selectedPlay.playPK);
@@ -119,6 +120,7 @@ export default class Bookings extends Component {
               selectPlay={this.selectPlay}
               selectedPlay={selectedPlay}
               selectSeat={this.selectSeat}
+              onConfirm={this.confirmBook}
             />
           </Grid>
         </Grid>
