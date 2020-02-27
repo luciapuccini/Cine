@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import _ from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -42,6 +43,15 @@ const MovieList = () => {
       setMovieData(movies);
     });
   }, []);
+
+  const getImage = movieId => {
+    const placeholder = require("../assets/placeholder.png");
+    if (_.isEmpty(movieId)) {
+      return placeholder;
+    }
+    return placeholder; // FIXME: temporal
+    // return `http://localhost:8080/movies/image/download/${movieId}`;
+  };
   return (
     <div className={classes.root}>
       <GridList
@@ -53,7 +63,7 @@ const MovieList = () => {
         {movieData.map(movie => (
           <GridListTile key={movie.movieId}>
             <img
-              src="https://mauriciobenoist.com/wp-content/uploads/2020/01/placeholder.png" // http://localhost:8080/movies/image/download/${movie.movieId}
+              src={getImage(movie.movieId)}
               className={classes.box}
               alt={movie.title}
               key={movie.movieId}
@@ -61,7 +71,7 @@ const MovieList = () => {
             <GridListTileBar
               className={classes.gridListTile}
               title={movie.name}
-              actionIcon={
+              actionIcon={(
                 <Link
                   className={classes.buttonLink}
                   to={{
@@ -75,7 +85,7 @@ const MovieList = () => {
                     <BookMark />
                   </IconButton>
                 </Link>
-              }
+              )}
             />
           </GridListTile>
         ))}

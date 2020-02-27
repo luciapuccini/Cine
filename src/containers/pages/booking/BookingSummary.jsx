@@ -30,23 +30,18 @@ class BookingSummary extends React.Component {
       total,
       onConfirm
     } = this.props;
-
+    const placeholder = require("../../../assets/placeholder.png");
     return (
       <Card style={{ display: "flex", flexDirection: "column" }}>
         <CardActionArea style={classes.cardArea}>
           <div style={{ width: "50%" }}>
-            {selectedMovie.imagePath ? (
-              <CardMedia
-                component="img"
-                alt="Contemplative Reptile"
-                image={selectedMovie.imagePath}
-                title="Selected Movie"
-              />
-            ) : (
-                <CircularProgress />
-              )}
+            <CardMedia
+              component="img"
+              alt="Selected Movie"
+              image={selectedMovie.imagePath || placeholder}
+              title="Selected Movie"
+            />
           </div>
-
           <CardContent
             style={{
               display: "flex",
@@ -95,7 +90,8 @@ class BookingSummary extends React.Component {
                     color="textSecondary"
                     style={{ marginTop: "20px" }}
                   >
-                    Total cost: $
+                    Total cost: $ 
+{' '}
 {total}
                   </Typography>
                 </>
