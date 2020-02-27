@@ -22,82 +22,82 @@ const EditSchema = Yup.object().shape({
 
 const EditUserDialog = ({ open, handleClose, handleSubmit }) => {
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+      maxWidth="xs"
+      fullWidth
+    >
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between"
+        }}
       >
-        <Container
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between"
+        <DialogTitle id="form-dialog-title">Edit</DialogTitle>
+        <Button onClick={handleClose} color="primary">
+          X
+        </Button>
+      </Container>
+
+      <DialogContent>
+        <Formik
+          initialValues={{
+            password: "",
+            confirm: ""
+          }}
+          validationSchema={EditSchema}
+          onSubmit={values => {
+            handleSubmit(values.password);
           }}
         >
-          <DialogTitle id="form-dialog-title">Edit</DialogTitle>
-          <Button onClick={handleClose} color="primary">
-            X
-          </Button>
-        </Container>
+          {({ values, handleChange, errors, touched }) => (
+            <Grid container spacing={2}>
+              <Form style={{ width: "100%" }}>
+                <Grid item xl={12}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="password"
+                    label="New Password"
+                    type="text"
+                    fullWidth
+                    value={values.password}
+                    onChange={handleChange}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    render={msg => <Typography>{msg}</Typography>}
+                  />
+                </Grid>
+                <Grid item xl={12}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="confirm"
+                    label="Confirm Password"
+                    type="confirm"
+                    fullWidth
+                    value={values.confirm}
+                    onChange={handleChange}
+                  />
+                  <ErrorMessage
+                    name="confirm"
+                    render={msg => <Typography>{msg}</Typography>}
+                  />
+                </Grid>
 
-        <DialogContent>
-          <Formik
-            initialValues={{
-              password: "",
-              confirm: ""
-            }}
-            validationSchema={EditSchema}
-            onSubmit={values => {
-              handleSubmit(values.password);
-            }}
-          >
-            {({ values, handleChange, errors, touched }) => (
-              <Grid container spacing={2}>
-                <Form>
-                  <Grid item xl={12}>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="password"
-                      label="New Password"
-                      type="text"
-                      fullWidth
-                      value={values.password}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="password"
-                      render={msg => <Typography>{msg}</Typography>}
-                    />
-                  </Grid>
-                  <Grid item xl={12}>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="confirm"
-                      label="Confirm Password"
-                      type="confirm"
-                      fullWidth
-                      value={values.confirm}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="confirm"
-                      render={msg => <Typography>{msg}</Typography>}
-                    />
-                  </Grid>
-
-                  <Button type="submit" color="primary">
-                    Accept
-                  </Button>
-                </Form>
-              </Grid>
-            )}
-          </Formik>
-        </DialogContent>
-      </Dialog>
-    </div>
+                <Button type="submit" color="primary">
+                  Accept
+                </Button>
+              </Form>
+            </Grid>
+          )}
+        </Formik>
+      </DialogContent>
+    </Dialog>
   );
 };
 export default EditUserDialog;

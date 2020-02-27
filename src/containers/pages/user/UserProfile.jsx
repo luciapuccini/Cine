@@ -96,15 +96,14 @@ class UserProfile extends React.Component {
                   color="textSecondary"
                   style={{ paddingLeft: "8px" }}
                 >
-                  Email:
-                  {user.email}
+                  Email:{"  "} {user.email}
                 </Typography>
                 <Typography
                   variant="body1"
                   color="textSecondary"
                   style={{ padding: "8px" }}
                 >
-                  Username:
+                  Username:{"  "}
                   {user.name}
                 </Typography>
                 <Typography component="span" style={{ marginBottom: "10px" }} />

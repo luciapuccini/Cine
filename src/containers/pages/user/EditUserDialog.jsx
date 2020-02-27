@@ -20,100 +20,99 @@ const EditSchema = Yup.object().shape({
 
 const EditUserDialog = ({ open, handleClose, handleSubmit, user }) => {
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+      fullWidth
+      maxWidth="xs"
+    >
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between"
+        }}
       >
-        <Container
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between"
+        <DialogTitle id="form-dialog-title">Edit</DialogTitle>
+        <Button onClick={handleClose} color="primary">
+          X
+        </Button>
+      </Container>
+
+      <DialogContent>
+        <Formik
+          initialValues={{
+            name: user.name,
+            email: user.email,
+            password: ""
+          }}
+          validationSchema={EditSchema}
+          onSubmit={values => {
+            handleSubmit(values);
           }}
         >
-          <DialogTitle id="form-dialog-title">Edit</DialogTitle>
-          <Button onClick={handleClose} color="primary">
-            X
-          </Button>
-        </Container>
-
-        <DialogContent>
-          <Formik
-            initialValues={{
-              name: user.name,
-              email: user.email,
-              password: ""
-            }}
-            validationSchema={EditSchema}
-            onSubmit={values => {
-              handleSubmit(values);
-            }}
-          >
-            {({ values, handleChange, errors, touched }) => (
-              <Grid container spacing={2}>
-                <Form>
-                  <Grid item xl={12}>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="name"
-                      label="User Name"
-                      type="text"
-                      fullWidth
-                      value={values.name}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="name"
-                      render={msg => <Typography>{msg}</Typography>}
-                    />
-                  </Grid>
-                  <Grid item xl={12}>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="email"
-                      label="Email Address"
-                      type="email"
-                      fullWidth
-                      value={values.email}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="email"
-                      render={msg => <Typography>{msg}</Typography>}
-                    />
-                  </Grid>
-                  <Grid item xl={12}>
-                    <TextField
-                      margin="dense"
-                      required
-                      autoFocus
-                      id="password"
-                      label="Password"
-                      type="password"
-                      fullWidth
-                      value={values.password}
-                      onChange={handleChange}
-                      error={errors.password && touched.password}
-                    />
-                    <ErrorMessage
-                      name="password"
-                      render={msg => <Typography>{msg}</Typography>}
-                    />
-                  </Grid>
-                  <Button type="submit" color="primary">
-                    Accept
-                  </Button>
-                </Form>
-              </Grid>
-            )}
-          </Formik>
-        </DialogContent>
-      </Dialog>
-    </div>
+          {({ values, handleChange, errors, touched }) => (
+            <Grid container spacing={2}>
+              <Form style={{ width: "100%" }}>
+                <Grid item xl={12}>
+                  <TextField
+                    autoFocus
+                    id="name"
+                    label="User Name"
+                    type="text"
+                    fullWidth
+                    value={values.name}
+                    onChange={handleChange}
+                  />
+                  <ErrorMessage
+                    name="name"
+                    render={msg => <Typography>{msg}</Typography>}
+                  />
+                </Grid>
+                <Grid item xl={12}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="email"
+                    label="Email Address"
+                    type="email"
+                    fullWidth
+                    value={values.email}
+                    onChange={handleChange}
+                  />
+                  <ErrorMessage
+                    name="email"
+                    render={msg => <Typography>{msg}</Typography>}
+                  />
+                </Grid>
+                <Grid item xl={12}>
+                  <TextField
+                    margin="dense"
+                    required
+                    autoFocus
+                    id="password"
+                    label="Password"
+                    type="password"
+                    fullWidth
+                    value={values.password}
+                    onChange={handleChange}
+                    error={errors.password && touched.password}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    render={msg => <Typography>{msg}</Typography>}
+                  />
+                </Grid>
+                <Button type="submit" color="primary">
+                  Accept
+                </Button>
+              </Form>
+            </Grid>
+          )}
+        </Formik>
+      </DialogContent>
+    </Dialog>
   );
 };
 export default EditUserDialog;

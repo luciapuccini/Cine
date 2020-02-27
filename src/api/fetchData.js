@@ -1,5 +1,5 @@
-// const API = "http://tranquil-garden-64415.herokuapp.com";
-const API = "http://localhost:8080";
+const API = "http://tranquil-garden-64415.herokuapp.com";
+//const API = "http://localhost:8080";
 
 // -------------------------- USER ---------------------------
 export const fetchUser = () => {
