@@ -50,8 +50,20 @@ class TableWithActions extends React.Component {
     };
   }
 
-  componentWillReceiveProps({ type, movieData, playData, bookingsData }) {
-    const table = tableConfig(type, movieData, playData, bookingsData);
+  componentWillReceiveProps({
+    type,
+    movieData,
+    playData,
+    bookingsData,
+    priceData
+  }) {
+    const table = tableConfig(
+      type,
+      movieData,
+      playData,
+      bookingsData,
+      priceData
+    );
     this.setState({
       type,
       title: table.title,
@@ -61,6 +73,7 @@ class TableWithActions extends React.Component {
   }
 
   deleteAction = rowData => {
+    console.log(rowData);
     const { type } = this.state;
     const { bookId } = rowData;
     const { movieId } = rowData;
@@ -133,7 +146,7 @@ class TableWithActions extends React.Component {
 
   avaliableActions = () => {
     const { type } = this.state;
-    const { onlyRequest, deleteAction, selectPlay } = this.props;
+    const { onlyRequest, selectPlay } = this.props;
     const actions = [];
 
     if (type !== "booking" && !onlyRequest) {
@@ -147,7 +160,7 @@ class TableWithActions extends React.Component {
         {
           icon: () => <DeleteOutline />,
           tooltip: "Delete",
-          onClick: (event, rowData) => deleteAction(rowData)
+          onClick: (event, rowData) => this.deleteAction(rowData)
         }
       );
       return actions;

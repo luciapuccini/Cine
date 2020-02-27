@@ -29,7 +29,6 @@ class UserPanel extends React.Component {
   }
 
   componentDidMount() {
-   
     const userId = localStorage.getItem("USER_ID");
     getMovies().then(data => {
       this.setState({ movieData: data });
@@ -58,7 +57,7 @@ class UserPanel extends React.Component {
   }
 
   render() {
-    const { movieData, bookingsData, playData } = this.state;
+    const { movieData, bookingsData, playData, priceData } = this.state;
     return (
       <div>
         {_.map(enabledActions(), action => {
@@ -77,6 +76,7 @@ class UserPanel extends React.Component {
                   movieData={movieData}
                   playData={playData}
                   bookingsData={bookingsData}
+                  priceData={priceData}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>

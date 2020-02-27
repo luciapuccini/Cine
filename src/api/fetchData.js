@@ -213,10 +213,10 @@ export const addMovie = (movie, image) => {
 
 export const deleteMovie = movieId => {
   const token = localStorage.getItem("JWT");
-
+  console.log(movieId);
   return fetch("http://localhost:8080/movies/delete", {
     method: "POST",
-    body: JSON.stringify({ movieId }),
+    body: JSON.stringify({ id: movieId }),
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`

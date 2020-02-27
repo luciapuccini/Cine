@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import _ from "lodash";
+import { addPrice } from "../api/fetchData";
 
 const buildBookingsData = data => {
   const formated = [];
@@ -12,11 +13,23 @@ const buildBookingsData = data => {
   return formated;
 };
 
+const buildPriceData = data => {
+  const formated = [];
+  data.forEach(price => {
+    formated.push({
+      regularPrice: price.regularPrice,
+      superSeatPrice: price.superSeatPrice,
+      activationDate: price.activationDate
+    });
+  });
+  return formated;
+};
+
 const buildMoviesData = data => {
   const formated = [];
   data.forEach(movie => {
     formated.push({
-      movieId: movie.id, // FIXME: CHANGE TO MOVIEID
+      movieId: movie.movieId,
       movieTitle: movie.name,
       duration: movie.duration,
       synopsis: movie.synopsis
@@ -80,6 +93,16 @@ export const tableConfig = (type, movieData, playData, bookingData) => {
           { title: "Room", field: "room" }
         ],
         data: buildPlaysData(playData)
+      };
+    case "price":
+      return {
+        title: `Table ${type}`,
+        columns: [
+          { title: "Activation Date", field: "activation" },
+          { title: "Regular Price", field: "regularPrice" },
+          { title: "Super Seat Price", field: "superSeatPrice" }
+        ],
+        data: buildPriceData(priceData)
       };
     default:
       return {};
