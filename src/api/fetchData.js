@@ -1,8 +1,10 @@
-// -------------------------- USER ---------------------------
+// const API = "http://tranquil-garden-64415.herokuapp.com";
+const API = "http://localhost:8080";
 
+// -------------------------- USER ---------------------------
 export const fetchUser = () => {
   const token = localStorage.getItem("JWT");
-  return fetch("http://localhost:8080/user/getUser", {
+  return fetch(`${API}/user/getUser`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`
@@ -26,9 +28,8 @@ export const fetchUser = () => {
 
 export const editUser = user => {
   const token = localStorage.getItem("JWT");
-
   console.log("EDIT", Headers, user);
-  return fetch("http://localhost:8080/user/modify", {
+  return fetch(`${API}/user/modify`, {
     method: "PUT",
     body: JSON.stringify(user),
     headers: {
@@ -53,7 +54,7 @@ export const editUser = user => {
 export const createUser = (email, name, password) => {
   const token = localStorage.getItem("JWT");
   const user = { email, name, password };
-  return fetch("http://localhost:8080/user/add", {
+  return fetch(`${API}/user/add`, {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
@@ -81,7 +82,7 @@ export const createUser = (email, name, password) => {
 export const createBooking = booking => {
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/books/add", {
+  return fetch(`${API}/books/add`, {
     method: "POST",
     body: JSON.stringify(booking),
     headers: {
@@ -104,10 +105,9 @@ export const createBooking = booking => {
 };
 
 export const fetchBookings = userId => {
-  console.log("fetch booki");
   const token = localStorage.getItem("JWT");
 
-  const bookingsData = fetch(`http://localhost:8080/books/${userId}`, {
+  const bookingsData = fetch(`${API}/books/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -120,7 +120,7 @@ export const fetchBookings = userId => {
 export const deleteBooking = bookingId => {
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/books/delete", {
+  return fetch(`${API}/books/delete`, {
     method: "POST",
     body: JSON.stringify(bookingId),
     headers: {
@@ -145,7 +145,7 @@ export const deleteBooking = bookingId => {
 export const bookTemporalSeat = booking => {
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/books/bookTemporalSeat", {
+  return fetch(`${API}/books/bookTemporalSeat`, {
     method: "POST",
     body: JSON.stringify(booking),
     headers: {
@@ -157,7 +157,6 @@ export const bookTemporalSeat = booking => {
       return response.json();
     })
     .then(booking => {
-      console.log(booking, "1");
       return booking;
     })
     .catch(error => {
@@ -165,10 +164,11 @@ export const bookTemporalSeat = booking => {
       return error;
     });
 };
+
 // -------------------------- MOVIES ----------------------------------
 
 export const getMovies = () => {
-  const movieData = fetch("http://localhost:8080/movies/all")
+  const movieData = fetch(`${API}/movies/all`)
     .then(response => response.json())
     .then(movies => {
       if (movies.code) {
@@ -189,7 +189,7 @@ export const addMovie = (movie, image) => {
   formData.append("movie", JSON.stringify(movie));
   formData.append("imageFile", image);
 
-  return fetch("http://localhost:8080/movies/add", {
+  return fetch(`${API}/movies/add`, {
     method: "POST",
     body: formData,
     headers: {
@@ -213,8 +213,7 @@ export const addMovie = (movie, image) => {
 
 export const deleteMovie = movieId => {
   const token = localStorage.getItem("JWT");
-  console.log(movieId);
-  return fetch("http://localhost:8080/movies/delete", {
+  return fetch(`${API}/movies/delete`, {
     method: "POST",
     body: JSON.stringify({ id: movieId }),
     headers: {
@@ -239,8 +238,7 @@ export const deleteMovie = movieId => {
 export const editMovie = movie => {
   const token = localStorage.getItem("JWT");
 
-  console.log("que madno", movie);
-  return fetch("http://localhost:8080/movies/modify", {
+  return fetch(`${API}/movies/modify`, {
     method: "PUT",
     body: JSON.stringify(movie),
     headers: {
@@ -265,7 +263,7 @@ export const editMovie = movie => {
 export const fetchMovie = id => {
   const token = localStorage.getItem("JWT");
   const movieId = { id };
-  return fetch("http://localhost:8080/movies/getMoviePlays", {
+  return fetch(`${API}/movies/getMoviePlays`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -291,7 +289,7 @@ export const fetchMovie = id => {
 
 export const fetchPlays = () => {
   const token = localStorage.getItem("JWT");
-  return fetch("http://localhost:8080/plays/all", {
+  return fetch(`${API}/plays/all`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -313,7 +311,7 @@ export const fetchPlays = () => {
 export const addPlay = play => {
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/plays/add", {
+  return fetch(`${API}/plays/add`, {
     method: "POST",
     body: JSON.stringify(play),
     headers: {
@@ -338,7 +336,7 @@ export const addPlay = play => {
 export const fetchPlay = playPk => {
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/plays/getPlay", {
+  return fetch(`${API}/plays/getPlay`, {
     method: "POST",
     body: JSON.stringify(playPk),
     headers: {
@@ -364,7 +362,7 @@ export const fetchPlay = playPk => {
 export const deletePlay = playPk => {
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/plays/delete", {
+  return fetch(`${API}/plays/delete`, {
     method: "POST",
     body: JSON.stringify(playPk),
     headers: {
@@ -389,7 +387,7 @@ export const deletePlay = playPk => {
 export const getPlayBookedSeats = playPk => {
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/plays/getPlayBookedSeats", {
+  return fetch(`${API}/plays/getPlayBookedSeats`, {
     method: "POST",
     body: JSON.stringify(playPk),
     headers: {
@@ -410,12 +408,13 @@ export const getPlayBookedSeats = playPk => {
       console.log(error);
     });
 };
+
 // --------------------------PRICES---------------------------------
 
 export const getCurrentPrices = () => {
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/price/getCurrentPrices", {
+  return fetch(`${API}/price/getCurrentPrices`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -430,16 +429,15 @@ export const getCurrentPrices = () => {
       return plays;
     })
     .catch(error => {
-      return error;
       console.log(error);
+      return error;
     });
 };
 
 export const addPrice = price => {
-  console.log(price);
   const token = localStorage.getItem("JWT");
 
-  return fetch("http://localhost:8080/price/add", {
+  return fetch(`${API}/price/add`, {
     method: "POST",
     body: JSON.stringify(price),
     headers: {
@@ -451,6 +449,7 @@ export const addPrice = price => {
       return response.json();
     })
     .then(price => {
+      console.log("PRICE", price);
       if (!price.status) {
         throw Error(price.message);
       }
@@ -465,7 +464,8 @@ export const addPrice = price => {
 export const fetchPrices = () => {
   const token = localStorage.getItem("JWT");
   console.log("get prices", token);
-  return fetch("http://localhost:8080/price/getAll", {
+
+  return fetch(`${API}/price/getAll`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -474,21 +474,23 @@ export const fetchPrices = () => {
       return response.json();
     })
     .then(price => {
+      console.log("PRICE ALL", price);
       if (price.code) {
         throw Error(price.message);
       }
       return price;
     })
     .catch(error => {
-      return error;
       console.log(error);
+      return error;
     });
 };
 
 // ----------------------------- AUTH -------------------------------
-export const login = (email, password, history) => {
+
+export const login = (email, password) => {
   const user = { email, password };
-  return fetch("http://localhost:8080/user/login", {
+  return fetch(`${API}/user/login`, {
     method: "POST",
     body: JSON.stringify(user),
     headers: { "Content-Type": "application/json" }
@@ -498,14 +500,11 @@ export const login = (email, password, history) => {
     })
     .then(data => {
       if (data.code) {
-        console.log(data);
         throw Error(data.message);
       } else if (data.jwk !== undefined) {
         localStorage.setItem("JWT", data.jwt);
       }
-
       localStorage.setItem("JWT", data.jwt);
-
       return data;
     })
     .catch(error => {

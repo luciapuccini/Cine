@@ -17,7 +17,7 @@ const buildPriceData = data => {
   const formated = [];
   data.forEach(price => {
     formated.push({
-      regularPrice: price.regularPrice,
+      regularPrice: price.regularSeatPrice,
       superSeatPrice: price.superSeatPrice,
       activationDate: price.activationDate
     });
@@ -55,7 +55,13 @@ export const buildPlaysData = (data, lookup) => {
   return formated;
 };
 
-export const tableConfig = (type, movieData, playData, bookingData) => {
+export const tableConfig = (
+  type,
+  movieData,
+  playData,
+  bookingData,
+  priceData
+) => {
   // FIXME: the plays need a movie titles array for the lookups
   // const lookupMovies = mapSelectableMovies(movieData);
 
@@ -98,7 +104,7 @@ export const tableConfig = (type, movieData, playData, bookingData) => {
       return {
         title: `Table ${type}`,
         columns: [
-          { title: "Activation Date", field: "activation" },
+          { title: "Activation Date", field: "activationDate" },
           { title: "Regular Price", field: "regularPrice" },
           { title: "Super Seat Price", field: "superSeatPrice" }
         ],

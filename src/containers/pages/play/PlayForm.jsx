@@ -4,9 +4,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
-import { MenuItem, Container, Grid } from "@material-ui/core";
+import { MenuItem, Container, Grid, TextField } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-
+import moment from "moment";
 import { Select } from "formik-material-ui";
 
 import { Formik, Form, ErrorMessage, Field } from "formik";
@@ -40,7 +40,7 @@ class PlayForm extends React.Component {
     super(props);
     this.state = {
       open: false,
-      startTime: defaultStartTimes,
+      startTime: "",
       movies: [],
       rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       error: false
@@ -49,7 +49,6 @@ class PlayForm extends React.Component {
 
   componentDidMount() {
     const { movieData, open } = this.props;
-    console.log("movies", movieData);
     this.setState({ open, movies: movieData });
   }
 
@@ -64,10 +63,9 @@ class PlayForm extends React.Component {
   handleSubmit = values => {
     console.log(values);
     const playPK = {
-      //  userId: getUserId(),
       movieId: values.movie.id,
       roomId: values.room,
-      startTime: values.startTime
+      startTime: moment(values.startTime).toISOString()
     };
     const res = addPlay(playPK);
     res.then(response => {
@@ -110,9 +108,9 @@ class PlayForm extends React.Component {
             {movies ? (
               <Formik
                 initialValues={{
-                  movie: {},
-                  room: 1,
-                  startTime: defaultStartTimes[0]
+                  movie: this.state.movies[0],
+                  room: this.state.rooms[0],
+                  startTime: this.state.startTime
                 }}
                 onSubmit={values => {
                   this.handleSubmit(values);
@@ -174,22 +172,19 @@ class PlayForm extends React.Component {
                       </Grid>
                       <Grid item xl={12} />
                       <Grid item xs={12}>
-                        <Field
+                        <TextField
                           autoFocus
                           margin="dense"
-                          name="startTime"
-                          label="Date and Time"
+                          name="activation"
+                          label="Activation Date"
+                          type="datetime-local"
+                          InputLabelProps={{
+                            shrink: true
+                          }}
                           fullWidth
-                          component={Select}
                           onChange={handleChange}
                           value={values.startTime}
-                        >
-                          {startTime.map(time => (
-                            <MenuItem key={time} value={time}>
-                              {time}
-                            </MenuItem>
-                          ))}
-                        </Field>
+                        />
 
                         <ErrorMessage
                           name="movie"
