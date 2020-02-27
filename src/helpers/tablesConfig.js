@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import _ from "lodash";
-import { addPrice } from "../api/fetchData";
+import moment from "moment";
 
 const buildBookingsData = data => {
   console.log(data);
@@ -8,7 +8,7 @@ const buildBookingsData = data => {
   data.forEach(book => {
     formated.push({
       bookId: book.bookId,
-      bookDate: book.bookDate
+      bookDate: moment(book.bookDate).format(" DD/MM/YYYY h:mm A")
     });
   });
   return formated;
@@ -18,9 +18,10 @@ const buildPriceData = data => {
   const formated = [];
   data.forEach(price => {
     formated.push({
+      setDate: moment(price.setDate).format(" DD/MM/YYYY h:mm A"),
       regularPrice: price.regularSeatPrice,
       superSeatPrice: price.superSeatPrice,
-      activationDate: price.activationDate
+      activationDate: moment(price.activationDate).format(" DD/MM/YYYY h:mm A")
     });
   });
   return formated;
@@ -47,7 +48,9 @@ export const buildPlaysData = (data, lookup) => {
       formated.push({
         movieTitle: play.movie.name,
         duration: play.movie.duration,
-        movieStartTime: play.playPK.startTime,
+        movieStartTime: moment(play.playPK.startTime).format(
+          " DD/MM/YYYY h:mm A"
+        ),
         room: play.room.id,
         playPK: play.playPK
       });
@@ -105,6 +108,7 @@ export const tableConfig = (
       return {
         title: `Table ${type}`,
         columns: [
+          { title: "Set Date", field: "setDate" },
           { title: "Activation Date", field: "activationDate" },
           { title: "Regular Price", field: "regularPrice" },
           { title: "Super Seat Price", field: "superSeatPrice" }

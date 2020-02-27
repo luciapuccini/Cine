@@ -22,12 +22,6 @@ class BookingSummary extends React.Component {
     this.state = {};
   }
 
-  formatPlay = play => {
-    return {
-      date: moment(play).format("dddd, MMMM Do YYYY"),
-      time: moment(play).format("h:mm a")
-    };
-  };
   render() {
     const {
       selectedMovie,
@@ -38,7 +32,6 @@ class BookingSummary extends React.Component {
     } = this.props;
 
     const placeholder = require("../../../assets/placeholder.png");
-    const { date, time } = this.formatPlay(selectedPlay.movieStartTime);
 
     return (
       <Card style={{ display: "flex", flexDirection: "row" }}>
@@ -68,22 +61,15 @@ class BookingSummary extends React.Component {
                 {selectedMovie ? `MOVIE: ${selectedMovie.name}` : null}
               </Typography>
               {!_.isEmpty(selectedPlay) ? (
-                <>
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                    style={{ marginTop: "20px" }}
-                  >
-                    DATE: {date}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                    style={{ marginTop: "20px" }}
-                  >
-                    TIME: {time}
-                  </Typography>
-                </>
+                <Typography
+                  variant="body1"
+                  color="textSecondary"
+                  style={{ marginTop: "20px" }}
+                >
+                  DATE: 
+{' '}
+{selectedPlay.movieStartTime}
+                </Typography>
               ) : null}
               {selectedSeat ? (
                 <>
@@ -92,7 +78,9 @@ class BookingSummary extends React.Component {
                     color="textSecondary"
                     style={{ marginTop: "20px" }}
                   >
-                    SEAT: {selectedSeat}
+                    SEAT: 
+{' '}
+{selectedSeat}
                   </Typography>
 
                   <Typography
@@ -100,7 +88,9 @@ class BookingSummary extends React.Component {
                     color="textSecondary"
                     style={{ marginTop: "20px" }}
                   >
-                    Total cost: $ {total}
+                    Total cost: $ 
+{' '}
+{total}
                   </Typography>
                 </>
               ) : null}

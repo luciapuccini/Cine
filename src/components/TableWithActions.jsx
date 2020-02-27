@@ -67,28 +67,6 @@ class TableWithActions extends React.Component {
     });
   }
 
-  /*  deleteAction = rowData => {
-    console.log("try to delete", rowData);
-    const { type } = this.state;
-    const { bookId } = rowData;
-    const { movieId } = rowData;
-    const { playPK } = rowData;
-    switch (type) {
-      case "booking":
-        deleteBooking(bookId);
-        break;
-      case "movie":
-        deleteMovie(movieId);
-        break;
-      case "play":
-        deletePlay(playPK);
-        break;
-      default:
-        break;
-    }
-  };
-*/
-
   handlePlayClose = () => {
     this.setState({ isPlayOpen: false });
   };
@@ -196,7 +174,7 @@ class TableWithActions extends React.Component {
         {isPlayOpen ? (
           <PlayForm
             open={isPlayOpen}
-            onClose={this.handleClose}
+            onClose={this.handlePlayClose}
             movieData={movieData}
           />
         ) : null}

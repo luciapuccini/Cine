@@ -56,21 +56,19 @@ class PlayForm extends React.Component {
     this.setState({ open: true });
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  handleClose = () => this.props.onClose();
 
   handleSubmit = values => {
     console.log(values);
     const playPK = {
-      movieId: values.movie.id,
+      movieId: values.movie.movieId,
       roomId: values.room,
       startTime: moment(values.startTime).toISOString()
     };
     const res = addPlay(playPK);
     res.then(response => {
       if (response) {
-        this.handleClose();
+        console.log("success");
       } else {
         this.setState({ error: true });
       }
@@ -110,7 +108,7 @@ class PlayForm extends React.Component {
                 initialValues={{
                   movie: this.state.movies[0],
                   room: this.state.rooms[0],
-                  startTime: this.state.startTime
+                  startTime
                 }}
                 onSubmit={values => {
                   this.handleSubmit(values);
@@ -175,8 +173,8 @@ class PlayForm extends React.Component {
                         <TextField
                           autoFocus
                           margin="dense"
-                          name="activation"
-                          label="Activation Date"
+                          name="startTime"
+                          label="Movie Start Time"
                           type="datetime-local"
                           InputLabelProps={{
                             shrink: true
