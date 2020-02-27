@@ -76,7 +76,9 @@ export default class Bookings extends Component {
     const { selectedPlay } = this.state;
     const userId = localStorage.getItem("USER_ID");
     const book = this.buildBook(userId, selectedPlay.playPK);
-    createBooking(book);
+    createBooking(book).then(book => {
+      this.props.history.push("/app/home");
+    });
   };
 
   buildBook = (userId, playPk) => {
@@ -108,8 +110,8 @@ export default class Bookings extends Component {
                 onConfirm={() => this.confirmBook()}
               />
             ) : (
-                <CircularProgress />
-              )}
+              <CircularProgress />
+            )}
           </Grid>
           <Grid item xs={8}>
             <StepperProgress

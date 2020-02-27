@@ -29,7 +29,7 @@ class UserPanel extends React.Component {
   }
 
   componentDidMount() {
-    // const { userId } = this.props.user;
+   
     const userId = localStorage.getItem("USER_ID");
     getMovies().then(data => {
       this.setState({ movieData: data });
