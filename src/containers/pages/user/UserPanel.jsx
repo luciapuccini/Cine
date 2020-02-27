@@ -15,7 +15,11 @@ import {
   fetchPlays,
   fetchBookings,
   fetchPrices,
-  editMovie
+  editMovie,
+  deleteMovie,
+  deleteBooking,
+  deletePlay,
+  fetchMovie
 } from "../../../api/fetchData";
 
 class UserPanel extends React.Component {
@@ -74,6 +78,35 @@ class UserPanel extends React.Component {
     }
   };
 
+  deleteAction = (rowData, type) => {
+    const userId = localStorage.getItem("USER_ID");
+    console.log("try to delete", rowData);
+    const { bookId } = rowData;
+    const { movieId } = rowData;
+    const { playPK } = rowData;
+    switch (type) {
+      case "booking":
+        deleteBooking(bookId).then(() =>
+          fetchBookings(userId).then(bookings =>
+            this.setState({ bookingsData: bookings })
+          )
+        );
+        break;
+      case "movie":
+        deleteMovie(movieId).then(() =>
+          getMovies().then(movieData => this.setState({ movieData }))
+        );
+        break;
+      case "play":
+        deletePlay(playPK).then(() =>
+          fetchPlays().then(playData => this.setState({ playData }))
+        );
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
     const { movieData, bookingsData, playData, priceData } = this.state;
     return (
@@ -96,6 +129,7 @@ class UserPanel extends React.Component {
                   bookingsData={bookingsData}
                   priceData={priceData}
                   editAction={this.editAction}
+                  deleteAction={this.deleteAction}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>

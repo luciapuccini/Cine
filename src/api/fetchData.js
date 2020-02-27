@@ -1,5 +1,5 @@
-const API = "http://tranquil-garden-64415.herokuapp.com";
-//const API = "http://localhost:8080";
+// const API = "http://tranquil-garden-64415.herokuapp.com";
+const API = "http://localhost:8080";
 
 // -------------------------- USER ---------------------------
 export const fetchUser = () => {
@@ -14,7 +14,7 @@ export const fetchUser = () => {
       return response.json();
     })
     .then(user => {
-      if (user.status) {
+      if (user.code) {
         throw Error(user.message);
       }
       localStorage.setItem("isAdmin", user.role === "ROLE_ADMIN");
@@ -41,7 +41,7 @@ export const editUser = user => {
       return response.json();
     })
     .then(u => {
-      if (u.status) {
+      if (u.code) {
         throw Error(u.message);
       }
       return u;
@@ -66,7 +66,7 @@ export const createUser = (email, name, password) => {
       return response.json();
     })
     .then(u => {
-      if (u.status) {
+      if (u.code) {
         throw Error(u.message);
       }
       return u;
@@ -94,7 +94,7 @@ export const createBooking = booking => {
       return response.json();
     })
     .then(booking => {
-      if (booking.status) {
+      if (booking.code) {
         throw Error(booking.message);
       }
       return booking;
@@ -117,22 +117,23 @@ export const fetchBookings = userId => {
   return bookingsData;
 };
 
-export const deleteBooking = bookingId => {
+export const deleteBooking = bookId => {
   const token = localStorage.getItem("JWT");
 
   return fetch(`${API}/books/delete`, {
     method: "POST",
-    body: JSON.stringify(bookingId),
+    body: JSON.stringify({ bookId }),
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     }
   })
     .then(response => {
-      return response.json();
+      return response;
     })
     .then(booking => {
-      if (booking.status) {
+      console.log(booking);
+      if (booking.code) {
         throw Error(booking.message);
       }
       return booking;
@@ -171,7 +172,7 @@ export const getMovies = () => {
   const movieData = fetch(`${API}/movies/all`)
     .then(response => response.json())
     .then(movies => {
-      if (movies.status) {
+      if (movies.code) {
         throw Error(movies.message);
       }
       return movies;
@@ -200,7 +201,7 @@ export const addMovie = (movie, image) => {
       return response.json();
     })
     .then(mov => {
-      if (mov.status) {
+      if (mov.code) {
         throw Error(mov.message);
       }
       return mov;
@@ -222,10 +223,11 @@ export const deleteMovie = movieId => {
     }
   })
     .then(response => {
-      return response.json();
+      return response;
     })
     .then(movie => {
-      if (movie.status) {
+      console.log(movie);
+      if (movie.code) {
         throw Error(movie.message);
       }
       return movie;
@@ -250,7 +252,7 @@ export const editMovie = movie => {
       return response.json();
     })
     .then(mov => {
-      if (mov.status) {
+      if (mov.code) {
         throw Error(mov.message);
       }
       return mov;
@@ -276,7 +278,7 @@ export const fetchMovie = id => {
       return response.json();
     })
     .then(movie => {
-      if (movie.status) {
+      if (movie.code) {
         throw Error(movie.message);
       }
       return movie;
@@ -299,7 +301,7 @@ export const fetchPlays = () => {
       return response.json();
     })
     .then(plays => {
-      if (plays.status) {
+      if (plays.code) {
         throw Error(plays.message);
       }
       return plays;
@@ -324,7 +326,7 @@ export const addPlay = play => {
       return response.json();
     })
     .then(p => {
-      if (p.status) {
+      if (p.code) {
         throw Error(p.message);
       }
       return p;
@@ -349,7 +351,7 @@ export const fetchPlay = playPk => {
       return response.json();
     })
     .then(play => {
-      if (play.status) {
+      if (play.code) {
         throw Error(play.message);
       }
       return play;
@@ -372,10 +374,11 @@ export const deletePlay = playPk => {
     }
   })
     .then(response => {
-      return response.json();
+      return response;
     })
     .then(play => {
-      if (play.status) {
+      console.log(play);
+      if (play.code) {
         throw Error(play.message);
       }
       return play;
@@ -400,7 +403,7 @@ export const getPlayBookedSeats = playPk => {
       return response.json();
     })
     .then(play => {
-      if (play.status) {
+      if (play.code) {
         throw Error(play.message);
       }
       return play;
@@ -424,8 +427,7 @@ export const getCurrentPrices = () => {
       return response.json();
     })
     .then(price => {
-      console.log(price);
-      if (price.status) {
+      if (price.code) {
         throw Error(price.message);
       }
       return price;
@@ -451,8 +453,7 @@ export const addPrice = price => {
       return response.json();
     })
     .then(price => {
-      console.log("PRICE", price);
-      if (!price.status) {
+      if (!price.code) {
         throw Error(price.message);
       }
       return price;
@@ -475,8 +476,7 @@ export const fetchPrices = () => {
       return response.json();
     })
     .then(price => {
-      console.log(price);
-      if (price.status) {
+      if (price.code) {
         throw Error(price.message);
       }
       return price;
@@ -500,7 +500,7 @@ export const login = (email, password) => {
       return response.json();
     })
     .then(data => {
-      if (data.status) {
+      if (data.code) {
         throw Error(data.message);
       } else if (data.jwk !== undefined) {
         localStorage.setItem("JWT", data.jwt);

@@ -67,7 +67,6 @@ class CustomSeatPicker extends Component {
     if (prevState.play !== this.state.play) {
       const takenSeats = getPlayBookedSeats(playPK);
       takenSeats.then(taken => {
-        console.log("tengo takens2", taken);
         const rows = buildRows(buildTaken(taken));
         this.setState({ rows });
       });

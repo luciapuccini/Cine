@@ -3,6 +3,7 @@ import _ from "lodash";
 import { addPrice } from "../api/fetchData";
 
 const buildBookingsData = data => {
+  console.log(data);
   const formated = [];
   data.forEach(book => {
     formated.push({

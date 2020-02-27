@@ -11,13 +11,7 @@ import {
 import PlayForm from "../containers/pages/play/PlayForm";
 import MovieForm from "../containers/pages/movie/MovieForm";
 import PriceForm from "../containers/pages/prices/PriceForm";
-import {
-  deleteMovie,
-  deleteBooking,
-  deletePlay,
-  editMovie,
-  getMovies
-} from "../api/fetchData";
+
 import { tableConfig } from "../helpers/tablesConfig";
 
 const tableIcons = {
@@ -73,8 +67,8 @@ class TableWithActions extends React.Component {
     });
   }
 
-  deleteAction = rowData => {
-    console.log(rowData);
+  /*  deleteAction = rowData => {
+    console.log("try to delete", rowData);
     const { type } = this.state;
     const { bookId } = rowData;
     const { movieId } = rowData;
@@ -93,27 +87,7 @@ class TableWithActions extends React.Component {
         break;
     }
   };
-
-  /* editAction = rowData => {
-    const { type } = this.state;
-    switch (type) {
-      case "movie":
-        // eslint-disable-next-line no-case-declarations
-        const movie = {
-          id: rowData.movieId,
-          duration: rowData.duration,
-          name: rowData.movieTitle
-        };
-        editMovie(movie);
-        break;
-      case "play":
-        // editPlay(rowData);
-
-        break;
-      default:
-        break;
-    }
-  }; */
+*/
 
   handlePlayClose = () => {
     this.setState({ isPlayOpen: false });
@@ -146,7 +120,7 @@ class TableWithActions extends React.Component {
 
   avaliableActions = () => {
     const { type } = this.state;
-    const { onlyRequest, selectPlay } = this.props;
+    const { onlyRequest, selectPlay, deleteAction } = this.props;
     const actions = [];
 
     if (!onlyRequest) {
@@ -161,7 +135,7 @@ class TableWithActions extends React.Component {
         {
           icon: () => <DeleteOutline />,
           tooltip: "Delete",
-          onClick: (event, rowData) => this.deleteAction(rowData)
+          onClick: (event, rowData) => deleteAction(rowData, type)
         }
       );
       return actions;
