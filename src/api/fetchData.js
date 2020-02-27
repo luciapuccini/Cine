@@ -464,7 +464,6 @@ export const addPrice = price => {
 
 export const fetchPrices = () => {
   const token = localStorage.getItem("JWT");
-  console.log("get prices", token);
 
   return fetch(`${API}/price/getAll`, {
     headers: {
@@ -475,7 +474,6 @@ export const fetchPrices = () => {
       return response.json();
     })
     .then(price => {
-      console.log("PRICE ALL", price);
       if (price.status) {
         throw Error(price.message);
       }

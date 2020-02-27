@@ -36,7 +36,6 @@ class UserPanel extends React.Component {
       this.setState({ movieData: data });
     });
     fetchPlays().then(data => {
-      console.log("play", data);
       this.setState({ playData: data });
     });
 
@@ -51,7 +50,6 @@ class UserPanel extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.user !== this.props.user) {
-      console.log("llega user", this.props.user);
       fetchBookings(this.props.user.userId).then(data => {
         this.setState({ bookingsData: data });
       });
