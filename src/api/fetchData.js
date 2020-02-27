@@ -14,7 +14,7 @@ export const fetchUser = () => {
       return response.json();
     })
     .then(user => {
-      if (user.code) {
+      if (user.status) {
         throw Error(user.message);
       }
       localStorage.setItem("isAdmin", user.role === "ROLE_ADMIN");
@@ -28,7 +28,7 @@ export const fetchUser = () => {
 
 export const editUser = user => {
   const token = localStorage.getItem("JWT");
-  console.log("EDIT", Headers, user);
+  console.log("EDIT", user);
   return fetch(`${API}/user/modify`, {
     method: "PUT",
     body: JSON.stringify(user),
@@ -41,7 +41,7 @@ export const editUser = user => {
       return response.json();
     })
     .then(u => {
-      if (u.code) {
+      if (u.status) {
         throw Error(u.message);
       }
       return u;
@@ -66,7 +66,7 @@ export const createUser = (email, name, password) => {
       return response.json();
     })
     .then(u => {
-      if (u.code) {
+      if (u.status) {
         throw Error(u.message);
       }
       return u;
@@ -94,7 +94,7 @@ export const createBooking = booking => {
       return response.json();
     })
     .then(booking => {
-      if (booking.code) {
+      if (booking.status) {
         throw Error(booking.message);
       }
       return booking;
@@ -132,7 +132,7 @@ export const deleteBooking = bookingId => {
       return response.json();
     })
     .then(booking => {
-      if (booking.code) {
+      if (booking.status) {
         throw Error(booking.message);
       }
       return booking;
@@ -171,7 +171,7 @@ export const getMovies = () => {
   const movieData = fetch(`${API}/movies/all`)
     .then(response => response.json())
     .then(movies => {
-      if (movies.code) {
+      if (movies.status) {
         throw Error(movies.message);
       }
       return movies;
@@ -200,7 +200,7 @@ export const addMovie = (movie, image) => {
       return response.json();
     })
     .then(mov => {
-      if (mov.code) {
+      if (mov.status) {
         throw Error(mov.message);
       }
       return mov;
@@ -225,7 +225,7 @@ export const deleteMovie = movieId => {
       return response.json();
     })
     .then(movie => {
-      if (movie.code) {
+      if (movie.status) {
         throw Error(movie.message);
       }
       return movie;
@@ -250,12 +250,13 @@ export const editMovie = movie => {
       return response.json();
     })
     .then(mov => {
-      if (mov.code) {
+      if (mov.status) {
         throw Error(mov.message);
       }
       return mov;
     })
     .catch(error => {
+      alert(error);
       console.log(error);
     });
 };
@@ -275,7 +276,7 @@ export const fetchMovie = id => {
       return response.json();
     })
     .then(movie => {
-      if (movie.code) {
+      if (movie.status) {
         throw Error(movie.message);
       }
       return movie;
@@ -298,7 +299,7 @@ export const fetchPlays = () => {
       return response.json();
     })
     .then(plays => {
-      if (plays.code) {
+      if (plays.status) {
         throw Error(plays.message);
       }
       return plays;
@@ -323,7 +324,7 @@ export const addPlay = play => {
       return response.json();
     })
     .then(p => {
-      if (p.code) {
+      if (p.status) {
         throw Error(p.message);
       }
       return p;
@@ -348,7 +349,7 @@ export const fetchPlay = playPk => {
       return response.json();
     })
     .then(play => {
-      if (play.code) {
+      if (play.status) {
         throw Error(play.message);
       }
       return play;
@@ -374,7 +375,7 @@ export const deletePlay = playPk => {
       return response.json();
     })
     .then(play => {
-      if (play.code) {
+      if (play.status) {
         throw Error(play.message);
       }
       return play;
@@ -399,7 +400,7 @@ export const getPlayBookedSeats = playPk => {
       return response.json();
     })
     .then(play => {
-      if (play.code) {
+      if (play.status) {
         throw Error(play.message);
       }
       return play;
@@ -423,7 +424,7 @@ export const getCurrentPrices = () => {
       return response.json();
     })
     .then(plays => {
-      if (plays.code) {
+      if (plays.status) {
         throw Error(plays.message);
       }
       return plays;
@@ -475,7 +476,7 @@ export const fetchPrices = () => {
     })
     .then(price => {
       console.log("PRICE ALL", price);
-      if (price.code) {
+      if (price.status) {
         throw Error(price.message);
       }
       return price;
@@ -499,7 +500,7 @@ export const login = (email, password) => {
       return response.json();
     })
     .then(data => {
-      if (data.code) {
+      if (data.status) {
         throw Error(data.message);
       } else if (data.jwk !== undefined) {
         localStorage.setItem("JWT", data.jwt);

@@ -15,7 +15,8 @@ import {
   deleteMovie,
   deleteBooking,
   deletePlay,
-  editMovie
+  editMovie,
+  getMovies
 } from "../api/fetchData";
 import { tableConfig } from "../helpers/tablesConfig";
 
@@ -87,14 +88,13 @@ class TableWithActions extends React.Component {
         break;
       case "play":
         deletePlay(playPK);
-
         break;
       default:
         break;
     }
   };
 
-  editAction = rowData => {
+  /* editAction = rowData => {
     const { type } = this.state;
     switch (type) {
       case "movie":
@@ -113,7 +113,7 @@ class TableWithActions extends React.Component {
       default:
         break;
     }
-  };
+  }; */
 
   handlePlayClose = () => {
     this.setState({ isPlayOpen: false });
@@ -149,13 +149,14 @@ class TableWithActions extends React.Component {
     const { onlyRequest, selectPlay } = this.props;
     const actions = [];
 
-    if (type !== "booking" && !onlyRequest) {
+    if (!onlyRequest) {
       actions.push(
         {
           icon: () => <AddBox />,
           tooltip: "Add new",
           isFreeAction: true,
-          onClick: () => this.addAction()
+          onClick: () => this.addAction(),
+          disabled: type === "booking"
         },
         {
           icon: () => <DeleteOutline />,
@@ -180,8 +181,8 @@ class TableWithActions extends React.Component {
 
   onEdit = () => {
     const { type } = this.state;
-    const { onlyRequest } = this.props;
-    const isEditable = type !== "booking" && !onlyRequest;
+    const { onlyRequest, editAction } = this.props;
+    const isEditable = type === "movie";
     if (isEditable) {
       return {
         onRowUpdate: (newData, oldData) =>
@@ -189,7 +190,7 @@ class TableWithActions extends React.Component {
             const { data } = this.state;
             const index = data.indexOf(oldData);
             data[index] = newData;
-            this.editAction(newData);
+            editAction(newData, this.state.type);
             this.setState({ data }, () => resolve());
           })
       };

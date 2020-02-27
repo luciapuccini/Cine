@@ -14,7 +14,8 @@ import {
   getMovies,
   fetchPlays,
   fetchBookings,
-  fetchPrices
+  fetchPrices,
+  editMovie
 } from "../../../api/fetchData";
 
 class UserPanel extends React.Component {
@@ -24,7 +25,8 @@ class UserPanel extends React.Component {
       bookingsData: [],
       movieData: [],
       playData: [],
-      priceData: []
+      priceData: [],
+      type: ""
     };
   }
 
@@ -56,6 +58,24 @@ class UserPanel extends React.Component {
     }
   }
 
+  editAction = (rowData, type) => {
+    switch (type) {
+      case "movie":
+        // eslint-disable-next-line no-case-declarations
+        const movie = {
+          id: rowData.movieId,
+          duration: rowData.duration,
+          name: rowData.movieTitle
+        };
+        editMovie(movie).then(() =>
+          getMovies().then(movies => this.setState({ movieData: movies }))
+        );
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
     const { movieData, bookingsData, playData, priceData } = this.state;
     return (
@@ -77,6 +97,7 @@ class UserPanel extends React.Component {
                   playData={playData}
                   bookingsData={bookingsData}
                   priceData={priceData}
+                  editAction={this.editAction}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
