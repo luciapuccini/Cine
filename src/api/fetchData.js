@@ -1,6 +1,7 @@
 import moment from "moment";
-// const API = "http://tranquil-garden-64415.herokuapp.com";
-const API = "http://localhost:8080";
+
+const API = "http://tranquil-garden-64415.herokuapp.com";
+// const API = "http://localhost:8080";
 
 // -------------------------- USER ---------------------------
 export const fetchUser = () => {
@@ -29,7 +30,6 @@ export const fetchUser = () => {
 
 export const editUser = user => {
   const token = localStorage.getItem("JWT");
-  console.log("EDIT", user);
   return fetch(`${API}/user/modify`, {
     method: "PUT",
     body: JSON.stringify(user),
