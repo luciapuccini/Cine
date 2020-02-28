@@ -27,6 +27,7 @@ class BookingSummary extends React.Component {
       selectedMovie,
       selectedPlay,
       selectedSeat,
+      bookingSeats,
       total,
       onConfirm
     } = this.props;
@@ -80,7 +81,7 @@ class BookingSummary extends React.Component {
                   >
                     SEAT: 
 {' '}
-{selectedSeat}
+{bookingSeats.join(", ")}
                   </Typography>
 
                   <Typography

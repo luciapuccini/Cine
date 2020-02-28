@@ -2,7 +2,6 @@
 import moment from "moment";
 
 const API = "https://tranquil-garden-64415.herokuapp.com";
-// const API = "http://localhost:8080";
 
 // -------------------------- USER ---------------------------
 export const fetchUser = () => {

@@ -22,6 +22,7 @@ export default class Bookings extends Component {
       moviePlays: [],
       selectedPlay: {},
       selectedSeat: 0,
+      bookingSeats: [],
       regularPrice: 0,
       superPrice: 0,
       total: 0
@@ -53,10 +54,17 @@ export default class Bookings extends Component {
   };
 
   selectSeat = seat => {
-    this.setState({ selectedSeat: seat }, () => this.makeTemporalBooking());
+    this.setState(
+      prevState => ({
+        selectedSeat: seat,
+        bookingSeats: [...prevState.bookingSeats, seat]
+      }),
+      () => this.makeTemporalBooking()
+    );
   };
 
   removeSeat = seat => {
+    const { regularPrice, superPrice } = this.state;
     const { room, playPK } = this.state.selectedPlay;
     const temporalBooking = {
       seatId: seat,
@@ -64,7 +72,10 @@ export default class Bookings extends Component {
       userId: localStorage.getItem("USER_ID"),
       playPk: playPK
     };
-    removeTemporalSeat(temporalBooking).then(msg => console.log(msg));
+    removeTemporalSeat(temporalBooking).then(seat => {
+      const price = seat.isSuperSeat ? superPrice : regularPrice;
+      this.setState(state => ({ total: state.total - price }));
+    });
   };
 
   makeTemporalBooking = () => {
@@ -118,6 +129,7 @@ export default class Bookings extends Component {
                 selectedMovie={selectedMovie}
                 selectedPlay={selectedPlay}
                 selectedSeat={selectedSeat}
+                bookingSeats={this.state.bookingSeats}
                 total={total}
                 onConfirm={() => this.confirmBook()}
               />
@@ -131,6 +143,7 @@ export default class Bookings extends Component {
               selectPlay={this.selectPlay}
               selectedPlay={selectedPlay}
               selectSeat={this.selectSeat}
+              total={total}
               removeSeat={this.removeSeat}
               onConfirm={this.confirmBook}
             />
