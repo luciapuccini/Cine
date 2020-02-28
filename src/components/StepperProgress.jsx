@@ -60,6 +60,7 @@ class StepperProgress extends React.Component {
           <CustomSeatPicker
             selectedPlay={selectedPlay}
             selectSeat={seat => this.handleSelectionSeat(seat)}
+            removeSeat={seat => this.props.removeSeat(seat)}
           />
         );
       case 2:

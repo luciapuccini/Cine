@@ -10,7 +10,8 @@ import {
   createBooking,
   fetchMovie,
   bookTemporalSeat,
-  getCurrentPrices
+  getCurrentPrices,
+  removeTemporalSeat
 } from "../api/fetchData";
 
 export default class Bookings extends Component {
@@ -54,18 +55,28 @@ export default class Bookings extends Component {
     this.setState({ selectedSeat: seat }, () => this.makeTemporalBooking());
   };
 
+  removeSeat = seat => {
+    const { room, playPK } = this.state.selectedPlay;
+    const temporalBooking = {
+      seatId: seat,
+      roomId: room,
+      userId: localStorage.getItem("USER_ID"),
+      playPk: playPK,
+      error
+    };
+    removeTemporalSeat(temporalBooking).then(msg => console.log(msg));
+  };
+
   makeTemporalBooking = () => {
     const { regularPrice, superPrice } = this.state;
     const { room, playPK } = this.state.selectedPlay;
     const { pathName } = this.props.history;
-    console.log("redirec on error", pathName);
     const temporalBooking = {
       seatId: this.state.selectedSeat,
       roomId: room,
       userId: localStorage.getItem("USER_ID"),
       playPk: playPK
     };
-
     bookTemporalSeat(temporalBooking).then(seat => {
       const price = seat.isSuperSeat ? superPrice : regularPrice;
       this.setState(state => ({ total: state.total + price }));
@@ -120,6 +131,7 @@ export default class Bookings extends Component {
               selectPlay={this.selectPlay}
               selectedPlay={selectedPlay}
               selectSeat={this.selectSeat}
+              removeSeat={this.removeSeat}
               onConfirm={this.confirmBook}
             />
           </Grid>

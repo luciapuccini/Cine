@@ -1,7 +1,8 @@
+/* eslint-disable no-restricted-globals */
 import moment from "moment";
 
-const API = "https://tranquil-garden-64415.herokuapp.com";
-// const API = "http://localhost:8080";
+// const API = "https://tranquil-garden-64415.herokuapp.com";
+const API = "http://localhost:8080";
 
 // -------------------------- USER ---------------------------
 export const fetchUser = () => {
@@ -159,11 +160,35 @@ export const bookTemporalSeat = booking => {
       return response.json();
     })
     .then(booking => {
+      if (booking.code) {
+        alert(booking.message);
+        location.reload();
+      }
       return booking;
     })
     .catch(error => {
       console.log(error);
       return error;
+    });
+};
+
+export const removeTemporalSeat = booking => {
+  const token = localStorage.getItem("JWT");
+  console.log(booking);
+  return fetch(`${API}/books/removeTemporalSeat`, {
+    method: "POST",
+    body: JSON.stringify(booking),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => {
+      return response;
+    })
+
+    .catch(error => {
+      console.log(error);
     });
 };
 

@@ -6,6 +6,7 @@ import { fetchPlay, getPlayBookedSeats } from "../api/fetchData";
 
 const buildRows = takenSeats => {
   const rows = [];
+  const superSeats = [24, 25, 26, 27, 34, 35, 36, 37];
   const ids = takenSeats.map(seat => seat);
   let otro = 1;
   for (let seat = 0; seat < 6; seat++) {
@@ -17,7 +18,8 @@ const buildRows = takenSeats => {
         column.push({
           id: otro,
           number: otro,
-          isReserved: ids.includes(otro)
+          isReserved: ids.includes(otro),
+          tooltip: superSeats.includes(otro) ? "SUPER" : ""
         });
         ++otro;
       }
@@ -73,15 +75,14 @@ class CustomSeatPicker extends Component {
     }
   }
 
-  addSeatCallback = (row, number, id, cb) => {
+  addSeatCallback = ({ row, number, id }, addCb) => {
     this.setState(
       {
         loading: true
       },
       async () => {
         await new Promise(resolve => setTimeout(resolve, 100));
-
-        cb(row, number);
+        addCb(row, number, id);
         this.setState(prevState => ({
           loading: false,
           selectedSeats: [...prevState.selectedSeats, id]
@@ -89,6 +90,24 @@ class CustomSeatPicker extends Component {
       }
     );
     this.props.selectSeat(id);
+  };
+
+  removeSeatCallback = ({ row, number, id }, removeCb) => {
+    this.setState(
+      {
+        loading: true
+      },
+      async () => {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        console.log(`Removed seat ${number}, row ${row}, id ${id}`);
+        const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
+        removeCb(row, number, newTooltip);
+        this.setState(prevState => ({
+          loading: false
+        }));
+      }
+    );
+    this.props.removeSeat(id);
   };
 
   render() {
@@ -105,11 +124,13 @@ class CustomSeatPicker extends Component {
           <>
             <SeatPicker
               addSeatCallback={this.addSeatCallback}
+              removeSeatCallback={this.removeSeatCallback}
               rows={rows}
               maxReservableSeats={60}
               alpha
               visible
               selectedByDefault
+              tooltipProps={{ multiline: true }}
             />
           </>
         ) : null}
