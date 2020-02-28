@@ -30,7 +30,7 @@ class MovieForm extends React.Component {
       duration: 0,
       synopsis: "",
       image: "",
-      message: null
+      message: ""
     };
   }
 
@@ -57,11 +57,15 @@ class MovieForm extends React.Component {
       duration,
       synopsis
     };
-    addMovie(movie, image).then(res => {
-      if (res.movieId) {
+    addMovie(movie, image).then(mov => {
+      if (mov.movieId) {
+        console.log("ok");
         this.setState({ message: "success" });
+      } else {
+        this.setState({ message: mov.message });
       }
-      this.setState({ message: res.message });
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
     });
   };
 

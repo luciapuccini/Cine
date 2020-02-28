@@ -13,7 +13,7 @@ import Alert from "@material-ui/lab/Alert";
 
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { addMovie, addPrice } from "../../../api/fetchData";
+import { addMovie, addPrice, fetchPrices } from "../../../api/fetchData";
 
 class MovieForm extends React.Component {
   constructor(props) {
@@ -23,7 +23,8 @@ class MovieForm extends React.Component {
       error: false,
       regular: 0,
       superPrice: 0,
-      activation: ""
+      activation: "",
+      message: ""
     };
   }
 
@@ -48,10 +49,11 @@ class MovieForm extends React.Component {
       activationDate: moment(values.activation).toISOString()
     };
     addPrice(price).then(res => {
-      if (res.setDate) {
-        this.setState({ message: "success" });
+      if (res) {
+        this.setState({ message: res.message });
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
       }
-      this.setState({ message: res.message });
     });
   };
 

@@ -64,8 +64,20 @@ class UserProfile extends React.Component {
     });
   };
 
-  handlePasswordSubmit = value => {
-    console.log("Change Password", value);
+  handlePasswordSubmit = values => {
+    const { newPassword, password } = values;
+    const user = {
+      userId: this.state.user.id,
+      password,
+      newPassword
+    };
+    editUser(user).then(u => {
+      if (u.messaage) {
+        alert(u.message);
+        // eslint-disable-next-line no-restricted-globals
+      }
+      logout();
+    });
   };
 
   render() {
@@ -79,16 +91,16 @@ class UserProfile extends React.Component {
             <Card>
               <CardHeader
                 avatar={<Avatar>{isLoggedInAdmin() ? "AD" : "US"}</Avatar>}
-                action={
+                action={(
                   <IconButton aria-label="settings" onClick={this.handleOpen}>
                     <Create />
                   </IconButton>
-                }
-                title={
+                )}
+                title={(
                   <Typography variant="h5" color="primary">
                     User Settings
                   </Typography>
-                }
+                )}
               />
               <CardContent>
                 <Typography
@@ -96,14 +108,16 @@ class UserProfile extends React.Component {
                   color="textSecondary"
                   style={{ paddingLeft: "8px" }}
                 >
-                  Email:{"  "} {user.email}
+                  Email:
+                  {"  "} {user.email}
                 </Typography>
                 <Typography
                   variant="body1"
                   color="textSecondary"
                   style={{ padding: "8px" }}
                 >
-                  Username:{"  "}
+                  Username:
+                  {"  "}
                   {user.name}
                 </Typography>
                 <Typography component="span" style={{ marginBottom: "10px" }} />

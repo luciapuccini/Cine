@@ -50,6 +50,7 @@ export const editUser = user => {
     })
     .catch(error => {
       console.log(error);
+      return error;
     });
 };
 
@@ -60,8 +61,7 @@ export const createUser = (email, name, password) => {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+      "Content-Type": "application/json"
     }
   })
     .then(response => {
@@ -102,6 +102,7 @@ export const createBooking = booking => {
       return booking;
     })
     .catch(error => {
+      alert(error);
       console.log(error);
     });
 };
@@ -134,7 +135,6 @@ export const deleteBooking = bookId => {
       return response;
     })
     .then(booking => {
-      console.log(booking);
       if (booking.code) {
         throw Error(booking.message);
       }
@@ -174,7 +174,6 @@ export const bookTemporalSeat = booking => {
 
 export const removeTemporalSeat = booking => {
   const token = localStorage.getItem("JWT");
-  console.log(booking);
   return fetch(`${API}/books/removeTemporalSeat`, {
     method: "POST",
     body: JSON.stringify(booking),
@@ -233,8 +232,9 @@ export const addMovie = (movie, image) => {
       return mov;
     })
     .catch(error => {
-      return error;
+      alert(error);
       console.log(error);
+      return error;
     });
 };
 
@@ -252,7 +252,6 @@ export const deleteMovie = movieId => {
       return response;
     })
     .then(movie => {
-      console.log(movie);
       if (movie.code) {
         throw Error(movie.message);
       }
@@ -358,6 +357,7 @@ export const addPlay = play => {
       return p;
     })
     .catch(error => {
+      alert(error);
       console.log(error);
     });
 };
@@ -403,7 +403,6 @@ export const deletePlay = playPk => {
       return response;
     })
     .then(play => {
-      console.log(play);
       if (play.code) {
         throw Error(play.message);
       }
@@ -479,12 +478,13 @@ export const addPrice = price => {
       return response.json();
     })
     .then(price => {
-      if (!price.code) {
+      if (price.code) {
         throw Error(price.message);
       }
       return price;
     })
     .catch(error => {
+      alert(error);
       console.log(error);
       return error;
     });
@@ -509,6 +509,31 @@ export const fetchPrices = () => {
     })
     .catch(error => {
       console.log(error);
+      return error;
+    });
+};
+
+export const deletePrice = price => {
+  const token = localStorage.getItem("JWT");
+  return fetch(`${API}/price/delete`, {
+    method: "POST",
+    body: JSON.stringify({ setDate: price }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(price => {
+      if (price.status !== 200) {
+        throw Error(price.message);
+      }
+      return price;
+    })
+    .catch(error => {
+      alert(error);
       return error;
     });
 };

@@ -8,7 +8,7 @@ const buildBookingsData = data => {
   data.forEach(book => {
     formated.push({
       bookId: book.bookId,
-      bookDate: moment(book.bookDate).format(" DD/MM/YYYY h:mm A")
+      bookDate: moment(book.bookDate).format("DD/MM/YYYY hh:mm")
     });
   });
   return formated;
@@ -18,10 +18,14 @@ const buildPriceData = data => {
   const formated = [];
   data.forEach(price => {
     formated.push({
-      setDate: moment(price.setDate).format(" DD/MM/YYYY h:mm A"),
+      showSetDate: moment(price.setDate).format("DD/MM/YYYY h:mm A"),
+      showActivationDate: moment(price.activationDate).format(
+        "DD/MM/YYYY hh:mm A"
+      ),
+      setDate: price.setDate,
+      activationDate: price.activationDate,
       regularPrice: price.regularSeatPrice,
-      superSeatPrice: price.superSeatPrice,
-      activationDate: moment(price.activationDate).format(" DD/MM/YYYY h:mm A")
+      superSeatPrice: price.superSeatPrice
     });
   });
   return formated;
@@ -49,7 +53,7 @@ export const buildPlaysData = (data, lookup) => {
         movieTitle: play.movie.name,
         duration: play.movie.duration,
         movieStartTime: moment(play.playPK.startTime).format(
-          " DD/MM/YYYY h:mm A"
+          "DD/MM/YYYY hh:mm A"
         ),
         room: play.room.id,
         playPK: play.playPK
@@ -96,7 +100,6 @@ export const tableConfig = (
           {
             title: "Movie Title",
             field: "movieTitle"
-            // lookup: lookupMovies
           },
           { title: "Duration", field: "duration" },
           { title: "Movie Start Time", field: "movieStartTime" },
@@ -108,8 +111,8 @@ export const tableConfig = (
       return {
         title: `Table ${type}`,
         columns: [
-          { title: "Set Date", field: "setDate" },
-          { title: "Activation Date", field: "activationDate" },
+          { title: "Set Date", field: "showSetDate" },
+          { title: "Activation Date", field: "showActivationDate" },
           { title: "Regular Price", field: "regularPrice" },
           { title: "Super Seat Price", field: "superSeatPrice" }
         ],

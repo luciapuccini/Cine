@@ -43,7 +43,8 @@ class PlayForm extends React.Component {
       startTime: "",
       movies: [],
       rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      error: false
+      error: false,
+      message: ""
     };
   }
 
@@ -65,18 +66,19 @@ class PlayForm extends React.Component {
       roomId: values.room,
       startTime: moment(values.startTime).toISOString()
     };
-    const res = addPlay(playPK);
-    res.then(response => {
-      if (response) {
-        console.log("success");
-      } else {
+    addPlay(playPK).then(play => {
+      if (play.code) {
         this.setState({ error: true });
+      } else {
+        this.setState({ message: "Success" });
       }
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
     });
   };
 
   render() {
-    const { movies, rooms, open, error, startTime } = this.state;
+    const { movies, rooms, open, error, startTime, message } = this.state;
     return (
       <div>
         <Dialog
@@ -198,6 +200,7 @@ class PlayForm extends React.Component {
                 )}
               </Formik>
             ) : null}
+            {message ? <Alert severity="info">{message}</Alert> : null}
           </DialogContent>
         </Dialog>
       </div>

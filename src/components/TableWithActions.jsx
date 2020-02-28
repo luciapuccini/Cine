@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, { forwardRef } from "react";
 import MaterialTable from "material-table";
 import {
@@ -69,16 +70,20 @@ class TableWithActions extends React.Component {
 
   handlePlayClose = () => {
     this.setState({ isPlayOpen: false });
+    location.reload();
   };
 
   handleMovieClose = () => {
     this.setState({ isMovieOpen: false });
+    location.reload();
   };
 
   handlePriceClose = () => {
     this.setState({ isPriceOpen: false });
+    location.reload();
   };
 
+  // TODO: can be improved calling an add func in the panel
   addAction = () => {
     const { type } = this.state;
     switch (type) {
@@ -90,6 +95,7 @@ class TableWithActions extends React.Component {
         break;
       case "price":
         this.setState({ isPriceOpen: true });
+
         break;
       default:
         break;

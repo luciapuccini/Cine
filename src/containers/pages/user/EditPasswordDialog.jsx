@@ -14,8 +14,11 @@ const EditSchema = Yup.object().shape({
   password: Yup.string()
     .min(5)
     .required("Required"),
+  newPassword: Yup.string()
+    .min(5)
+    .required("Required"),
   confirm: Yup.string().oneOf(
-    [Yup.ref("password"), null],
+    [Yup.ref("newPassword"), null],
     "Passwords must match"
   )
 });
@@ -46,11 +49,12 @@ const EditUserDialog = ({ open, handleClose, handleSubmit }) => {
         <Formik
           initialValues={{
             password: "",
+            newPassword: "",
             confirm: ""
           }}
           validationSchema={EditSchema}
           onSubmit={values => {
-            handleSubmit(values.password);
+            handleSubmit(values);
           }}
         >
           {({ values, handleChange, errors, touched }) => (
@@ -61,8 +65,8 @@ const EditUserDialog = ({ open, handleClose, handleSubmit }) => {
                     autoFocus
                     margin="dense"
                     id="password"
-                    label="New Password"
-                    type="text"
+                    label="Old Password"
+                    type="password"
                     fullWidth
                     value={values.password}
                     onChange={handleChange}
@@ -76,9 +80,25 @@ const EditUserDialog = ({ open, handleClose, handleSubmit }) => {
                   <TextField
                     autoFocus
                     margin="dense"
+                    id="newPassword"
+                    label="New Password"
+                    type="password"
+                    fullWidth
+                    value={values.newPassword}
+                    onChange={handleChange}
+                  />
+                  <ErrorMessage
+                    name="newPassword"
+                    render={msg => <Typography>{msg}</Typography>}
+                  />
+                </Grid>
+                <Grid item xl={12}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
                     id="confirm"
                     label="Confirm Password"
-                    type="confirm"
+                    type="password"
                     fullWidth
                     value={values.confirm}
                     onChange={handleChange}

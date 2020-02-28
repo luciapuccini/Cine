@@ -6,6 +6,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import _ from "lodash";
+import moment from "moment";
 import TableWithActions from "../../../components/TableWithActions";
 
 import { enabledActions } from "./userData";
@@ -19,6 +20,7 @@ import {
   deleteMovie,
   deleteBooking,
   deletePlay,
+  deletePrice,
   fetchMovie
 } from "../../../api/fetchData";
 
@@ -84,6 +86,9 @@ class UserPanel extends React.Component {
     const { bookId } = rowData;
     const { movieId } = rowData;
     const { playPK } = rowData;
+    const { setDate } = rowData;
+    console.log("try to delete", moment(setDate).toISOString());
+
     switch (type) {
       case "booking":
         deleteBooking(bookId).then(() =>
@@ -100,6 +105,11 @@ class UserPanel extends React.Component {
       case "play":
         deletePlay(playPK).then(() =>
           fetchPlays().then(playData => this.setState({ playData }))
+        );
+        break;
+      case "price":
+        deletePrice(setDate).then(() =>
+          fetchPrices().then(priceData => this.setState({ priceData }))
         );
         break;
       default:

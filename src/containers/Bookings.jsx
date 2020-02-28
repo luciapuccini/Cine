@@ -48,6 +48,7 @@ export default class Bookings extends Component {
   }
 
   selectPlay = play => {
+    console.log("select play", play);
     this.setState({ selectedPlay: play });
   };
 
@@ -61,8 +62,7 @@ export default class Bookings extends Component {
       seatId: seat,
       roomId: room,
       userId: localStorage.getItem("USER_ID"),
-      playPk: playPK,
-      error
+      playPk: playPK
     };
     removeTemporalSeat(temporalBooking).then(msg => console.log(msg));
   };
