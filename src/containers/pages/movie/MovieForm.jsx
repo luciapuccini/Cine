@@ -16,8 +16,9 @@ import { addMovie } from "../../../api/fetchData";
 
 // TODO:
 const EditSchema = Yup.object().shape({
-  room: Yup.number(),
-  startTime: Yup.string().required("Need password to confirm")
+  movieTitle: Yup.string().required(),
+  duration: Yup.string().required(),
+  synopsis: Yup.string().required()
 });
 
 class MovieForm extends React.Component {
@@ -99,6 +100,7 @@ class MovieForm extends React.Component {
             ) : null}
 
             <Formik
+              validationSchema={EditSchema}
               initialValues={{
                 movieTitle: "title",
                 duration: 200,
