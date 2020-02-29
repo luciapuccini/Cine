@@ -44,13 +44,16 @@ const MovieList = () => {
     });
   }, []);
 
-  const getImage = movieId => {
+  const getImage = movie => {
     const placeholder = require("../assets/placeholder.png");
-    if (_.isEmpty(movieId)) {
+    console.log(_.isEmpty(movie.imagePath), placeholder);
+    if (_.isEmpty(movie.imagePath)) {
       return placeholder;
     }
-    return `http://localhost:8080/movies/image/download/${movieId}`;
+    // const image = `http://localhost:8080/movies/image/download/${movie.movieId}`;
+    return !_.isEmpty(false) ? placeholder : placeholder;
   };
+
   return (
     <div className={classes.root}>
       <GridList
@@ -62,7 +65,7 @@ const MovieList = () => {
         {movieData.map(movie => (
           <GridListTile key={movie.movieId}>
             <img
-              src={getImage(movie.movieId)}
+              src={getImage(movie)}
               className={classes.box}
               alt={movie.title}
               key={movie.movieId}
