@@ -25,7 +25,8 @@ export default class Bookings extends Component {
       bookingSeats: [],
       regularPrice: 0,
       superPrice: 0,
-      total: 0
+      total: 0,
+      finalBook: null
     };
   }
 
@@ -43,7 +44,7 @@ export default class Bookings extends Component {
     getCurrentPrices().then(res => {
       this.setState({
         regularPrice: res.regularSeatPrice,
-        superPrice: res.superSeatprice
+        superPrice: res.superSeatPrice
       });
     });
   }
@@ -72,8 +73,8 @@ export default class Bookings extends Component {
       userId: localStorage.getItem("USER_ID"),
       playPk: playPK
     };
-    removeTemporalSeat(temporalBooking).then(seat => {
-      const price = seat.isSuperSeat ? superPrice : regularPrice;
+    removeTemporalSeat(temporalBooking).then(s => {
+      const price = s.superSeat ? superPrice : regularPrice;
       this.setState(state => ({ total: state.total - price }));
     });
   };
@@ -89,7 +90,8 @@ export default class Bookings extends Component {
       playPk: playPK
     };
     bookTemporalSeat(temporalBooking).then(seat => {
-      const price = seat.isSuperSeat ? superPrice : regularPrice;
+      const price = seat.superSeat ? superPrice : regularPrice;
+
       this.setState(state => ({ total: state.total + price }));
     });
   };
@@ -100,6 +102,7 @@ export default class Bookings extends Component {
     const userId = localStorage.getItem("USER_ID");
     const book = this.buildBook(userId, selectedPlay.playPK);
     createBooking(book).then(book => {
+      alert("Your final Booking costs:", book.total);
       this.props.history.push("/app/home");
     });
   };
@@ -118,7 +121,8 @@ export default class Bookings extends Component {
       selectedMovie,
       selectedPlay,
       selectedSeat,
-      total
+      total,
+      finalBook
     } = this.state;
     return (
       <>

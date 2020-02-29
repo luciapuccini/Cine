@@ -182,9 +182,11 @@ export const removeTemporalSeat = booking => {
     }
   })
     .then(response => {
-      return response;
+      return response.json();
     })
-
+    .then(seat => {
+      return seat;
+    })
     .catch(error => {
       console.log(error);
     });

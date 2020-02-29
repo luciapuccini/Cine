@@ -59,7 +59,6 @@ class UserProfile extends React.Component {
     newUser.then(usu => {
       this.setState({ user: usu }, () => {
         this.handleClose();
-        logout();
       });
     });
   };
@@ -91,16 +90,16 @@ class UserProfile extends React.Component {
             <Card>
               <CardHeader
                 avatar={<Avatar>{isLoggedInAdmin() ? "AD" : "US"}</Avatar>}
-                action={(
+                action={
                   <IconButton aria-label="settings" onClick={this.handleOpen}>
                     <Create />
                   </IconButton>
-                )}
-                title={(
+                }
+                title={
                   <Typography variant="h5" color="primary">
                     User Settings
                   </Typography>
-                )}
+                }
               />
               <CardContent>
                 <Typography
@@ -109,7 +108,9 @@ class UserProfile extends React.Component {
                   style={{ paddingLeft: "8px" }}
                 >
                   Email:
-                  {"  "} {user.email}
+                  {"  "} 
+{' '}
+{user.email}
                 </Typography>
                 <Typography
                   variant="body1"
