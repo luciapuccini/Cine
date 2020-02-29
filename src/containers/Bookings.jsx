@@ -104,7 +104,8 @@ export default class Bookings extends Component {
     const userId = localStorage.getItem("USER_ID");
     const book = this.buildBook(userId, selectedPlay.playPK);
     createBooking(book).then(book => {
-      alert("Your final Booking costs:", book.total);
+      console.log(book);
+      alert(`Your final Booking costs: ${book.total}`);
       this.props.history.push("/app/home");
     });
   };

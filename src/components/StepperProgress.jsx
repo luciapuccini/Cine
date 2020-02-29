@@ -144,7 +144,7 @@ class StepperProgress extends React.Component {
             size="small"
             color="primary"
             aria-label="add"
-            disabled={activeStep === 2 || getPlays()}
+            disabled={activeStep === 2 || activeStep === 0 || getPlays()}
             onClick={this.handleNext}
           >
             <ChevronRight />
