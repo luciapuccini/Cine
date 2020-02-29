@@ -33,7 +33,6 @@ class BookingSummary extends React.Component {
     } = this.props;
 
     const placeholder = require("../../../assets/placeholder.png");
-    console.log(selectedMovie);
     const image = `https://tranquil-garden-64415.herokuapp.com/movies/image/download/${movieId}`;
     return (
       <Card style={{ display: "flex", flexDirection: "row" }}>
@@ -90,9 +89,7 @@ class BookingSummary extends React.Component {
                     color="textSecondary"
                     style={{ marginTop: "20px" }}
                   >
-                    Total cost: $ 
-{' '}
-{total}
+                    Total cost: $ {total}
                   </Typography>
                 </>
               ) : null}

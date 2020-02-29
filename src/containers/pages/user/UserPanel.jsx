@@ -69,7 +69,8 @@ class UserPanel extends React.Component {
         const movie = {
           id: rowData.movieId,
           duration: rowData.duration,
-          name: rowData.movieTitle
+          name: rowData.movieTitle,
+          synopsis: rowData.synopsis
         };
         editMovie(movie).then(() =>
           getMovies().then(movies => this.setState({ movieData: movies }))

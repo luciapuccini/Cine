@@ -13,6 +13,7 @@ import {
   getCurrentPrices,
   removeTemporalSeat
 } from "../api/fetchData";
+import { setPlays } from "../helpers/authHelper";
 
 export default class Bookings extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ export default class Bookings extends Component {
     const { id } = this.props.match.params;
     const movie = fetchMovie(id);
     movie.then(mov => {
+      setPlays(_.isEmpty(mov));
       this.setState({
         moviePlays: mov,
         selectedMovie: !_.isEmpty(mov)

@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
-
+import { getPlays } from "../helpers/authHelper";
 import PlayList from "../containers/pages/play/PlayList";
 import CustomSeatPicker from "./SeatPicker";
 import Checkout from "./Checkout";
@@ -144,7 +144,7 @@ class StepperProgress extends React.Component {
             size="small"
             color="primary"
             aria-label="add"
-            disabled={activeStep === 2}
+            disabled={activeStep === 2 || getPlays()}
             onClick={this.handleNext}
           >
             <ChevronRight />

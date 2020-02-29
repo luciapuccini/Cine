@@ -18,6 +18,14 @@ const getAuthHeaders = () => {
   return { Authorization: `Bearer ${token}` };
 };
 
+let PLAYS = true;
+export const setPlays = has => {
+  console.log(has);
+  PLAYS = has;
+};
+export const getPlays = () => {
+  return PLAYS;
+};
 // TODO: const getUserId = () => JSON.parse(localStorage.getItem()).id;
 export {
   isLoggedInAdmin,
