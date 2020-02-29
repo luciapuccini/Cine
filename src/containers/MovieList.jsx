@@ -50,8 +50,8 @@ const MovieList = () => {
     if (_.isEmpty(movie.imagePath)) {
       return placeholder;
     }
-    // const image = `http://localhost:8080/movies/image/download/${movie.movieId}`;
-    return !_.isEmpty(false) ? placeholder : placeholder;
+    const image = `http://localhost:8080/movies/image/download/${movie.movieId}`;
+    return !_.isEmpty(image) ? placeholder : placeholder;
   };
 
   return (
@@ -73,7 +73,7 @@ const MovieList = () => {
             <GridListTileBar
               className={classes.gridListTile}
               title={movie.name}
-              actionIcon={(
+              actionIcon={
                 <Link
                   className={classes.buttonLink}
                   to={{
@@ -87,7 +87,7 @@ const MovieList = () => {
                     <BookMark />
                   </IconButton>
                 </Link>
-              )}
+              }
             />
           </GridListTile>
         ))}
