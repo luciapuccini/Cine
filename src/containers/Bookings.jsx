@@ -130,6 +130,7 @@ export default class Bookings extends Component {
           <Grid item xs={4}>
             {selectedMovie ? (
               <BookingSummary
+                movieId={this.props.match.params.id}
                 selectedMovie={selectedMovie}
                 selectedPlay={selectedPlay}
                 selectedSeat={selectedSeat}

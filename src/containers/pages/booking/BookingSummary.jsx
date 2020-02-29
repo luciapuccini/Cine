@@ -29,17 +29,18 @@ class BookingSummary extends React.Component {
       selectedSeat,
       bookingSeats,
       total,
-      onConfirm
+      movieId
     } = this.props;
 
     const placeholder = require("../../../assets/placeholder.png");
-
+    console.log(selectedMovie);
+    const image = `https://tranquil-garden-64415.herokuapp.com/movies/image/download/${movieId}`;
     return (
       <Card style={{ display: "flex", flexDirection: "row" }}>
         <CardMedia
           component="img"
           alt="Selected Movie"
-          image={selectedMovie.imagePath || placeholder}
+          image={image || placeholder}
           title="Selected Movie"
           style={{ display: "flex", maxWidth: "180px" }}
         />
