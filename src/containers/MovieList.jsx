@@ -49,8 +49,7 @@ const MovieList = () => {
     if (_.isEmpty(movieId)) {
       return placeholder;
     }
-    return placeholder; // FIXME: temporal
-    // return `http://localhost:8080/movies/image/download/${movieId}`;
+    return `http://localhost:8080/movies/image/download/${movieId}`;
   };
   return (
     <div className={classes.root}>

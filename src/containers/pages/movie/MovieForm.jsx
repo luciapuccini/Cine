@@ -60,7 +60,6 @@ class MovieForm extends React.Component {
     };
     addMovie(movie, image).then(mov => {
       if (mov.movieId) {
-        console.log("ok");
         this.setState({ message: "success" });
       } else {
         this.setState({ message: mov.message });
@@ -102,10 +101,10 @@ class MovieForm extends React.Component {
             <Formik
               validationSchema={EditSchema}
               initialValues={{
-                movieTitle: "title",
+                movieTitle: "Title",
                 duration: 200,
-                synopsis: " short",
-                image: "google/image"
+                synopsis: "short synopsis",
+                image: "example.png"
               }}
               onSubmit={values => {
                 this.handleSubmit(values);
