@@ -52,7 +52,6 @@ export default class Bookings extends Component {
   }
 
   selectPlay = play => {
-    console.log("select play", play);
     this.setState({ selectedPlay: play });
   };
 
@@ -99,12 +98,10 @@ export default class Bookings extends Component {
   };
 
   confirmBook = () => {
-    console.log("confirm book");
     const { selectedPlay } = this.state;
     const userId = localStorage.getItem("USER_ID");
     const book = this.buildBook(userId, selectedPlay.playPK);
     createBooking(book).then(book => {
-      console.log(book);
       alert(`Your final Booking costs: ${book.total}`);
       this.props.history.push("/app/home");
     });

@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import moment from "moment";
+import { stringify } from "querystring";
 
 const API = "https://tranquil-garden-64415.herokuapp.com";
 
@@ -24,7 +25,7 @@ export const fetchUser = () => {
       return user;
     })
     .catch(error => {
-      console.log("[BAD USER REQUEST]:", error);
+      console.log(error);
     });
 };
 

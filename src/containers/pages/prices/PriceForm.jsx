@@ -40,7 +40,6 @@ class MovieForm extends React.Component {
   handleClose = () => this.props.onClose();
 
   handleSubmit = values => {
-    console.log(values);
     const { regular, superPrice, activation } = values;
     const price = {
       setDate: moment().toISOString(),

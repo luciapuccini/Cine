@@ -14,13 +14,11 @@ const isLoggedInAdmin = () => {
 
 const getAuthHeaders = () => {
   const token = getJWT();
-  console.log(token);
   return { Authorization: `Bearer ${token}` };
 };
 
 let PLAYS = true;
 export const setPlays = has => {
-  console.log(has);
   PLAYS = has;
 };
 export const getPlays = () => {

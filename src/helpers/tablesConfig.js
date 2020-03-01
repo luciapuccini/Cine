@@ -3,8 +3,6 @@ import _ from "lodash";
 import moment from "moment";
 
 const buildBookingsData = data => {
-  console.log("bookings table", data); // add movie
-  console.log(data);
   const formated = [];
   data.forEach(book => {
     formated.push({

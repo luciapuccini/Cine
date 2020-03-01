@@ -60,7 +60,6 @@ class PlayForm extends React.Component {
   handleClose = () => this.props.onClose();
 
   handleSubmit = values => {
-    console.log(values);
     const playPK = {
       movieId: values.movie.movieId,
       roomId: values.room,

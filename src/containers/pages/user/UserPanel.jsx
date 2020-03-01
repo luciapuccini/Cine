@@ -88,7 +88,6 @@ class UserPanel extends React.Component {
     const { movieId } = rowData;
     const { playPK } = rowData;
     const { setDate } = rowData;
-    console.log("try to delete", moment(setDate).toISOString());
 
     switch (type) {
       case "booking":
