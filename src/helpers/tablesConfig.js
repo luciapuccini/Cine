@@ -7,7 +7,9 @@ const buildBookingsData = data => {
   data.forEach(book => {
     formated.push({
       bookId: book.bookId,
-      bookDate: moment(book.bookDate).format("DD/MM/YYYY hh:mm")
+      bookDate: moment(book.bookDate).format("DD/MM/YYYY hh:mm"),
+      movieTitle: book.play.movie.name,
+      startTime: book.play.playPK.startTime
     });
   });
   return formated;
@@ -75,7 +77,9 @@ export const tableConfig = (
         title: `Table ${type}`,
         columns: [
           { title: "Book ID", field: "bookId" },
-          { title: "Book Date", field: "bookDate" }
+          { title: "Book Date", field: "bookDate" },
+          { title: "Movie Title", field: "movieTitle" },
+          { title: "Movie Time", field: "startTime" }
         ],
         data: buildBookingsData(bookingData)
       };
