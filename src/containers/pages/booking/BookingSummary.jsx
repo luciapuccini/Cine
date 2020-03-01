@@ -33,7 +33,7 @@ class BookingSummary extends React.Component {
     } = this.props;
 
     const placeholder = require("../../../assets/placeholder.png");
-    const image = `https://tranquil-garden-64415.herokuapp.com/movies/image/download/${movieId}`;
+    const image = null; //`https://tranquil-garden-64415.herokuapp.com/movies/image/download/${movieId}`;
     return (
       <Card style={{ display: "flex", flexDirection: "row" }}>
         <CardMedia
@@ -67,9 +67,7 @@ class BookingSummary extends React.Component {
                   color="textSecondary"
                   style={{ marginTop: "20px" }}
                 >
-                  DATE: 
-{' '}
-{selectedPlay.movieStartTime}
+                  DATE: {selectedPlay.movieStartTime}
                 </Typography>
               ) : null}
               {selectedSeat ? (
@@ -79,9 +77,7 @@ class BookingSummary extends React.Component {
                     color="textSecondary"
                     style={{ marginTop: "20px" }}
                   >
-                    SEAT: 
-{' '}
-{bookingSeats.join(", ")}
+                    SEAT: {bookingSeats.join(", ")}
                   </Typography>
 
                   <Typography

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import SeatPicker from "react-seat-picker";
-import { Button } from "@material-ui/core";
+import { Button, Icon } from "@material-ui/core";
+import Send from "@material-ui/icons/Send";
+
 import _ from "lodash";
 import { fetchPlay, getPlayBookedSeats } from "../api/fetchData";
 
@@ -41,11 +43,11 @@ class CustomSeatPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
       play: {},
       selectedSeats: [],
       rows: [],
-      takenSeats: []
+      takenSeats: [],
+      disableMove: true
     };
   }
 
@@ -85,10 +87,12 @@ class CustomSeatPicker extends Component {
         addCb(row, number, id);
         this.setState(prevState => ({
           loading: false,
+          disableMove: false,
           selectedSeats: [...prevState.selectedSeats, id]
         }));
       }
     );
+
     this.props.selectSeat(id);
   };
 
@@ -110,8 +114,15 @@ class CustomSeatPicker extends Component {
     this.props.removeSeat(id);
   };
 
+  handleClick = () => {
+    if (this.state.selectedSeats.length > 0) {
+      console.log("hay seats");
+      this.props.confirm();
+    }
+  };
+
   render() {
-    const { rows, play } = this.state;
+    const { rows, play, disableMove } = this.state;
     return (
       <div
         style={{
@@ -132,6 +143,16 @@ class CustomSeatPicker extends Component {
               selectedByDefault
               tooltipProps={{ multiline: true }}
             />
+            <Button
+              variant="contained"
+              color="primary"
+              endIcon={<Send />}
+              onClick={() => this.handleClick()}
+              disabled={disableMove}
+              style={{ margin: "10px", alignSelf: "flex-end" }}
+            >
+              Confirm
+            </Button>
           </>
         ) : null}
       </div>

@@ -60,6 +60,7 @@ class StepperProgress extends React.Component {
           <CustomSeatPicker
             selectedPlay={selectedPlay}
             selectSeat={seat => this.handleSelectionSeat(seat)}
+            confirm={() => this.handleNext()}
             removeSeat={seat => this.props.removeSeat(seat)}
           />
         );
@@ -79,7 +80,6 @@ class StepperProgress extends React.Component {
 
   handleSelectionSeat = seat => {
     this.props.selectSeat(seat);
-    // this.handleNext(); --> when next? flecha
   };
 
   handleNext = () => {
@@ -123,12 +123,12 @@ class StepperProgress extends React.Component {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             marginTop: "20px",
             marginBottom: "20px"
           }}
         >
-          <Fab
+          {/* <Fab
             size="small"
             color="primary"
             aria-label="add"
@@ -136,11 +136,12 @@ class StepperProgress extends React.Component {
             onClick={this.handleBack}
           >
             <ChevronLeft />
-          </Fab>
+          </Fab> */}
+
           <Typography gutterBottom variant="h5" color="primary">
             {getTitle(activeStep)}
           </Typography>
-          <Fab
+          {/* <Fab
             size="small"
             color="primary"
             aria-label="add"
@@ -148,7 +149,7 @@ class StepperProgress extends React.Component {
             onClick={this.handleNext}
           >
             <ChevronRight />
-          </Fab>
+          </Fab> */}
         </div>
         <div>
           {activeStep === steps.length ? (
