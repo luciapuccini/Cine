@@ -46,7 +46,6 @@ const MovieList = () => {
 
   const getImage = movie => {
     const placeholder = require("../assets/placeholder.png");
-    console.log(_.isEmpty(movie.imagePath), placeholder);
     if (_.isEmpty(movie.imagePath)) {
       return placeholder;
     }

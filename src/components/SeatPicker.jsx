@@ -115,7 +115,7 @@ class CustomSeatPicker extends Component {
   };
 
   handleClick = () => {
-    if (this.state.selectedSeatsnp.length > 0) {
+    if (this.state.selectedSeats.length > 0) {
       this.props.confirm();
     }
   };

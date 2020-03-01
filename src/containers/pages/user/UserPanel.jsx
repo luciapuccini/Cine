@@ -8,7 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import _ from "lodash";
 import moment from "moment";
 import TableWithActions from "../../../components/TableWithActions";
-
+import { isLoggedInAdmin } from "../../../helpers/authHelper";
 import { enabledActions } from "./userData";
 
 import {
@@ -38,19 +38,22 @@ class UserPanel extends React.Component {
 
   componentDidMount() {
     const userId = localStorage.getItem("USER_ID");
-    getMovies().then(data => {
-      this.setState({ movieData: data });
-    });
-    fetchPlays().then(data => {
-      this.setState({ playData: data });
-    });
+    const isAdmin = isLoggedInAdmin();
+
+    if (isAdmin) {
+      getMovies().then(data => {
+        this.setState({ movieData: data });
+      });
+      fetchPlays().then(data => {
+        this.setState({ playData: data });
+      });
+      fetchPrices().then(data => {
+        this.setState({ priceData: data });
+      });
+    }
 
     fetchBookings(userId).then(data => {
       this.setState({ bookingsData: data });
-    });
-
-    fetchPrices().then(data => {
-      this.setState({ priceData: data });
     });
   }
 
