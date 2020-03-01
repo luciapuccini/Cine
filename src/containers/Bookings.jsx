@@ -76,7 +76,10 @@ export default class Bookings extends Component {
     };
     removeTemporalSeat(temporalBooking).then(s => {
       const price = s.superSeat ? superPrice : regularPrice;
-      this.setState(state => ({ total: state.total - price }));
+      this.setState(state => ({
+        total: state.total - price,
+        bookingSeats: state.bookingSeats.filter(se => se !== seat)
+      }));
     });
   };
 
@@ -92,19 +95,23 @@ export default class Bookings extends Component {
     };
     bookTemporalSeat(temporalBooking).then(seat => {
       const price = seat.superSeat ? superPrice : regularPrice;
-
       this.setState(state => ({ total: state.total + price }));
     });
   };
 
   confirmBook = () => {
-    const { selectedPlay } = this.state;
+    const { selectedPlay, bookingSeats } = this.state;
+    console.log(bookingSeats);
     const userId = localStorage.getItem("USER_ID");
     const book = this.buildBook(userId, selectedPlay.playPK);
-    createBooking(book).then(book => {
-      alert(`Your final Booking costs: ${book.total}`);
-      this.props.history.push("/app/home");
-    });
+    if (bookingSeats.length > 0) {
+      createBooking(book).then(book => {
+        alert(`Your final Booking costs: ${book.total}`);
+        this.props.history.push("/app/home");
+      });
+    } else {
+      alert("WARNING: No seats selected");
+    }
   };
 
   buildBook = (userId, playPk) => {

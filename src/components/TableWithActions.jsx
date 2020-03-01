@@ -83,7 +83,6 @@ class TableWithActions extends React.Component {
     location.reload();
   };
 
-  // TODO: can be improved calling an add func in the panel
   addAction = () => {
     const { type } = this.state;
     switch (type) {

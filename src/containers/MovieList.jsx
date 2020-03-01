@@ -49,7 +49,7 @@ const MovieList = () => {
     if (_.isEmpty(movie.imagePath)) {
       return placeholder;
     }
-    const image = null; //`https://tranquil-garden-64415.herokuapp.com/movies/image/download/${movie.movieId}`;
+    const image = `https://tranquil-garden-64415.herokuapp.com/movies/image/download/${movie.movieId}`;
     return !_.isEmpty(image) ? image : placeholder;
   };
 

@@ -33,7 +33,7 @@ class BookingSummary extends React.Component {
     } = this.props;
 
     const placeholder = require("../../../assets/placeholder.png");
-    const image = null; //`https://tranquil-garden-64415.herokuapp.com/movies/image/download/${movieId}`;
+    const image = `https://tranquil-garden-64415.herokuapp.com/movies/image/download/${movieId}`;
     return (
       <Card style={{ display: "flex", flexDirection: "row" }}>
         <CardMedia

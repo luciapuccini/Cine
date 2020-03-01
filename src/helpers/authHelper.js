@@ -24,11 +24,4 @@ export const setPlays = has => {
 export const getPlays = () => {
   return PLAYS;
 };
-// TODO: const getUserId = () => JSON.parse(localStorage.getItem()).id;
-export {
-  isLoggedInAdmin,
-  isLoggedIn,
-  getAuthHeaders,
-  getJWT
-  // getUserId
-};
+export { isLoggedInAdmin, isLoggedIn, getAuthHeaders, getJWT };

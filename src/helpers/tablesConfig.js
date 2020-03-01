@@ -69,9 +69,6 @@ export const tableConfig = (
   bookingData,
   priceData
 ) => {
-  // FIXME: the plays need a movie titles array for the lookups
-  // const lookupMovies = mapSelectableMovies(movieData);
-
   switch (type) {
     case "booking":
       return {

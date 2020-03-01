@@ -14,7 +14,6 @@ import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { addMovie } from "../../../api/fetchData";
 
-// TODO:
 const EditSchema = Yup.object().shape({
   movieTitle: Yup.string().required(),
   duration: Yup.string().required(),

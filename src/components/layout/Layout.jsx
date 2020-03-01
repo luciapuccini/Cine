@@ -7,8 +7,6 @@ import TopMenu from "./TopMenu";
 import MainContent from "./MainContent";
 import Footer from "./Footer";
 
-// import { siteLinks } from '../config';
-
 class Layout extends React.Component {
   render() {
     const { children } = this.props;

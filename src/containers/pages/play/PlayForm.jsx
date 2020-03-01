@@ -14,26 +14,10 @@ import * as Yup from "yup";
 
 import { addPlay } from "../../../api/fetchData";
 
-// TODO:
 const PlaySchema = Yup.object().shape({
   room: Yup.number(),
   startTime: Yup.string().required("Need password to confirm")
 });
-// "2022-10-10T19:00:00"
-const defaultStartTimes = [
-  "2020-10-10T10:00:00",
-  "2020-10-10T15:00:00",
-  "2020-10-10T20:00:00",
-  "2020-10-11T10:00:00",
-  "2020-10-11T15:00:00",
-  "2020-10-11T20:00:00",
-  "2020-10-13T10:00:00",
-  "2020-10-13T15:00:00",
-  "2020-10-13T20:00:00",
-  "2020-10-14T10:00:00",
-  "2020-10-14T15:00:00",
-  "2020-10-14T20:00:00"
-];
 
 class PlayForm extends React.Component {
   constructor(props) {
